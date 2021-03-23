@@ -8,8 +8,8 @@ web/app/upgrade
 
 
 # WordPress
-web/wp
-web/.htaccesss
+!web/wp
+web/.htaccess
 
 # Logs
 *.log
