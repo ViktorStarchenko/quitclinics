@@ -1,0 +1,129 @@
+<head>
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+</head>
+<section id="cloudcheck_section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <form id="cloudcheckForm" >
+                    <div class="row control-group">
+                        <div class="form-group col-xs-12 floating-label-form-group controls"><label>Given Name</label>
+                            <input id="name" class="form-control" required type="text" placeholder="Given Name" data-validation-required-message="Please enter your name." />
+                            <p class="help-block text-danger"></p>
+                        </div>
+                        <div class="form-group col-xs-12 floating-label-form-group controls"><label>Middle Name</label>
+                            <input id="middlename" class="form-control"  type="text" placeholder="Middle Name" data-validation-required-message="Please enter your middle name." />
+                            <p class="help-block text-danger"></p>
+                        </div>
+                        <div class="form-group col-xs-12 floating-label-form-group controls"><label>Family Name</label>
+                            <input id="surname" class="form-control" required type="text" placeholder="Family Name" data-validation-required-message="Please enter your surname." />
+                            <p class="help-block text-danger"></p>
+                        </div>
+                    </div>
+
+                    <div class="row control-group">
+                        <div class="form-group col-xs-12 floating-label-form-group controls"><label>Date of birth</label>
+                            <input id="dateofbirth" class="form-control" required type="date" placeholder="Date of birth" data-validation-required-message="Please enter your date of birth." />
+                            <p class="help-block text-danger"></p>
+                        </div>
+                    </div>
+                    <div class="row control-group">
+                        <div class="form-group col-xs-12 floating-label-form-group controls"><label>Postcode</label>
+                            <input id="postcode" class="form-control" required type="text" placeholder="Postcode" data-validation-required-message="Please enter your postcode." />
+                            <p class="help-block text-danger"></p>
+                        </div>
+                        <div class="form-group col-xs-12 floating-label-form-group controls"><label>City</label>
+                            <input id="city" class="form-control" required type="text" placeholder="City" data-validation-required-message="Please enter your city." />
+                            <p class="help-block text-danger"></p>
+                        </div>
+                        <div class="form-group col-xs-12 floating-label-form-group controls"><label>Suburb</label>
+                            <input id="suburb" class="form-control" required type="text" placeholder="Suburb" data-validation-required-message="Please enter your suburb." />
+                            <p class="help-block text-danger"></p>
+                        </div>
+                    </div>
+
+                    <div class="row control-group">
+                        <div class="form-group col-xs-12 floating-label-form-group controls"><label>Street</label>
+                            <input id="street" class="form-control" required type="text" placeholder="Street" data-validation-required-message="Please enter your street." />
+                            <p class="help-block text-danger"></p>
+                        </div>
+                        <div class="form-group col-xs-12 floating-label-form-group controls"><label>Street number</label>
+                            <input id="streetnumber" class="form-control" required type="text" placeholder="Street number" data-validation-required-message="Please enter your street number." />
+                            <p class="help-block text-danger"></p>
+                        </div>
+                    </div>
+
+                    <div class="row control-group">
+                        <div class="form-group col-xs-12 floating-label-form-group controls"><label>Passport number</label>
+                            <input id="passportnumber" class="form-control" type="text" placeholder="Passport number" data-validation-required-message="Please enter your passport number." />
+                            <p class="help-block text-danger"></p>
+                        </div>
+                        <div class="form-group col-xs-12 floating-label-form-group controls"><label>Passport Expiry</label>
+                            <input id="passportexpiry" class="form-control" type="date" placeholder="Passport expiry" data-validation-required-message="Please enter your passport expiry date." />
+                            <p class="help-block text-danger"></p>
+                        </div>
+                    </div>
+
+                    <div class="row control-group">
+                        <div class="form-group col-xs-12 floating-label-form-group controls ml-3"><label>Driver License Number</label>
+                            <input id="driverlicensenumber" class="form-control" type="text" pattern="^[A-Za-z]{2}[0-9]{6}$" placeholder="Driver license number" data-validation-required-message="Please enter your driver license number." />
+                            <p class="help-block text-danger"></p>
+                        </div>
+                        <div class="form-group col-xs-12 floating-label-form-group controls mx-3"><label>Driver License Version</label>
+                            <input id="driverlicenseversion" class="form-control" type="text" pattern="^[0-9]{3}$" title="Format is 3 digits" placeholder="Driver license version" data-validation-required-message="Please enter your driver license version." />
+                            <p class="help-block text-danger"></p>
+                        </div>
+                    </div>
+
+                <div class="row control-group">
+                    <div class="form-check col-xs-12 floating-label-form-group controls ml-3">
+                        <input id="au_citizenshipbydescent" class="form-check-input" type="checkbox"/>
+                        <label class="form-check-label" for="au_citizenshipbydescent">Citizenship By Descent</label>
+        			</div>
+                    <div class="form-group col-xs-12 floating-label-form-group controls ml-3">
+                        <label>Citizenship Acquisition Date</label>
+                        <input id="au_citizenshipacquisitiondate" class="form-control" type="date" placeholder="Citizenship Acquisition Date" />
+        			</div>
+                    <div class="form-group col-xs-12 floating-label-form-group controls mx-3" id="div_au_citizenshipstocknumber">
+                        <label>Citizenship Stock Number</label>
+                        <input id="au_citizenshipstocknumber" class="form-control" type="text" placeholder="Citizenship Stock Number" />
+                    </div>
+                </div>
+
+                    <div class="row control-group">
+                            <div class="row control-group">
+                                <div class="form-group col-xs-12 floating-label-form-group controls"><label>Client email</label>
+                                    <input id="clientemail" class="form-control" required type="email" placeholder="Client email" data-validation-required-message="Please enter client email." />
+                                    <p class="help-block text-danger"></p>
+                                </div>
+                            </div>
+                            <div class="row control-group">
+                                <div class="form-group col-xs-12 floating-label-form-group controls"><label>Agent email</label>
+                                    <input id="agentemail" class="form-control" required type="email" placeholder="Agent email" data-validation-required-message="Please enter client email." />
+                                    <p class="help-block text-danger"></p>
+                                </div>
+                                <div class="form-group col-xs-12 floating-label-form-group controls"><label>Administrator email</label>
+                                    <input id="adminemail" class="form-control" required type="email" placeholder="Administrator email" data-validation-required-message="Please enter client email." />
+                                    <p class="help-block text-danger"></p>
+                                </div>
+                            </div>
+                    </div>
+                    &nbsp;
+                    <div id="success"></div>
+                    <div class="row">
+                        <div class="form-group col-xs-12"><button id="btnSubmit" class="btn btn-success btn-lg" type="submit">Send</button></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+</section>
+
+<?php
+wp_enqueue_script( 'ajax-script', plugins_url( 'cloudcheck/js/my_query.js', __FILE__ ), array('jquery') );
+?>
+
+    <!--script type="text/javascript" src="/wp-content/plugins/cloudcheck/js/cloudcheck.js"></script-->
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/cloudcheck.js"></script>

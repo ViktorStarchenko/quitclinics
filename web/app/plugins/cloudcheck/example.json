@@ -1,0 +1,229 @@
+Request: {
+    "details": {
+        "name": {
+            "given": "Arnold",
+            "family": "Schwarzenegger"
+        },
+        "dateofbirth": "1947-07-30",
+        "address": {
+            "city": "Auckland",
+            "suburb": "St Johns",
+            "postcode": "1072",
+            "streetname": "Strong Street",
+            "streetnumber": "5"
+        },
+        "passport": {
+            "number": "US987654",
+            "expiry": "2020-02-20"
+        },
+        "driverslicence": {
+            "number": "AB123456",
+            "version": "111"
+        }
+    },
+    "reference": "1",
+    "consent": "Yes",
+    "capturereference": "a09b1dc5-ea4f-4591-9e44-1fca76dfd000"
+}
+
+Response: {
+    "verification": {
+        "reference": "1",
+        "verificationSuccess": true,
+        "validated": {
+            "dateofbirth": true,
+            "address": true,
+            "pepMatched": true,
+            "name": true
+        },
+        "sources": [{
+                "success": true,
+                "name": "Test Source (Driver’s Licence)",
+                "error": false
+            },
+            {
+                "success": true,
+                "name": "Dow Jones Watchlist",
+                "error": false
+            },
+            {
+                "success": true,
+                "name": "Test Source (Simple Address)",
+                "error": false
+            }
+        ],
+        "pepMatches": [{
+            "score": 1,
+            "peid": 587146,
+            "name": "Schwarzenegger, Arnold Alois",
+            "riskTypes": [
+                "PEP"
+            ],
+            "dateOfBirth": [
+                "1947-07-30"
+            ],
+            "title": "See Previous Roles"
+        }],
+        "verificationReference": "7d04efdc-6f24-4d91-9dd7-2b7713529e76",
+        "requestDate": "2018-07-17 12:17",
+        "details": {
+            "dateofbirth": "1947-07-30",
+            "address": {
+                "city": "Auckland",
+                "street": "5 Strong Street",
+                "postcode": "1072",
+                "suburb": "St Johns"
+            },
+            "name": {
+                "given": "Arnold",
+                "family": "Schwarzenegger"
+            }
+        },
+        "verificationPartialSuccess": false,
+        "verificationDate": "2018-07-17 12:17"
+    }
+}
+
+Failed validation: {
+    "verification": {
+        "reference": "1",
+        "verificationSuccess": false,
+        "validated": {
+            "dateofbirth": false,
+            "address": false,
+            "name": false
+        },
+        "sources": [{
+            "notes": "Unmatched Fields:\nExpiry Date\nDate of Birth\n",
+            "success": false,
+            "name": "Test Source (Passport)",
+            "error": false
+        }],
+        "verificationReference": "f470a6b4-5fc8-4962-97f7-d628245eef6a",
+        "requestDate": "2018-07-21 13:20",
+        "details": {
+            "dateofbirth": "1946-07-08",
+            "address": {
+                "city": "Auckland",
+                "street": "5 Strong Street",
+                "postcode": "1972",
+                "suburb": "St Johns"
+            },
+            "name": {
+                "given": "Arnold",
+                "family": "Schwarzenegger"
+            }
+        }
+    }
+}
+
+
+Error message: {
+    "verification": {
+        "errorDetail": "Your Passport Expiry must be in the future",
+        "message": "Please check the required fields are all supplied.",
+        "fields": "driversLicenceNumber, driversLicenceVersion, passportNumber, passportExpiry",
+        "error": 102
+    }
+}
+
+
+Request: {
+    "details": {
+        "name": {
+            "given": "Mary",
+            "family": "Horn"
+        },
+        "dateofbirth": "1992-05-06",
+        "address": {
+            "city": "Wellington",
+            "suburb": "Newtown",
+            "postcode": "6021",
+            "streetname": "Mein Street",
+            "streetnumber": "148"
+        },
+        "driverslicence": {
+            "number": "AB123456",
+            "version": "001"
+        },
+        "vehicle": {
+            "numberplate": "VER012"
+        },
+        "birthcertificate": {
+            "registrationnumber": "1992000888"
+        }
+    },
+    "reference": "1",
+    "consent": "Yes",
+    "capturereference": "a09b1dc5-ea4f-4591-9e44-1fca76dfd000"
+}
+
+Response: {
+    "verification": {
+        "reference": "1",
+        "verificationSuccess": true,
+        "validated": {
+            "dateofbirth": true,
+            "address": true,
+            "pepMatched": true,
+            "name": true
+        },
+        "sources": [{
+            "success": true,
+            "name": "Test Source (Driver’s Licence)",
+            "error": false
+        }, {
+            "success": true,
+            "name": "Dow Jones Watchlist",
+            "error": false
+        }, {
+            "success": true,
+            "name": "Test Source (Simple Address)",
+            "error": false
+        }],
+        "pepMatches": [{
+            "score": 0.986,
+            "peid": 1021072,
+            "name": "Horn, Mary",
+            "riskTypes": ["RCA"]
+        }, {
+            "score": 0.986,
+            "peid": 1197558,
+            "name": "Horn, Mary Ellen",
+            "riskTypes": ["RCA"]
+        }, {
+            "score": 0.8502857,
+            "peid": 1432611,
+            "name": "Horne, Mary",
+            "riskTypes": ["RCA"]
+        }, {
+            "score": 0.8095714,
+            "peid": 1132677,
+            "name": "Horne Holloway, Molly",
+            "riskTypes": ["RCA"]
+        }, {
+            "score": 0.8095714,
+            "peid": 1542830,
+            "name": "Horne, Marian",
+            "riskTypes": ["PEP"],
+            "title": "See Previous Roles"
+        }],
+        "verificationReference": "9285c2d4-7686-438c-8235-c46265a0a312",
+        "requestDate": "2018-08-09 21:49",
+        "details": {
+            "dateofbirth": "1992-05-06",
+            "address": {
+                "city": "Wellington",
+                "street": "148 Mein Street",
+                "postcode": "6021",
+                "suburb": "Newtown"
+            },
+            "name": {
+                "given": "Mary",
+                "family": "Horn"
+            }
+        },
+        "verificationPartialSuccess": false,
+        "verificationDate": "2018-08-09 21:49"
+    }
+}
