@@ -1,0 +1,57 @@
+.init-modal {
+    display: none;
+}
+.modal-wrap {
+    color: var(--color-blue);
+    line-height: 1.6;
+}
+.alert-body {
+    padding: 80px 60px 70px 60px;
+    text-align: left;
+}
+.alert-body a:not(.btn-body),
+.alert-body a:hover:not(.btn-body) {
+    color: var(--color-blue);
+    font-weight: 400;
+}
+
+.alert-block {
+    margin-bottom: 25px;
+}
+.alert-content {
+    padding-bottom: 30px;
+    border-bottom: solid 1px #dddddd;
+}
+
+body #fancybox-close {
+    top: -35px;
+    right: -35px;
+    background: url('/app/themes/quitclinics-child/assets/images/icons/icon-control-close-cross.svg') center;
+}
+body .fancybox-ie {
+    max-width: 600px;
+}
+body #fancybox-content {
+    width: 100%!important;
+    border-width: 0!important;
+}
+.modal-wrap .btn-block .btn-body {
+    flex-basis: 46%;
+}
+
+@media screen and (max-width: 767px) {
+    .alert-body {
+        padding: 60px 30px 35px 30px;
+    }
+    .modal-wrap .btn-block .btn-body {
+        flex-basis: 100%;
+        margin: 8px auto;
+    }
+    body #fancybox-close {
+        right: 0;
+        top: -40px;
+    }
+    body .fancybox-ie {
+        left: 0!important;
+    }
+}

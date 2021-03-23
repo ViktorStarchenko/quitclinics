@@ -1,0 +1,20 @@
+.questionnaire-form .subtitle {
+    color: var(--color-blue);
+}
+
+.quastionnarie-section {
+    padding: 60px 0;
+}
+.hidden {
+    display: none!important;
+}
+.form-inner.hidden {
+    display: none!important;
+}
+/*.questionnaire-form .qc-form-group {*/
+/*    display: none;*/
+/*}*/
+
+/*.questionnaire-form .qc-form-group.form-request-item {*/
+/*    display: block;*/
+/*}*/

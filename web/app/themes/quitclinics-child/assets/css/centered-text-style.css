@@ -1,0 +1,11 @@
+
+
+.centered-text {
+    padding: 120px 0;
+}
+
+@media screen and (max-width: 767px) {
+    .centered-text {
+        padding: 60px 0;
+    }
+}

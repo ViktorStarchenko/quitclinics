@@ -1,0 +1,40 @@
+#success .alert.alert-danger {
+    border-radius: 2px;
+    border: solid 1px #ed7c7c;
+    background-color: var(--color-danger-bg);
+    color: var(--color-danger-text);
+}
+#success .alert.alert-success {
+    border-radius: 2px;
+    border: solid 1px #80debc;
+    background-color: var(--color-success-bg);
+    color: var(--color-success-text);
+}
+
+#success .alert.alert-warning {
+    border-radius: 2px;
+    border: solid 1px #fb8d48;
+    background-color: var(--color-warning-bg);
+    color: var(--color-warning-text);
+}
+#success .alert {
+    position: relative;
+    padding: 20px;
+}
+#success .close {
+    position: absolute;
+    right: 3px;
+    top: 3px;
+    background: none;
+    width: 20px;
+    border: unset;
+    font-size: 20px;
+    color: #fff;
+    cursor: pointer;
+}
+#success .alert.alert-success .close {
+    color: #c16e3a;
+}
+#success .alert.alert-danger .close {
+    color: #ed7c7c;
+}

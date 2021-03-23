@@ -104,6 +104,7 @@ Config::define('DISALLOW_FILE_MODS', true);
 Config::define('WP_DEBUG_DISPLAY', false);
 Config::define('WP_DEBUG_LOG', env('WP_DEBUG_LOG') ?? false);
 Config::define('SCRIPT_DEBUG', false);
+Config::define('WP_MEMORY_LIMIT', '512M');
 ini_set('display_errors', '0');
 
 /**

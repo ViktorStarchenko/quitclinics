@@ -1,0 +1,120 @@
+
+.footer {
+    padding: 60px 0 0;
+}
+.footer__logo-box {
+    padding-right: 20px;
+}
+.footer .menu-logo {
+    margin-bottom: 30px;
+}
+.footer__excerpt {
+    max-width: 314px;
+    line-height: 1.94;
+}
+.footer__wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    padding-bottom: 100px;
+    border-bottom: solid 1px #dddddd;;
+}
+.footer__col {
+    flex-basis: 33.3%;
+}
+.footer__menu-wrapper {
+    padding-top: 70px;
+}
+
+.footer__menu-wrapper ul {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.footer__menu-wrapper ul a  {
+    font-size: 16px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 0.94;
+    letter-spacing: 0.34px;
+    color: var(--color-blue);
+    text-decoration: none;
+    display: inline-block;
+    margin-bottom: 25px;
+}
+.footer__menu-wrapper ul a:hover {
+    color: var(--color-lt-blue);
+    text-decoration: none;
+}
+
+.subscription-wrapper .subscription-form-heading {
+    margin-bottom: 40px;
+    display: inline-block;
+}
+.subscription-wrapper p {
+    margin-bottom: 20px;
+}
+
+.copyright {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.17;
+    letter-spacing: 0.3px;
+    color: var(--color-blue);
+    padding: 35px 0;
+}
+.copyright-menu ul {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.copyright-menu ul li {
+    margin-right: 15px;
+}
+.copyright-menu ul li a {
+    color: var(--color-blue);
+    text-decoration: none;
+}
+.copyright-menu ul li a:hover {
+    color: var(--color-lt-blue);
+    text-decoration: none;
+}
+@media screen and (max-width: 767px) {
+    .footer {
+        padding: 40px 0 0;
+    }
+    .footer__wrapper {
+        padding-bottom: 0;
+    }
+    .footer__col {
+        flex-basis: 100%;
+    }
+    .footer__logo-box {
+        padding: 0;
+        margin-bottom: 35px;
+    }
+    .footer__menu-wrapper {
+        padding: 0;
+        margin-bottom: 40px;
+    }
+    .footer .menu-logo {
+        margin-bottom: 25px;
+    }
+    .copyright,
+    .copyright-menu ul {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .copyright-menu ul li {
+        margin-bottom: 25px;
+    }
+
+}

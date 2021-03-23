@@ -1,0 +1,128 @@
+
+/********************* BANNER SECTION **********************/
+.banner {
+    position: relative;
+}
+.banner h1, .banner .title-h1 {
+    font-size: 50px;
+}
+.banner-bg {
+    height: 608px;
+    /*background-image: url("/app/uploads/2020/12/hero.jpg");*/
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.banner__inner {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    max-width: var(--wrapper-1240);
+    left: calc((100% - var(--wrapper-1240)) / 2) !important;
+}
+.banner__heading {
+    margin-bottom: 25px;
+}
+.banner__text {
+    font-size: 18px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.72;
+    letter-spacing: 0.07px;
+    margin-bottom: 40px;
+}
+.banner .content__18px {
+    margin-bottom: 40px;
+    text-align: left;
+}
+
+.advantages {
+    background-color: var(--color-blue);
+}
+.advantages__wrapper {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 32px 0;
+}
+.advantages__item {
+    font-size: 16px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.69;
+    letter-spacing: 0.1px;
+    text-align: center;
+    color: #ffffff;
+    flex-basis: 33.3%;
+
+    border-right: 1px solid #fff
+}
+.advantages__item:last-child {
+    border: none
+}
+
+
+@media screen and (max-width: 1240px) {
+    .banner__inner {
+        padding: 0 20px;
+    }
+}
+@media screen and (max-width: 1024px) {
+    .banner .content__18px {
+        max-width: 55%;
+    }
+}
+@media screen and (max-width: 900px) {
+    .banner__inner {
+        left: 0!important;
+    }
+}
+@media screen and (max-width: 767px) {
+    .banner-bg {
+        height: 400px;
+    }
+    .banner h1, .banner .title-h1 {
+        font-size: 32px;
+    }
+    .banner__inner {
+        position: relative!important;
+        left: unset!important;
+        align-items: center;
+        text-align: center;
+        padding: 40px 0;
+    }
+    .banner .btn-block .btn-body {
+        margin: 7px auto;
+        width: 100%;
+        background-color: var(--color-blue);
+        color: #fff;
+    }
+    .banner__heading {
+        margin-bottom: 15px;
+    }
+    .banner__text {
+        margin-bottom: 30px;
+        font-size: 15px;
+    }
+
+    .advantages__wrapper {
+        padding: 0;
+    }
+    .advantages__item {
+        flex-basis: 100%;
+        border-right: none;
+        border-bottom: 1px solid #fff;
+        padding: 25px 0;
+    }
+
+    .banner .content__18px {
+        max-width: unset;
+        margin-bottom: 30px;
+        text-align: center;
+     }
+}

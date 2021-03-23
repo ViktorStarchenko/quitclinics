@@ -1,0 +1,22 @@
+
+@font-face {
+    font-family: 'DMSans';
+    font-style: normal;
+    font-display: swap;
+    font-stretch: normal;
+    font-weight: normal;
+    src: url(../fonts/gotham/Gotham-Book.woff) format('woff'),
+    url(../fonts/gotham/Gotham-Book.woff2) format('woff2'),
+    url(../fonts/gotham/GothamBook.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'Gotham-Medium';
+    font-display: swap;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    src: url(../fonts/gotham/Gotham-Medium.woff) format('woff'),
+    url(../fonts/gotham/Gotham-Medium.woff2) format('woff2'),
+    url(../fonts/gotham/GothamMedium.ttf) format('truetype');
+}
