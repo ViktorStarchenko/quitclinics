@@ -95,3 +95,44 @@ add_theme_support( 'align-wide' );
 //    wp_set_current_user($user_verify->ID);
 //}
 
+add_filter( 'send_password_change_email', '__return_false' );
+add_filter( 'send_email_change_email', '__return_false');
+
+add_action('phpmailer_init', 'wse199274_intercept_registration_email');
+function wse199274_intercept_registration_email($phpmailer){
+    $admin_email = get_option( 'admin_email' );
+
+    # Intercept username and password email by checking subject line
+    if( strpos($phpmailer->Subject, 'Your username and password info') ){
+        # clear the recipient list
+        $phpmailer->ClearAllRecipients();
+        # optionally, send the email to the WordPress admin email
+        $phpmailer->AddAddress($admin_email);
+    }else{
+        #not intercepted
+    }
+}
+
+
+
+//add_filter( 'woocommerce_min_password_strength', 'reduce_min_strength_password_requirement' );
+//function reduce_min_strength_password_requirement( $strength ) {
+//    // 3 => Strong (default) | 2 => Medium | 1 => Weak | 0 => Very Weak (anything).
+//    return 2;
+//}
+
+/**
+ * Change the strength requirement on the woocommerce password
+ *
+ * Strength Settings
+ * 4 = Strong
+ * 3 = Medium (default)
+ * 2 = Also Weak but a little stronger
+ * 1 = Password should be at least Weak
+ * 0 = Very Weak / Anything
+ */
+add_filter( 'woocommerce_min_password_strength', 'misha_change_password_strength' );
+
+function misha_change_password_strength( $strength ) {
+    return 1;
+}
