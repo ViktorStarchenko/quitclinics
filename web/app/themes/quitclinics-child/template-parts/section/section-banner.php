@@ -12,16 +12,6 @@
                     </div>
                 <?php endif; ?>
 
-<!--                --><?php //if(get_sub_field('heading')) : ?>
-<!--                <div class="banner__heading">-->
-<!--                        --><?php // echo get_sub_field('heading'); ?>
-<!--                </div>-->
-<!--                --><?php //endif; ?>
-<!--                --><?php //if(get_sub_field('text')) : ?>
-<!--                    <div class="banner__text">-->
-<!--                        --><?php // echo get_sub_field('text'); ?>
-<!--                    </div>-->
-<!--                --><?php //endif; ?>
                 <?php if(get_sub_field('buttons')) : ?>
                 <div class="btn-block">
                 <?php foreach(get_sub_field('buttons') as $button) : ?>
@@ -34,7 +24,7 @@
 
 </section>
 
-<?php if(get_sub_field('buttons')) : ?>
+<?php if(get_sub_field('advantages')) : ?>
 <div class="advantages">
         <div class="wrapper-1240">
             <div class="advantages__wrapper">

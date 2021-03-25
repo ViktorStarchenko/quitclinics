@@ -29,26 +29,26 @@
                                         <img src="<?php echo $item['image_box']['image']['url'] ?>" alt="<?php echo $item['image_box']['image']['title'] ?>">
                                     </div>
                                 </div>
-                            <?php endif; ?>
+                            <?php endif; //image_box ?>
                             <?php if ($item['title']) : ?>
                                 <div class="three-icons__title">
                                     <?php echo $item['title'] ?>
                                 </div>
-                            <?php endif; ?>
+                            <?php endif; //title ?>
                             <?php if($item['text']) : ?>
                                 <div class="three-icons__text">
                                     <?php  echo $item['text']; ?>
                                 </div>
-                            <?php endif; ?>
+                            <?php endif; //text ?>
                             <?php if($item['link']) : ?>
                                 <div class="three-icons__link">
                                     <a href="<?php  echo $item['link']['url']; ?>"><?php  echo $item['link']['title']; ?></a>
                                 </div>
-                            <?php endif; ?>
+                            <?php endif; //link ?>
 
                         </div>
-                    <?php endforeach; ?>
-                <?php endif; ?>
+                    <?php endforeach; //items ?>
+                <?php endif; //items ?>
 
         </div>
 
