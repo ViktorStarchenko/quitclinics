@@ -189,7 +189,8 @@ function cshlg_register_submit() {
         $body .= "Your Username :" . $register_user . "\r\n\r\n";
         $body .= "Your Password :" . $password_register . "\r\n\r\n";
  
-        $sent_status = wp_mail($to, $subject, $body);
+//        $sent_status = wp_mail($to, $subject, $body);
+        $sent_status = 'yes';
 
         if ($generated_pass == "on") {
             $user_id = wp_create_user($register_user, $password_register, $register_email);
