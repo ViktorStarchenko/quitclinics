@@ -266,3 +266,6 @@ function qclinics_email_order_code($additional_content = false) {
     wc_get_template( 'emails/email-order-code.php', array('additional_content' => $additional_content) );
 }
 add_action('woocommerce_email_order_code', 'qclinics_email_order_code', 5);
+
+
+add_filter( 'wcs_allow_synced_product_early_renewal', '__return_true', 10 );

@@ -122,7 +122,7 @@
 
         var requestJson = JSON.stringify(data);
         // console.log("Cloudcheck request: " + requestJson);
-        showAlert("success", "<strong>Connecting to Cloudcheck service. Please, wait for a moment ...</strong>");
+        showAlert("success", "<strong>We are verifying your details.</strong>");
 
 
         if ($(this).find("input#file").val() ) {

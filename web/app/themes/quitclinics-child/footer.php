@@ -92,7 +92,7 @@
                     <div class="alert-block alert-content">
                         <p class="alert-text">Unfortunately we could not verify your identity.</p>
                         <p class="alert-text">Please check your details and <a href="#" class="try-again">try again</a> , or <a
-                                    href="#" class="open-chat">contact support.</a></p>
+                                    href="#" class="open-chat">contact support</a>  so that they can verify for you</p>
                     </div>
                     <div class="btn-block">
                         <a href="#" class="btn-body btn-blue try-again">Try again</a>
@@ -102,6 +102,8 @@
             </div>
         </div>
     </div><!--    TRY AGAIN MODAL-->
+
+
 
 
 </footer>

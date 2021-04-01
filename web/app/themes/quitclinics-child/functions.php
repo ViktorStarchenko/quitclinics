@@ -136,3 +136,6 @@ add_filter( 'woocommerce_min_password_strength', 'misha_change_password_strength
 function misha_change_password_strength( $strength ) {
     return 1;
 }
+
+
+add_filter( 'wcs_allow_synced_product_early_renewal', '__return_true', 10 );

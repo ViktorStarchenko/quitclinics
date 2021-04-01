@@ -32,5 +32,10 @@ if( function_exists('acf_add_options_page') ) {
         'menu_title'	=> 'Shop',
         'parent_slug'	=> 'theme-general-settings',
     ));
+    acf_add_options_sub_page(array(
+        'page_title' 	=> 'Modal',
+        'menu_title'	=> 'Modal',
+        'parent_slug'	=> 'theme-general-settings',
+    ));
 
 }

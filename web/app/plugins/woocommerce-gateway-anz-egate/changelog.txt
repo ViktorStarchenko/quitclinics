@@ -1,0 +1,65 @@
+*** ANZ eGate Changelog ***
+
+2020-09-18 - version 3.0.10
+* Improved failed payment order notes
+
+2020-09-11 - version 3.0.9
+* Fix for mismatched payment amounts
+
+2020-08-10 - version 3.0.8
+* Added vpc_Locale field to payment request
+* When merchant checkout mode, saves last 4 digits of CC number to order meta for reference
+* Added debug logging for mismatched payment amounts warning
+
+2019-06-21 - version 3.0.7
+* Adds support for older version of WooCommerce (2.6)
+
+2019-03-29 - version 3.0.6
+* Fix for payment hash when not using pretty URLs
+
+2019-03-25 - version 3.0.5
+* Fix for returned payment result message not showing on confirmation page due to WC update
+
+2019-01-29 - version 3.0.4
+* Add support for "Custom Order Numbers for WooCommerce" for Server Hosted checkout
+
+2018-12-11 - version 3.0.3
+* Add filter for cards image
+
+2018-06-21 - version 3.0.2
+* Minor fix for wc-ajax argument not being set for ajax requests
+* Fix for supporting 4 digit expiry year when autofilled by browser
+
+2018-04-08 - version 3.0.1
+* Changed gateway image for Server Hosted
+* Added currency symbol for checkout page (ANZ requirement)
+* Fix - show ANZ approved error messages for Server Hosted transactions 
+
+2018-01-14 - version 3.0.0
+* Added support for Server Hosted checkout (ANZ branded checkout page)
+* Added support for secure hash for Merchant hosted checkout
+
+2016-12-21 - version 2.1.5
+* Fix - Deprecated credit card form.
+
+2016-05-27 - version 2.1.4
+* Fix - Fatal error caused by variable is invoked as function
+
+2015-08-04 - version 2.1.3
+* Removed deprecated code.
+* 2.4 compat.
+
+2015-03-01 - version 2.1.2
+* Removing deprecated function
+
+2014-10-16 - version 2.1.1
+* Limit vpc_MerchTxnRef to 40 chars
+
+2014-01-10 - version 2.1.0
+* 2.1 compatibility
+
+2013-12-31 - version 2.0.2
+* Has fields should be true
+
+2013-02-14 - version 2.0.0
+* Re-write
