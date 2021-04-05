@@ -176,11 +176,11 @@ function bbloomer_override_postcode_validation( $address_fields ) {
  **/
 function eg_extend_subscription_period_intervals( $intervals ) {
 
-    $intervals[8] = sprintf( __( 'every %s', 'my-text-domain' ), WC_Subscriptions::append_numeral_suffix( 8 ) );
+    $intervals[8] = sprintf( __( 'for %s', 'my-text-domain' ), WC_Subscriptions::append_numeral_suffix( 8 ) );
 
-    $intervals[12] = sprintf( __( 'every %s', 'my-text-domain' ), WC_Subscriptions::append_numeral_suffix( 12 ) );
+    $intervals[12] = sprintf( __( 'for %s', 'my-text-domain' ), WC_Subscriptions::append_numeral_suffix( 12 ) );
 
-    $intervals[24] = sprintf( __( 'every %s', 'my-text-domain' ), WC_Subscriptions::append_numeral_suffix( 24 ) );
+    $intervals[24] = sprintf( __( 'for %s', 'my-text-domain' ), WC_Subscriptions::append_numeral_suffix( 24 ) );
 
     return $intervals;
 }
@@ -189,7 +189,7 @@ add_filter( 'woocommerce_subscription_period_interval_strings', 'eg_extend_subsc
 
 
 /**
- * REDIREC NON LOGIN USERS TO LOGIN PAGE
+ * REDIRECT NON LOGIN USERS TO LOGIN PAGE
  **/
 add_action('template_redirect','check_if_logged_in');
 function check_if_logged_in()

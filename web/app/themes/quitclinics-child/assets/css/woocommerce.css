@@ -329,6 +329,11 @@
 .woocommerce table.shop_table .woocommerce-cart-form__cart-item-coupon td {
   padding: 20px 0 9px;
 }
+.recurring-totals,
+.cart-subtotal.recurring-total,
+.order-total.recurring-total {
+    display: none;
+}
 /*BILLING DETAILS*/
 .woocommerce form .form-row .select2-container {
     height: 50px;
@@ -443,6 +448,9 @@ form.checkout .col2-set .col-1 {
     margin-bottom: 40px;
 }
 .kl_newsletter_checkbox_field {
+    display: none;
+}
+.woocommerce-checkout-review-order-table .cart-subtotal {
     display: none;
 }
 .woocommerce form .form-row.woocommerce-validated input.input-text[name="billing_postcode"],
@@ -606,6 +614,9 @@ table.shop_table tr.mobile-visible{
     letter-spacing: normal;
     color: var(--color-blue);
     margin-bottom: 25px;
+}
+.subscription-details {
+    display: none;
 }
 .woocommerce div.product p.price.price-custom,
 .woocommerce div.product span.price.price-custom {

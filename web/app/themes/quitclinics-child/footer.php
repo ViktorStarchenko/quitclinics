@@ -81,7 +81,7 @@
 
 
 <!--    TRY AGAIN MODAL-->
-    <a href="#try-again" class="fancybox show-modal init-modal">MODAL</a>
+    <a href="#try-again" class="fancybox show-modal init-modal try-again">MODAL</a>
     <div style="display:none; background-color: #161a1d; opacity: .5" class="fancybox-hidden">
         <div class="modal-wrap" id="try-again">
             <div class="form-wrapper popup">
