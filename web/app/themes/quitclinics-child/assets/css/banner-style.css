@@ -3,7 +3,7 @@
 .banner {
     position: relative;
 }
-.banner h1, .banner .title-h1 {
+.banner h2, .banner .title-h2 {
     font-size: 50px;
 }
 .banner-bg {
@@ -86,7 +86,7 @@
     .banner-bg {
         height: 400px;
     }
-    .banner h1, .banner .title-h1 {
+    .banner h2, .banner .title-h2 {
         font-size: 32px;
     }
     .banner__inner {

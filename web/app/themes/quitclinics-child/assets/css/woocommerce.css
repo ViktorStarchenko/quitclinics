@@ -377,20 +377,30 @@ form.checkout {
     display: flex;
     width: calc(100% - 330px);
 }
-.checkout-wrapper.ready form.woocommerce-checkout {
+.checkout-wrapper.verified.agreed form.woocommerce-checkout {
     width: 100%;
 }
 .checkout-wrapper .woocommerce-checkout-review-order {
     display: none;
 }
-.checkout-wrapper.ready .woocommerce-checkout-review-order {
+.checkout-wrapper.verified.agreed .woocommerce-checkout-review-order {
     display: block;
 }
+
 .checkout-wrapper .cloudcheck {
     max-width: 330px;
     width: 100%;
 }
-.checkout-wrapper.ready .cloudcheck {
+.checkout-wrapper.verified.agreed .cloudcheck {
+    display: none;
+}
+.checkout-wrapper.verified .cloudcheck-form-wrap {
+    display: none;
+}
+.cloudcheck-form-wrap {
+    margin-bottom: 45px;
+}
+.checkout-wrapper.agreed .agreement-form-wrap {
     display: none;
 }
 form.checkout {

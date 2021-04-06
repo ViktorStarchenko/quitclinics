@@ -32,7 +32,7 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
 <div class="notification-wrapper">
     <?php echo get_field('prescription_expiraion', 'option'); ?>
 </div>
-<div class="checkout-wrapper <?php  echo (get_user_meta(get_current_user_id(), 'is_verified', true) == 'verified' ? ' ready ' :''); ?> <?php echo get_user_meta($user_id, 'is_verified', true) ?>">
+<div class="checkout-wrapper <?php  echo (get_user_meta(get_current_user_id(), 'is_agreed', true) == 'agreed' ? ' agreed ' :''); ?> <?php  echo (get_user_meta(get_current_user_id(), 'is_verified', true) == 'verified' ? ' verified ' :''); ?> <?php echo get_user_meta($user_id, 'is_verified', true) ?>">
     <form name="checkout" method="post" class="checkout woocommerce-checkout" action="<?php echo esc_url( wc_get_checkout_url() ); ?>" enctype="multipart/form-data">
 
         <?php if ( $checkout->get_checkout_fields() ) : ?>
@@ -76,22 +76,52 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
 
     </form>
     <div class="cloudcheck">
-        <?php if (get_field('cloudcheck', 'option')) : ?>
-        <ul class="cloudcheck-regions-list">
-            <?php foreach(get_field('cloudcheck', 'option') as $key => $cloudcheck_title) : ?>
-            <li data-region="<?php echo sanitize_title($cloudcheck_title['country']); ?>" class="<?php  echo ($key == 0 ?  ' show ' :''); ?>"><?php echo $cloudcheck_title['country']; ?></li>
-            <?php endforeach ?>
-        </ul>
-        <?php endif; ?>
-        <?php if (get_field('cloudcheck', 'option')) : ?>
-        <div class="cloudcheck-region-body">
-            <?php foreach(get_field('cloudcheck', 'option') as $key => $cloudcheck) : ?>
-            <div  data-region="<?php echo sanitize_title($cloudcheck['country']); ?>" class="cloudcheck-region-box <?php  echo ($key == 0 ?  ' show ' :''); ?>">
-                <?php echo $cloudcheck['body']; ?>
-            </div>
-            <?php endforeach ?>
+        <div class="cloudcheck-form-wrap">
+            <?php if (get_field('cloudcheck', 'option')) : ?>
+                <ul class="cloudcheck-regions-list">
+                    <?php foreach(get_field('cloudcheck', 'option') as $key => $cloudcheck_title) : ?>
+                        <li data-region="<?php echo sanitize_title($cloudcheck_title['country']); ?>" class="<?php  echo ($key == 0 ?  ' show ' :''); ?>"><?php echo $cloudcheck_title['country']; ?></li>
+                    <?php endforeach ?>
+                </ul>
+            <?php endif; ?>
+            <?php if (get_field('cloudcheck', 'option')) : ?>
+                <div class="cloudcheck-region-body">
+                    <?php foreach(get_field('cloudcheck', 'option') as $key => $cloudcheck) : ?>
+                        <div  data-region="<?php echo sanitize_title($cloudcheck['country']); ?>" class="cloudcheck-region-box <?php  echo ($key == 0 ?  ' show ' :''); ?>">
+                            <?php echo $cloudcheck['body']; ?>
+                        </div>
+                    <?php endforeach ?>
+                </div>
+            <?php endif; ?>
         </div>
-        <?php endif; ?>
+
+        <div class="agreement-form-wrap">
+            <form class="agreement-form" action="">
+                <div class="form-inner">
+                    <div class="form-group qc-form-group w100">
+                        <div class="d-flex"><label class="bio">I confirm that I am authorised to provide the personal details presented and I consent to my information being passed to and checked with the document issuer, official record holder, a credit bureau and authorised third parties for the purpose of verifying my identity and address.</label></div>
+
+                    </div>
+                    <div class="qc-form-group w100">
+                        <div class="form-check-group">
+                            <div class="form-check">
+                                <input class="form-check-input" name="is_agreed" type="checkbox" data-testid="checkbox" id="is_agreed" tabindex="-1" value="is_agreed">
+                                <span class="custom-check-input"></span>
+                                <div class="d-flex"><label class="form-check-label" for="is_agreed">I confirm that I have read and understand the above safety information</label></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="qc-form-group w100">
+                        <button type="submit" class="btn-body btn-blue bordered m-auto agreement-form-submit" >Confirm</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+
+
         <div id="success" class="success"></div>
     </div>
 </div>

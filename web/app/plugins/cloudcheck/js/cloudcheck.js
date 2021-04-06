@@ -161,7 +161,7 @@
                 console.log(xhr.status);
                 console.log(xhr.statusText);
                 console.log(xhr.responseText);
-                showAlert("error", "<p><strong>"+ xhr.responseText +"</strong></p>");
+                showAlert("success", "<p><strong>"+ xhr.responseText +"</strong></p>");
             },
         });
     }// Global verification
@@ -181,7 +181,7 @@
                 console.log(data)
                 if (data.verification.validated['dateofbirth'] == true && data.verification.validated['name'] == true) {
                     console.log('all true')
-                    $('.checkout-wrapper').addClass('ready')
+                    $('.checkout-wrapper').addClass('verified')
                     showAlert("success", "<p><strong>Verification completed successfully.</strong></p>");
                     global_verification()
                 } else {
@@ -259,7 +259,7 @@
                     showModal()
                 } else {
                     showAlert("success", "<strong>Verification completed successfully.</strong> ");
-                    $('.checkout-wrapper').addClass('ready')
+                    $('.checkout-wrapper').addClass('verified')
                     showAlert("success", "<p><strong>Verification completed successfully.</strong></p>");
                     global_verification()
                 }

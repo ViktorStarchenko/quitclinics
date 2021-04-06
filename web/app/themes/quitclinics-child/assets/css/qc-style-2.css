@@ -129,6 +129,16 @@
 
 
 /*Blog single styles*/
+.single-blog h1,
+.single-blog title-h1 {
+	font-size: 33px;
+	letter-spacing: 0.12px;
+}
+.single-blog h2,
+.single-blog title-h2 {
+	font-size: 26px;
+	letter-spacing: 0.15px;
+}
 .post-banner-section {
     position: relative;
 }
@@ -412,6 +422,14 @@ p.post-slider-excerpt {
 }
 
 @media screen and (max-width: 767px) {
+	.single-blog h1,
+	.single-blog title-h1 {
+		font-size: 26px;
+	}
+	.single-blog h2,
+	.single-blog title-h2 {
+		font-size: 18px;
+	}
 	.blog-posts-section .post-slider {
 		grid-template-columns: repeat(2, auto);
 	}

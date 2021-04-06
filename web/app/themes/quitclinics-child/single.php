@@ -37,7 +37,13 @@
 				$catquery = new WP_Query( $postssl ); ?>
 				<?php while($catquery->have_posts()) : $catquery->the_post(); ?>
 				<div class="post-slider-block">
-					<p><a href="<?php the_permalink() ?>" rel="bookmark"><figure><img alt="<?php the_title(); ?>" src="<?php the_post_thumbnail(); ?>"></figure></a></p>
+					<p>
+                        <a href="<?php the_permalink() ?>" rel="bookmark">
+                            <figure>
+                                <img alt="<?php the_title(); ?>" src="<?php the_post_thumbnail(); ?>">
+                            </figure>
+                        </a>
+                    </p>
 					<p class="post-slider-category"><?php the_category(); ?></p>
 					<h6><a href="<?php the_permalink() ?>" rel="bookmark"><?php the_title(); ?></a></h6>
 					<p class="post-slider-excerpt"><?php echo get_excerpt(90); ?>...</p>					
