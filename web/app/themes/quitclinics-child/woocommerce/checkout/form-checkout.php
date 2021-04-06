@@ -128,3 +128,4 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
 
 
 <?php do_action( 'woocommerce_after_checkout_form', $checkout ); ?>
+<?php wp_enqueue_script( 'agreement-form', get_theme_file_uri( '/assets/js/agreement-form.js' ), array('jq-351'), '1', true ); ?>
