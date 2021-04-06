@@ -98,16 +98,12 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
         <div class="agreement-form-wrap">
             <form class="agreement-form" action="">
                 <div class="form-inner">
-                    <div class="form-group qc-form-group w100">
-                        <div class="d-flex"><label class="bio">I confirm that I am authorised to provide the personal details presented and I consent to my information being passed to and checked with the document issuer, official record holder, a credit bureau and authorised third parties for the purpose of verifying my identity and address.</label></div>
-
-                    </div>
                     <div class="qc-form-group w100">
                         <div class="form-check-group">
                             <div class="form-check">
                                 <input class="form-check-input" name="is_agreed" type="checkbox" data-testid="checkbox" id="is_agreed" tabindex="-1" value="is_agreed">
                                 <span class="custom-check-input"></span>
-                                <div class="d-flex"><label class="form-check-label" for="is_agreed">I confirm that I have read and understand the above safety information</label></div>
+                                <div class="d-flex"><label class="form-check-label bio" for="is_agreed">I confirm I am the legal owner of the ID submitted and consent to my ID information only being shared with authorised third parties so that Quit Clinics can confirm my identity and date of birth. All medical information provided is strictly confidential, and will not be shared with any third party without my express written consent.</label></div>
                             </div>
                         </div>
                     </div>
