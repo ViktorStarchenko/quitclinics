@@ -2,9 +2,11 @@
 <section class="banner  acf-section-<?php echo get_row_index(); ?>
 <?php  echo (get_sub_field('section_attributes')['section_class'] ?  ' ' . get_sub_field('section_attributes')['section_class'] . ' ' :''); ?>"
          id="<?php  echo (get_sub_field('section_attributes')['section_id'] ?  get_sub_field('section_attributes')['section_id'] :''); ?>">
-        <div class="banner-bg" style="background-image: url(<?php  echo (get_sub_field('section_attributes')['background_image']['url'] ?  get_sub_field('section_attributes')['background_image']['url'] :''); ?>);"></div>
+        <div class="banner-bg">
+            <img src="<?php echo get_sub_field('section_attributes')['background_image']['url']; ?>" alt="<?php echo get_sub_field('section_attributes')['background_image']['title']; ?>">
+        </div>
         <div class="row wrapper-1240">
-            <div class="abs-full-width banner__inner">
+            <div class="abs-full-width banner__inner wrapper-1240">
 
                 <?php if(get_sub_field('content')) : ?>
                     <div class="content__18px">

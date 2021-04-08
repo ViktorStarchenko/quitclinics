@@ -190,6 +190,12 @@ h6, .title-h6 {
     object-fit: contain;
 }
 
+@media screen and (max-width: 1024px) {
+    .content__18px img {
+        margin: 30px 10px;
+    }
+}
+
 @media screen and (max-width: 767px) {
     h1, .title-h1 {
         font-size: 32px;
@@ -285,7 +291,12 @@ h6, .title-h6 {
     margin: auto;
 }
 @media screen and (max-width: 1360px) {
-
+    .wrapper-1240 {
+        padding: 0 20px;
+    }
+    .wrapper-1360 {
+        padding: 0 20px;
+    }
 }
 @media screen and (max-width: 1240px) {
     .wrapper-1240 {

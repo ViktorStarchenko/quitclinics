@@ -5,8 +5,28 @@
     <meta name="viewport" content="width=device-width" />
     <?php wp_head(); ?>
     <!-- Start of quitclinics Zendesk Widget script -->
-    <script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=0f848e20-21ec-4306-b7ec-5c7d0e571ecc"> </script>
+<!--    <script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=0f848e20-21ec-4306-b7ec-5c7d0e571ecc"> </script>-->
     <!-- End of quitclinics Zendesk Widget script -->
+
+
+
+    <script>
+
+        function addScript(src){
+            var script = document.createElement('script');
+            script.src = src;
+            script.async = false; // чтобы гарантировать порядок
+            script.id = 'ze-snippet'
+            document.head.appendChild(script);
+        }
+
+        function add_zendesk(){
+
+            addScript('https://static.zdassets.com/ekr/snippet.js?key=0f848e20-21ec-4306-b7ec-5c7d0e571ecc')
+
+        }
+        setTimeout(add_zendesk, 6000)
+    </script>
 </head>
 
 
