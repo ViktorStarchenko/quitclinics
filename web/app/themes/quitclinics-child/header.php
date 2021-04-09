@@ -4,12 +4,6 @@
     <meta charset="<?php bloginfo( 'charset' ); ?>" />
     <meta name="viewport" content="width=device-width" />
     <?php wp_head(); ?>
-    <!-- Start of quitclinics Zendesk Widget script -->
-<!--    <script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=0f848e20-21ec-4306-b7ec-5c7d0e571ecc"> </script>-->
-    <!-- End of quitclinics Zendesk Widget script -->
-
-
-
     <script>
 
         function addScript(src){
@@ -25,8 +19,11 @@
             addScript('https://static.zdassets.com/ekr/snippet.js?key=0f848e20-21ec-4306-b7ec-5c7d0e571ecc')
 
         }
-        setTimeout(add_zendesk, 6000)
+        // setTimeout(add_zendesk, 4000)
     </script>
+<!--     Start of quitclinics Zendesk Widget script -->
+        <script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=0f848e20-21ec-4306-b7ec-5c7d0e571ecc"> </script>
+<!--     End of quitclinics Zendesk Widget script -->
 </head>
 
 

@@ -1,4 +1,4 @@
-
+// document.addEventListener('touchstart', onTouchStart, {passive: true});
 ////////////////////////// Nav menu
 
 function openSubmenuOnClick() {
