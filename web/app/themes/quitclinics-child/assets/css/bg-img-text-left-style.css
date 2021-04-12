@@ -8,7 +8,6 @@
 }
 .text-left__item.img-box img {
     width: 100%;
-    height: fit-content;
 }
 .text-left__item {
     max-width: 50%;
@@ -22,5 +21,10 @@
     }
     .text-left__item {
         max-width: 100%;
+    }
+    .text-left__item.img-box img {
+        width: auto;
+        max-width: 320px;
+        height: auto;
     }
 }
