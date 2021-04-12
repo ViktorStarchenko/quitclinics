@@ -8,6 +8,7 @@
 }
 .text-left__item.img-box img {
     width: 100%;
+    height: fit-content;
 }
 .text-left__item {
     max-width: 50%;
