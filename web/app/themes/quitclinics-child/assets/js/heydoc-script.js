@@ -209,7 +209,7 @@ $(".questionnaire-form").submit(function(event) {
                     showAlert("error", "<strong>Some of the fields were not filled. Please fill in all fields or contact the site support.</strong>");
                 } else if (xhr.responseText.status == undefined || xhr.responseText.status == '') {
                     // showAlert("success", "<strong>It seems there are no errors on our part</strong>");
-                    setTimeout( 'location="https://vapo-quitclinics.staging.overdose.digital/cart/?add-to-cart=738";', 100 );
+                    setTimeout( 'location="/cart/?add-to-cart=738";', 100 );
                 }
                 // console.log(xhr.status);
                 // console.log(xhr.statusText);
