@@ -115,7 +115,12 @@ add_action( 'edit_user_profile_update', 'is_agreed_fields_save' );
 // store is_agreed using form
 function global_agreement() {
 
-    $user_id = get_current_user_id();
+    if($_POST['user_id']) {
+        $user = get_user_by('email', $_POST['user_id']);
+        $user_id = $user->ID;
+    } else {
+        $user_id = get_current_user_id();
+    }
     $value = 'agreed';
 //    $result = wp_update_user( [
 //       'ID'       => $user_id,

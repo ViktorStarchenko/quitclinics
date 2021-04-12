@@ -125,14 +125,68 @@
         showAlert("success", "<strong>We are verifying your details.</strong>");
 
 
-        if ($(this).find("input#file").val() ) {
-            mrz(requestJson)
+        let is_agreed = $('input[name="is_agreed"]:checked').val();
+        console.log(is_agreed)
+        if (is_agreed == 'is_agreed') {
+            console.log('Да, отмечено')
+            if ($(this).find("input#file").val() ) {
+                mrz(requestJson)
+            } else {
+                au_nz_verification(requestJson)
+            }
         } else {
-            au_nz_verification(requestJson)
 
         }
         // au_nz_verification(requestJson)
     }); //cloudcheckForm submit
+
+    // Agreement checkox
+    function global_agreement() {
+        var fd = new FormData();
+        let is_agreed = $('input[name="is_agreed"]:checked').val();
+        var user_id = $('#user_id').val();
+        console.log($('#user_id').val())
+        var fd = new FormData();
+        if(user_id) {
+            fd.append('user_id',user_id);
+            fd.append('is_agreed',is_agreed);
+            fd.append('action','global_agreement');
+        } else {
+            fd.append('is_agreed',is_agreed);
+            fd.append('action','global_agreement');
+        }
+
+        $.ajax({
+            url: "/wp/wp-admin/admin-ajax.php",
+            type: "POST",
+            dataType: "JSON",
+            data: fd,
+            contentType: false,
+            processData: false,
+            cache: false,
+            success: function(data) {
+                console.log(data.type)
+                showAlert(data.type, "<p><strong>"+ data.message +"</strong></p>");
+                if(data.type == 'success') {
+                    $('.checkout-wrapper').addClass('ready')
+                    console.log('entry made')
+                }
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                console.log(xhr.status);
+                console.log(xhr.statusText);
+                console.log(xhr.responseText);
+                console.log(thrownError);
+                console.log(ajaxOptions);
+                showAlert("error", "<p><strong>"+ xhr.responseText +"</strong></p>");
+                if ( xhr.responseText == 'success0') {
+                    console.log('agreement was successful')
+                } else {
+
+                }
+            },
+        });
+    }// Global verification
 
 
     // Global verification
@@ -162,6 +216,7 @@
                 console.log(xhr.statusText);
                 console.log(xhr.responseText);
                 showAlert("success", "<p><strong>"+ xhr.responseText +"</strong></p>");
+                global_agreement()
             },
         });
     }// Global verification
@@ -181,7 +236,7 @@
                 console.log(data)
                 if (data.verification.validated['dateofbirth'] == true && data.verification.validated['name'] == true) {
                     console.log('all true')
-                    $('.checkout-wrapper').addClass('verified')
+                    $('.checkout-wrapper').addClass('ready')
                     showAlert("success", "<p><strong>Verification completed successfully.</strong></p>");
                     global_verification()
                 } else {
@@ -259,7 +314,7 @@
                     showModal()
                 } else {
                     showAlert("success", "<strong>Verification completed successfully.</strong> ");
-                    $('.checkout-wrapper').addClass('verified')
+                    $('.checkout-wrapper').addClass('ready')
                     showAlert("success", "<p><strong>Verification completed successfully.</strong></p>");
                     global_verification()
                 }

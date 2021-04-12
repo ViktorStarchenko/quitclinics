@@ -377,13 +377,13 @@ form.checkout {
     display: flex;
     width: calc(100% - 330px);
 }
-.checkout-wrapper.verified.agreed form.woocommerce-checkout {
+.checkout-wrapper.ready form.woocommerce-checkout {
     width: 100%;
 }
 .checkout-wrapper .woocommerce-checkout-review-order {
     display: none;
 }
-.checkout-wrapper.verified.agreed .woocommerce-checkout-review-order {
+.checkout-wrapper.ready .woocommerce-checkout-review-order {
     display: block;
 }
 
@@ -391,16 +391,16 @@ form.checkout {
     max-width: 330px;
     width: 100%;
 }
-.checkout-wrapper.verified.agreed .cloudcheck {
+.checkout-wrapper.ready .cloudcheck {
     display: none;
 }
-.checkout-wrapper.verified .cloudcheck-form-wrap {
+.checkout-wrapper.ready .cloudcheck-form-wrap {
     display: none;
 }
 .cloudcheck-form-wrap {
     margin-bottom: 45px;
 }
-.checkout-wrapper.agreed .agreement-form-wrap {
+.checkout-wrapper.ready .agreement-form-wrap {
     display: none;
 }
 form.checkout {

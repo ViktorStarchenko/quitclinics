@@ -32,7 +32,7 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
 <div class="notification-wrapper">
     <?php echo get_field('prescription_expiraion', 'option'); ?>
 </div>
-<div class="checkout-wrapper <?php  echo (get_user_meta(get_current_user_id(), 'is_agreed', true) == 'agreed' ? ' agreed ' :''); ?> <?php  echo (get_user_meta(get_current_user_id(), 'is_verified', true) == 'verified' ? ' verified ' :''); ?> <?php echo get_user_meta($user_id, 'is_verified', true) ?>">
+<div class="checkout-wrapper <?php  echo (get_user_meta(get_current_user_id(), 'is_agreed', true) == 'agreed' ? ' ready ' :''); ?> <?php  echo (get_user_meta(get_current_user_id(), 'is_verified', true) == 'verified' ? ' ready ' :''); ?> <?php echo get_user_meta($user_id, 'is_verified', true) ?>">
     <form name="checkout" method="post" class="checkout woocommerce-checkout" action="<?php echo esc_url( wc_get_checkout_url() ); ?>" enctype="multipart/form-data">
 
         <?php if ( $checkout->get_checkout_fields() ) : ?>
@@ -95,33 +95,9 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
             <?php endif; ?>
         </div>
 
-        <div class="agreement-form-wrap">
-            <form class="agreement-form" action="">
-                <div class="form-inner">
-                    <div class="qc-form-group w100">
-                        <div class="form-check-group">
-                            <div class="form-check">
-                                <input class="form-check-input" name="is_agreed" type="checkbox" data-testid="checkbox" id="is_agreed" tabindex="-1" value="is_agreed">
-                                <span class="custom-check-input"></span>
-                                <div class="d-flex"><label class="form-check-label bio" for="is_agreed">I confirm I am the legal owner of the ID submitted and consent to my ID information only being shared with authorised third parties so that Quit Clinics can confirm my identity and date of birth. All medical information provided is strictly confidential, and will not be shared with any third party without my express written consent.</label></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="qc-form-group w100">
-                        <button type="submit" class="btn-body btn-blue bordered m-auto agreement-form-submit" >Confirm</button>
-                    </div>
-                </div>
-
-            </form>
-        </div>
-
-
-
         <div id="success" class="success"></div>
     </div>
 </div>
 
 
 <?php do_action( 'woocommerce_after_checkout_form', $checkout ); ?>
-<?php wp_enqueue_script( 'agreement-form', get_theme_file_uri( '/assets/js/agreement-form.js' ), array('jq-351'), '1', true ); ?>

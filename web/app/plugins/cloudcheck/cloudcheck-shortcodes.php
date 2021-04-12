@@ -14,6 +14,17 @@ function cloudcheck_shortcodes_init()
                 <form id="cloudcheckForm" class="cloudcheckForm">'
             . do_shortcode($content)
             . '<div class="row">
+                    <div class="qc-form-group w100">
+                        <div class="form-check-group">
+                            <div class="form-check">
+                                <input class="form-check-input" name="is_agreed" type="checkbox" data-testid="checkbox" id="is_agreed" tabindex="-1" value="is_agreed" required>
+                                <span class="custom-check-input"></span>
+                                <div class="d-flex">
+                                <label class="form-check-label bio" for="is_agreed" style="display:inline-block">I confirm I am the legal owner of the ID submitted and consent to my ID information only being shared with authorised third parties so that Quit Clinics can confirm my identity and date of birth. All medical information provided is strictly confidential, and will not be shared with any third party without my express written consent.</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <p class="form-group col-xs-12">
                         <button id="btnSubmit" class="btn-body btn-blue  btnSubmit button-primary" type="submit">Verify</button>
                     </div>
