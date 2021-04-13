@@ -40,7 +40,7 @@ $('input[name="gender"]').on('click', function(){
 })
 
 $("#country").countrySelect({
-    defaultCountry: "gb",
+    defaultCountry: "au",
     responsiveDropdown: true
 });
 var submit_cancel = true;
