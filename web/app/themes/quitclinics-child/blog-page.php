@@ -88,9 +88,8 @@
                             </figure>
                         </a>
                     </p>
-					<p class="post-slider-category"><?php the_category(); ?></p>
 					<h6><a href="<?php the_permalink() ?>" rel="bookmark"><?php the_title(); ?></a></h6>
-					<p class="post-slider-excerpt"><?php echo get_excerpt(90); ?>...</p>					
+					<p class="post-slider-excerpt"><?php the_excerpt(); ?>...</p>
 				</div>
 				<?php endwhile; ?>
 				<?php wp_reset_query(); ?>
