@@ -61,6 +61,7 @@ include 'inc/header-lib.php';
 include 'inc/woocommerce-lib.php';
 include 'inc/heydoc.php';
 include 'inc/cloudcheck-global-verification.php';
+include 'inc/seo.php';
 
 
 function get_excerpt($limit){
