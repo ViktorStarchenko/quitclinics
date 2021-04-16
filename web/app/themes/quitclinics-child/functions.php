@@ -140,3 +140,19 @@ function misha_change_password_strength( $strength ) {
 
 
 add_filter( 'wcs_allow_synced_product_early_renewal', '__return_true', 10 );
+
+
+add_filter('script_loader_tag', 'add_async_attribute', 10, 2);
+
+function add_async_attribute($tag, $handle)
+{
+    if(!is_admin()){
+        if ('jquery-core' == $handle) {
+            return $tag;
+        }
+        return str_replace(' src', ' defer src', $tag);
+    }else{
+        return $tag;
+    }
+
+}

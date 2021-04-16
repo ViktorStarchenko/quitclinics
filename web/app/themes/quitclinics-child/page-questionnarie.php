@@ -391,11 +391,11 @@
 
                                     <!--Safety Information-->
                                     <div class="qc-form-group w100 for-smokers">
-                                        <h4 class="subtitle">Safety Information</h4>
+                                        <h4 class="subtitle">Safety Information and Consent</h4>
                                     </div>
                                     <!--Complete abstinence from-->
                                     <div class="form-group qc-form-group w100 for-smokers">
-                                        <div class="d-flex"><label class="">Complete abstinence from smoking and e-cigarette use is the safest option for your health. While e-cigarettes are less harmful than smoking, they are addictive, and the long-term risks are unknown. In order to minimise risk of harms, only short-term use of e-cigarettes is recommended, and dual use (vaping plus smoking) needs to be avoided.  Currently no vaping/e-cigarette products have been approved by the TGA, or are available on the PBS. To minimise risk of harm, Quit Clinics doctors will only prescribe products for which they have been able to review product quality and safety made available by the manufacturer. </label></div>
+                                        <div class="d-flex"><label class="">Complete abstinence from smoking and vaping is the safest option for your health. Nicotine is addictive, and the long-term risks of vaping are unknown. Currently no nicotine vaping products have been approved by the TGA, and the safety of these products has not yet been thoroughly assessed. To reduce the risk of harm, Quit Clinics has set strict safety standards which can be viewed under the Knowledge tab, however Quit Clinics, or its doctors, cannot guarantee the safety of any vaping product. In order to minimise risk of harms, only short-term use of e-cigarettes is recommended, and dual use (vaping plus smoking) needs to be avoided.</label></div>
                                         <div class="form-check-group">
                                             <div class="form-check">
                                                 <input class="form-radio-input" type="radio" name="9rorbO3lgeONaNXt3h4V2" id="9rorbO3lgeONaNXt3h4V2_I confirm that I have read and understand the above safety information" tabindex="-1" value="I confirm that I have read and understand the above safety information">
