@@ -62,3 +62,79 @@ function cloudcheck_send_request_heydoc() {
     wp_die();
 
 }
+
+
+
+// Add DOB field
+function dob_fields( $user ) {
+    ?>
+    <table class="form-table">
+        <tr>
+            <th>Day of birth:</th>
+            <td>
+
+
+                <p>
+                    <input
+                        id="dob"
+                        name="dob"
+                        type="date"
+                        value="<?php  echo get_user_meta($user->ID, 'dob', true); ?>"
+                    />
+
+                </p>
+
+            </td>
+        </tr>
+    </table>
+    <?php
+}// Add DOB field
+add_action( 'show_user_profile', 'dob_fields' );
+add_action( 'edit_user_profile', 'dob_fields' );
+
+// store DOB on user edit page
+function dob_fields_save( $user_id ) {
+    if ( !current_user_can( 'edit_user', $user_id ) )
+        return false;
+    update_user_meta( $user_id, 'dob', $_POST['dob'] );
+}// store DOB on user edit page
+add_action( 'personal_options_update', 'dob_fields_save' );
+add_action( 'edit_user_profile_update', 'dob_fields_save' );
+
+// store DOB using cloudcheck form
+function cloudcheck_dob_verification() {
+
+    if($_POST['user_id']) {
+        $user = get_user_by('email', $_POST['user_id']);
+        $user_id = $user->ID;
+    } else {
+        $user_id = get_current_user_id();
+    }
+    $value = $_POST['dob'];
+//    $result = wp_update_user( [
+//       'ID'       => $user_id,
+//       'is_verified' => $value
+//    ] );
+
+    $result = update_user_meta( $user_id, 'dob', $value );
+
+    // Получим значение поля и проверим его с новым значением $new_value
+    if ( get_user_meta($user_id, 'dob', true ) != $value ) {
+        $response =  array(
+            "type"  => "error",
+            "message" => "An error has occurred, perhaps such a user does not exist.",
+        );
+        echo json_encode($response);
+        wp_die();
+
+    } else {
+        $response =  array(
+            "type"  => "success",
+            "message" => "Agreeing completed successfully.",
+        );
+        echo json_encode($response);
+        wp_die();
+    }
+}// store DOB using cloudcheck form
+add_action('wp_ajax_cloudcheck_dob_verification', 'cloudcheck_dob_verification');
+add_action( 'wp_ajax_nopriv_cloudcheck_dob_verification', 'cloudcheck_dob_verification' ); // For anonymous users

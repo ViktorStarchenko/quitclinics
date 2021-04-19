@@ -140,6 +140,49 @@
         // au_nz_verification(requestJson)
     }); //cloudcheckForm submit
 
+
+    // Global DOB
+    function global_dob(data) {
+        console.log(data)
+        var fd = new FormData();
+        let dob = data;
+        fd.append('dob',dob);
+        fd.append('action','cloudcheck_dob_verification');
+
+        $.ajax({
+            url: "/wp/wp-admin/admin-ajax.php",
+            type: "POST",
+            dataType: "JSON",
+            data: fd,
+            contentType: false,
+            processData: false,
+            cache: false,
+            success: function(data) {
+                console.log(data.type)
+                // showAlert(data.type, "<p><strong>"+ data.message +"</strong></p>");
+                if(data.type == 'success') {
+                    console.log('DOB success')
+                } else {
+                    console.log('DOB success')
+                }
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                console.log(xhr.status);
+                console.log(xhr.statusText);
+                console.log(xhr.responseText);
+                console.log(thrownError);
+                console.log(ajaxOptions);
+                // showAlert("error", "<p><strong>"+ xhr.responseText +"</strong></p>");
+                if ( xhr.responseText == 'success0') {
+                    console.log('DOB success')
+                } else {
+                    console.log('DOB success')
+                }
+            },
+        });
+    }// Global DOB
+
+
     // Agreement checkox
     function global_agreement() {
         var fd = new FormData();
@@ -239,6 +282,7 @@
                     $('.checkout-wrapper').addClass('ready')
                     showAlert("success", "<p><strong>Verification completed successfully.</strong></p>");
                     global_verification()
+                    global_dob(data.verification.details['dateofbirth'])
                 } else {
                     showAlert("error", "<p><strong>Some of the required data was not received or was received incorrectly. Please fill in the fields and try again.</strong></p>");
                     showModal()

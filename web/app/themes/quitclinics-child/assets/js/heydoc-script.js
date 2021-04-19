@@ -44,6 +44,50 @@ $("#country").countrySelect({
     responsiveDropdown: true
 });
 var submit_cancel = true;
+
+
+// Global DOB
+function global_dob(data) {
+    var fd = new FormData();
+    let dob = data;
+    fd.append('dob',dob);
+    fd.append('action','cloudcheck_dob_verification');
+
+    $.ajax({
+        url: "/wp/wp-admin/admin-ajax.php",
+        type: "POST",
+        dataType: "JSON",
+        data: fd,
+        contentType: false,
+        processData: false,
+        cache: false,
+        success: function(data) {
+            console.log(data.type)
+            // showAlert(data.type, "<p><strong>"+ data.message +"</strong></p>");
+            if(data.type == 'success') {
+                console.log('DOB success')
+            } else {
+                console.log('DOB fail')
+            }
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+            console.log(xhr.status);
+            console.log(xhr.statusText);
+            console.log(xhr.responseText);
+            console.log(thrownError);
+            console.log(ajaxOptions);
+            // showAlert("error", "<p><strong>"+ xhr.responseText +"</strong></p>");
+            if ( xhr.responseText == 'success0') {
+                console.log('DOB success')
+            } else {
+                console.log('DOB fail')
+            }
+        },
+    });
+}// Global DOB
+
+
+
 // Validate Radio
 function validateRadio(data) {
     $('input[name="'+data+'"]').closest('.qc-form-group').removeClass('is-invalid')
@@ -130,19 +174,6 @@ $(".questionnaire-form").submit(function(event) {
 
     validateText()
 
-    // for (const [key, value] of Object.entries($data)) {
-    //     var nam = `${key}`
-    //     var val = `${value}`
-    //     if (val == '' && val.length <= 0 || nam.length <= 0) {
-    //         let name = `${key}`
-    //         submit_cancel = false;
-    //         $('.form-request-item [name="'+nam+'"]').parent().addClass('is-invalid')
-    //     } else {
-    //         submit_cancel = true;
-    //         $('.form-request-item [name="'+nam+'"]').parent().removeClass('is-invalid')
-    //     }
-    // }
-
     // Add dob
     $('.form-input-dob').each(function() {
         if($(this).val() == '' && $(this).val().length <= 0) {
@@ -208,7 +239,7 @@ $(".questionnaire-form").submit(function(event) {
                 } else if(xhr.responseText.status == 400) {
                     showAlert("error", "<strong>Some of the fields were not filled. Please fill in all fields or contact the site support.</strong>");
                 } else if (xhr.responseText.status == undefined || xhr.responseText.status == '') {
-                    // showAlert("success", "<strong>It seems there are no errors on our part</strong>");
+                    // global_dob($data['dob']);
                     setTimeout( 'location="/cart/?add-to-cart=738";', 100 );
                 }
                 // console.log(xhr.status);

@@ -3,6 +3,10 @@
 <head>
     <meta charset="<?php bloginfo( 'charset' ); ?>" />
     <meta name="viewport" content="width=device-width" />
+    <link rel="preload" href="/app/themes/quitclinics-child/assets/fonts/DM_Sans/DMSans-Medium.ttf">
+    <link rel="preload" href="/app/themes/quitclinics-child/assets/fonts/DM_Sans/DMSans-Bold.ttf">
+    <link rel="preload" href="/app/themes/quitclinics-child/assets/fonts/DM_Sans/DMSans-Regular.ttf">
+    <link rel="preload" href="/app/plugins/easy-accordion-free/public/assets/fonts/fontawesome-webfont.woff2">
     <?php wp_head(); ?>
     <script>
 
