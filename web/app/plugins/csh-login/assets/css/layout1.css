@@ -21,7 +21,8 @@
     padding: 7px 12px !important;
     width: 100%;
 }
-.login_dialog input[type=submit] {
+.login_dialog input[type=submit],
+.login_dialog .btn-body {
     display: block;
     cursor: pointer;
     margin: 10px 0px 15px 0px;

@@ -50,7 +50,7 @@ function cshlg_add_login_form() {
 
                 <input type="password" name="pass_user" id="pass_user" placeholder="<?php _e('Password'); ?>"/>
                 <label for="rememberme" id="lb_rememberme"><input name="rememberme" type="checkbox" id="rememberme" value="forever"  /> Remember Me</label>
-                <input type="submit" name="login_submit" value="<?php _e('LOGIN'); ?>" class="login_submit btn-body btn-white" />
+                <button type="submit" name="login_submit" value="" class="login_submit btn-body btn-white" ><?php _e('LOGIN'); ?></button>
 
             </form>
 
@@ -77,7 +77,7 @@ function cshlg_add_login_form() {
                     <input type="password" name="confirm_pass" id="confirm_pass" value="" placeholder="Password">
                 </div>
 
-                <input type="submit" name="register_submit" id="register_submit" value="REGISTER" class="btn-body btn-white" />
+                <button type="submit" name="register_submit" id="register_submit" value="" class="btn-body btn-white" >REGISTER</button>
             </form>
 
             <form class="lost_pwd_form" action="<?php echo home_url(); ?>" method="post">
@@ -87,7 +87,7 @@ function cshlg_add_login_form() {
                 <label for="lost_pwd_user_email">Username or Email Adress</label>
                 <?php endif ?>
                 <input type="text" name="lost_pwd_user_email" id="lost_pwd_user_email" placeholder="Username or Email Adress">
-                <input type="submit" name="lost_pwd_submit" id="lost_pwd_submit" value="GET NEW PASSWORD" class="btn-body btn-white">
+                <button type="submit" name="lost_pwd_submit" id="lost_pwd_submit" value="" class="btn-body btn-white">GET NEW PASSWORD</button>
             </form>
 
             <div class="pass_and_register" id="pass_and_register">

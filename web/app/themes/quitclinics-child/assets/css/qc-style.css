@@ -71,7 +71,7 @@
     --wrapper-904: 904px;
     --wrapper-1024: 1024px;
 }
-@media screen and (max-width: 1360px) {
+@media screen and (max-width: 1400px) {
     :root {
         --wrapper-1360: 1240px;
     }
@@ -410,6 +410,10 @@ input[type="submit"].btn-white:hover {
 
 .btn-body.spinwheel {
     position: relative;
+    background: transparent;
+    color: transparent;
+    box-shadow: none;
+    transition-duration: 0s;
 }
 
 .btn-body.spinwheel::before {
@@ -421,7 +425,7 @@ input[type="submit"].btn-white:hover {
     background: white;
     border-radius: 0.3em;
     content: '';
-    background: #fff url('/app/themes/quitclinics-child/assets/images/icons/5828e713ff9965d1-large-ajaxloader-gif.gif') center no-repeat;
+    background: transparent url('/app/themes/quitclinics-child/assets/images/icons/5828e713ff9965d1-large-ajaxloader-gif.gif') center no-repeat;
     background-size: contain;
 }
 /******************************* FORM STYLES ***********************/

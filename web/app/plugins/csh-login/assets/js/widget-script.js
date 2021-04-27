@@ -289,7 +289,12 @@ jQuery(document).ready(function($) {
                     'rememberme': rememberme,
                 },
                 url: jsPassData.ajax_url,
+                beforeSend: function(){
+                    // showAlert("warning", "<strong>Sending a request.</strong>");
+                    $('.login_submit').addClass('spinwheel')
+                },
                 success: function(data) {
+                    $('.login_submit').removeClass('spinwheel')
                     if (data.login_status == "OK") {
                         arlet_string = 'Login Successfull! ';
                         $(".alert_status").val(arlet_string);
@@ -355,7 +360,12 @@ jQuery(document).ready(function($) {
                     'g-recaptcha-response': dataObj['g-recaptcha-response'],
                 },
                 url: jsPassData.ajax_url,
+                beforeSend: function(){
+                    // showAlert("warning", "<strong>Sending a request.</strong>");
+                    $('#register_submit').addClass('spinwheel')
+                },
                 success: function(data) {
+                    $('#register_submit').removeClass('spinwheel')
                     if (data.captcha == 'INCORRECT') {
                         arlet_string = 'Captcha is required!';
                         $(".alert_status").val(arlet_string);
@@ -420,7 +430,12 @@ jQuery(document).ready(function($) {
                     'lost_pwd_user_email': lost_pwd_user_email,
                 },
                 url: jsPassData.ajax_url,
+                beforeSend: function(){
+                    // showAlert("warning", "<strong>Sending a request.</strong>");
+                    $('#lost_pwd_submit').addClass('spinwheel');
+                },
                 success: function(data) {
+                    $('#lost_pwd_submit').removeClass('spinwheel');
                     if (data.lost_pwd_status == "OK") {
                         arlet_string = 'Check your email for a link to reset your password. ';
                         $(".alert_status").val(arlet_string);
