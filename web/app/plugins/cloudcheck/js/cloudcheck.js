@@ -275,7 +275,12 @@
                 'path': '/verify/'
             },
             cache: false,
+            beforeSend: function(){
+                // showAlert("warning", "<strong>Sending a request.</strong>");
+                $('.btnSubmit').addClass('spinwheel');
+            },
             success: function(data) {
+                $('.btnSubmit').removeClass('spinwheel');
                 console.log(data)
                 if (data.verification.validated['dateofbirth'] == true && data.verification.validated['name'] == true) {
                     console.log('all true')
@@ -297,6 +302,7 @@
 
             },
             error: function() {
+                $('.btnSubmit').removeClass('spinwheel');
                 // Fail message
                 showAlert("error", "<strong>It seems that Cloudcheck service is not responding. Please try again later</strong>");
                 // Enable button
@@ -343,7 +349,12 @@
             contentType: false,
             processData: false,
             cache: false,
+            beforeSend: function(){
+                // showAlert("warning", "<strong>Sending a request.</strong>");
+                $('.btnSubmit').addClass('spinwheel');
+            },
             success: function(data) {
+                $('.btnSubmit').removeClass('spinwheel');
                 console.log("Cloudcheck response: " + JSON.stringify(data));
                 // console.log("Cloudcheck response: " + data);
                 if (JSON.stringify(data.notes)) {
@@ -364,6 +375,7 @@
                 }
             },
             error: function() {
+                $('.btnSubmit').removeClass('spinwheel');
                 // Fail message
                 showAlert("error", "<strong>It seems that Cloudcheck service is not responding.</strong>");
             },
