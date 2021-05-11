@@ -6,7 +6,7 @@
             <img src="<?php echo get_sub_field('section_attributes')['background_image']['url']; ?>" alt="<?php echo get_sub_field('section_attributes')['background_image']['title']; ?>">
         </div>
         <div class="row wrapper-1240">
-            <div class="abs-full-width banner__inner wrapper-1240">
+            <div class="abs-full-width banner__inner">
 
                 <?php if(get_sub_field('content')) : ?>
                     <div class="content__18px">
