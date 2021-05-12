@@ -9,9 +9,19 @@
     letter-spacing: 0.3px;
     color: var(--color-blue);
 }
+.calculator .text-right__inner {
+    padding: 80px 60px 30px;
+}
+.calculator .content__18px {
+    margin-bottom: 45px;
+}
 .calculator__subscription {
     margin-bottom: 20px;
 }
+.calculator__box {
+    position: relative;
+}
+
 .calculator__input {
     width: 100%;
     color: var(--color-blue);
@@ -26,29 +36,72 @@
     line-height: 1.29;
     letter-spacing: 0.37px;
 
-    margin-bottom: 30px;
+    margin-bottom: 45px;
 }
 .calculator__result-text {
-    margin-bottom: 10px;
+    margin-bottom: 20px;
+}
+.calculator__result-prices {
+    display: flex;
+    justify-content: space-between;
 }
 .calculator__result-price {
-    font-size: 40px;
+    font-size: 23px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 0.78;
+    letter-spacing: 0.15px;
+    color: var(--color-blue);
+    flex-basis: 33.33%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-top: 20px;
+    border-top: solid 1px #e8e8e8;
+}
+.calculator__result-price:not(:last-child) {
+    border-right: solid 1px #e8e8e8;
+}
+.economy-text {
+    margin: 20px 7px 0 8px;
+    font-family: DMSans;
+    font-size: 12px;
     font-weight: bold;
     font-stretch: normal;
     font-style: normal;
     line-height: 1;
-    letter-spacing: 0.15px;
-    color: var(--color-blue);
+    letter-spacing: 0.04px;
+    text-align: center;
+    color: #8c8c8c;
+    flex-basis: 100%;
 }
-
+@media (max-width: 991px) {
+    .calculator .text-right__inner {
+        padding: 45px 20px 30px;
+    }
+}
 @media screen and (max-width: 767px) {
     .calculator__subscription {
         margin-bottom: 10px;
     }
-    .calculator__input {
+    .calculator .content__18px {
         margin-bottom: 20px;
     }
+    .calculator__input {
+        margin-bottom: 30px;
+    }
+    .calculator .text-right__inner {
+        max-width: 100%;
+        padding: 45px 0;
+    }
+    .calculator__result-text {
+        margin-bottom: 15px;
+    }
     .calculator__result-price {
-        font-size: 32px;
+        padding-top: 15px;
+    }
+    .economy-text {
+        margin: 15px 7px 0 8px;
     }
 }

@@ -53,6 +53,11 @@
 .bg-img-text-right .content__18px img {
     max-width: unset;
 }
+@media (max-width: 991px) {
+    .text-right__inner {
+        padding: 45px 20px 45px;
+    }
+}
 @media screen and (max-width: 767px) {
     .bg-img-text-right {
         padding-top: 0;

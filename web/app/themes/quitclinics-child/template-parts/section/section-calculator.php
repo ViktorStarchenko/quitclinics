@@ -26,15 +26,18 @@
             <p><?php echo get_sub_field('enable_calculator')['result_text']; ?></p>
         </div>
         <?php endif ?>
-        <div class="calculator__result-price">
-            <?php if( get_sub_field('enable_calculator')['resultt_currency'] ): ?><span class="calculator__result-currency"><?php echo get_sub_field('enable_calculator')['resultt_currency']; ?></span><?php endif ?><span class="economy_day"></span><span> PER DAY</span>
+        <div class="calculator__result-prices">
+            <div class="calculator__result-price">
+                <?php if( get_sub_field('enable_calculator')['resultt_currency'] ): ?><span class="calculator__result-currency"><?php echo get_sub_field('enable_calculator')['resultt_currency']; ?></span><?php endif ?><span class="economy_day"></span><span class="economy-text"> PER DAY</span>
+            </div>
+            <div class="calculator__result-price">
+                <?php if( get_sub_field('enable_calculator')['resultt_currency'] ): ?><span class="calculator__result-currency"><?php echo get_sub_field('enable_calculator')['resultt_currency']; ?></span><?php endif ?><span class="economy_week"></span><span class="economy-text"> PER WEEK</span>
+            </div>
+            <div class="calculator__result-price">
+                <?php if( get_sub_field('enable_calculator')['resultt_currency'] ): ?><span class="calculator__result-currency"><?php echo get_sub_field('enable_calculator')['resultt_currency']; ?></span><?php endif ?><span class="economy_year"></span><span class="economy-text"> PER YEAR</span>
+            </div>
         </div>
-        <div class="calculator__result-price">
-            <?php if( get_sub_field('enable_calculator')['resultt_currency'] ): ?><span class="calculator__result-currency"><?php echo get_sub_field('enable_calculator')['resultt_currency']; ?></span><?php endif ?><span class="economy_week"></span><span> PER WEEK</span>
-        </div>
-        <div class="calculator__result-price">
-            <?php if( get_sub_field('enable_calculator')['resultt_currency'] ): ?><span class="calculator__result-currency"><?php echo get_sub_field('enable_calculator')['resultt_currency']; ?></span><?php endif ?><span class="economy_year"></span><span> PER YEAR</span>
-        </div>
+
     </div>
 
 </div>
