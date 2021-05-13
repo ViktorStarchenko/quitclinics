@@ -48,10 +48,22 @@
 }
 .latest-post__content {
     margin-bottom: 15px;
+    font-family: DMSans;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.5;
+    letter-spacing: 0.32px;
+    color: #8c8c8c;
 }
 
 .bg-img-text-right .content__18px img {
     max-width: unset;
+}
+
+.medically-treatment .content__18px img {
+    margin: 30px 30px 0;
 }
 @media (max-width: 991px) {
     .text-right__inner {
@@ -73,6 +85,17 @@
     .text-right__inner {
         max-width: 100%;
         padding: 45px 0;
+    }
+    .medically-treatment .content__18px img {
+        max-width: 204px;
+        margin: 15px 0 0;
+    }
+    .medically-treatment .content__18px {
+        margin-bottom: 25px;
+    }
+    .medically-treatment .text-right__inner {
+        max-width: 100%;
+        padding: 45px 0 0;
     }
     .latest-post__list {
         padding: 0 0 0 20px;

@@ -29,4 +29,7 @@
         max-width: 320px;
         height: auto;
     }
+    .online-prescription .text-left__item .content__18px {
+        text-align: center;
+    }
 }

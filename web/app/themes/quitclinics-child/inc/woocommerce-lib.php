@@ -269,3 +269,18 @@ add_action('woocommerce_email_order_code', 'qclinics_email_order_code', 5);
 
 
 add_filter( 'wcs_allow_synced_product_early_renewal', '__return_true', 10 );
+
+
+//Remove migni
+/**
+ * @snippet       WooCommerce: Disable Zoom, Lightbox and Product Gallery Slider @ Single Product Page
+ * @author        Sandesh Jangam
+ * @donate $7     https://www.paypal.me/SandeshJangam/7
+ */
+
+
+add_filter('woocommerce_single_product_image_thumbnail_html','wc_remove_link_on_thumbnails' );
+
+function wc_remove_link_on_thumbnails( $html ) {
+    return strip_tags( $html,'<img>' );
+}

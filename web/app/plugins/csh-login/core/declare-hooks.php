@@ -40,17 +40,17 @@ function cshlg_add_login_form() {
                 <h2>Login</h2>
                 <input type="text" class="alert_status" readonly>
                 <?php if ($display_labels == 'Labels'): ?>
-                    <label for="login_user"> <?php _e('Username'); ?></label>
+                    <label for="login_user"> <?php _e('Email Address'); ?></label>
                 <?php endif ?>
                 
-                <input type="text" name="login_user" id="login_user" placeholder="<?php _e('Username'); ?>"/>
+                <input type="text" name="login_user" id="login_user" placeholder="<?php _e('Email Address'); ?>"/>
                 <?php if ($display_labels == 'Labels'): ?>
                     <label for="pass_user"> <?php _e('Password'); ?> </label>
                 <?php endif ?>
 
                 <input type="password" name="pass_user" id="pass_user" placeholder="<?php _e('Password'); ?>"/>
                 <label for="rememberme" id="lb_rememberme"><input name="rememberme" type="checkbox" id="rememberme" value="forever"  /> Remember Me</label>
-                <button type="submit" name="login_submit" value="" class="login_submit btn-body btn-white" ><?php _e('LOGIN'); ?></button>
+                <button type="submit" name="login_submit" value="" class="login_submit btn-body btn-white" ><?php _e('Sign in'); ?></button>
 
             </form>
 
@@ -63,9 +63,9 @@ function cshlg_add_login_form() {
                 <?php endif ?>
                 <input type="text" name="register_user" id="register_user" value="" placeholder="Username">
                 <?php if ($display_labels == 'Labels'): ?>
-                <label for="register_email">E-mail</label>
+                <label for="register_email">Email Address</label>
                 <?php endif ?>
-                <input type="email" name="register_email" id="register_email" value="" placeholder="E-mail">
+                <input type="email" name="register_email" id="register_email" value="" placeholder="Email Address">
                 <div id="allow_pass">
                     <?php if ($display_labels == 'Labels'): ?>
                     <label for="register_pass">Password</label>
@@ -77,7 +77,7 @@ function cshlg_add_login_form() {
                     <input type="password" name="confirm_pass" id="confirm_pass" value="" placeholder="Password">
                 </div>
 
-                <button type="submit" name="register_submit" id="register_submit" value="" class="btn-body btn-white" >REGISTER</button>
+                <button type="submit" name="register_submit" id="register_submit" value="" class="btn-body btn-white" >Register</button>
             </form>
 
             <form class="lost_pwd_form" action="<?php echo home_url(); ?>" method="post">
@@ -87,7 +87,7 @@ function cshlg_add_login_form() {
                 <label for="lost_pwd_user_email">Username or Email Adress</label>
                 <?php endif ?>
                 <input type="text" name="lost_pwd_user_email" id="lost_pwd_user_email" placeholder="Username or Email Adress">
-                <button type="submit" name="lost_pwd_submit" id="lost_pwd_submit" value="" class="btn-body btn-white">GET NEW PASSWORD</button>
+                <button type="submit" name="lost_pwd_submit" id="lost_pwd_submit" value="" class="btn-body btn-white">Get New Password</button>
             </form>
 
             <div class="pass_and_register" id="pass_and_register">

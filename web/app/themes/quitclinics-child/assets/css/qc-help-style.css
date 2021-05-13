@@ -98,6 +98,10 @@
 .icons_slider .slider-arrow-prev, .slider-arrow-prev {
     left: 0;
 }
+
+.block-review .content__18px {
+    display: none;
+}
 @media screen and (max-width: 1240px) {
     .three-icons__wrapper {
         margin: 0 -10px;
@@ -143,5 +147,8 @@
     }
     .three-icons .content__18px {
         margin-bottom: 30px;
+    }
+    .block-review .content__18px {
+        display: block;
     }
 }

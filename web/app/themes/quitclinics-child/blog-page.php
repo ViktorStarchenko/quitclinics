@@ -89,7 +89,7 @@
                         </a>
                     </p>
 					<h6><a href="<?php the_permalink() ?>" rel="bookmark"><?php the_title(); ?></a></h6>
-					<p class="post-slider-excerpt"><?php the_excerpt(); ?></p>
+					<div class="post-slider-excerpt"><?php the_excerpt(); ?></div>
 				</div>
 				<?php endwhile; ?>
 				<?php wp_reset_query(); ?>
