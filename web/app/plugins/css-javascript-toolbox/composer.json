@@ -1,9 +1,0 @@
-{
-	"name" : "css-javascript-toolbox/css-javascript-toolbox",
-	"description" : "CSS & JavaScript Toolbox Plugin",
-	"autoload" : {
-		"classmap" : [
-			"framework/"
-		]
-	}
-}
