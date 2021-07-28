@@ -25,11 +25,15 @@
 				if( have_rows('post_header') ):
     			while ( have_rows('post_header') ) : the_row();
         		$bg_color = get_sub_field('post_header_background');
+        		$heading_block = get_sub_field('post_header_content_heading');
         		$text_block = get_sub_field('post_header_content_editor');?>
 			<div class="post-banner-content-block post-banner-block" style="background-color: <?php echo $bg_color ?> ">
 				<div class="post-banner-content-wrapper">
 					<div class="post-banner-content">
+                        <h2 class="title-h1"><?php echo $heading_block ?></h2>
+                        <?php if ($text_block) : ?>
 						<?php echo $text_block ?>
+                        <?php endif ?>
 						<div class="blog-button-top-wrapper">
 							<a href="<?php the_permalink() ?>" class="btn-body btn-white">Read more</a>
 						</div>
@@ -53,16 +57,24 @@
             </div>
         </div>
     </section>
-    <section class="section-breadcrumbs">
+
+    <section>
         <div class="row wrapper-1240">
-        	
+            <?php if(get_field('blog_page_heading_h1')) : ?>
+
+            <div class="blog-title">
+                <h1 class="title-h3">
+                    <?php echo get_field('blog_page_heading_h1') ?>
+                </h1>
+            </div>
+            <?php endif ?>
         </div>
+
     </section>
+
     <section class="post-slider-section blog-posts-section">
 		<div class="row wrapper-1240 post-slider-wrapper">
 			<div class="post-slider">
-                <!--            $query = new WP_Query('cat=2&posts_per_page=3&paged=' . $paged);-->
-                <!--            $query = new WP_Query('cat=2&posts_per_page='.$count_items.'&paged=' . $paged);-->
 				<?php
                 $paged = get_query_var('paged') ? get_query_var('paged') : 1;//Получаем текущую страницу
                 $count_items = 3;//кол-во выводимых элементов
@@ -134,7 +146,7 @@
         <?php endwhile; // end have_rows while ?>
 
     <?php endif; // end have_rows if ?>
-    
+
 
 
 </main>

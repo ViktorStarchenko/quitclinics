@@ -6,11 +6,17 @@
 				if( have_rows('post_header') ):
     			while ( have_rows('post_header') ) : the_row();
         		$bg_color = get_sub_field('post_header_background');
+        		$heading_block = get_sub_field('post_header_content_heading');
         		$text_block = get_sub_field('post_header_content_editor');?>
 			<div class="post-banner-content-block post-banner-block" style="background-color: <?php echo $bg_color ?> ">
 				<div class="post-banner-content-wrapper">
 					<div class="post-banner-content">
+                        <?php if ($heading_block) : ?>
+                        <h1> <?php echo $heading_block ?></h1>
+                        <?php endif ?>
+                        <?php if ($text_block) : ?>
 						<?php echo $text_block ?>
+                        <?php endif ?>
 					</div>					
 				</div>
 			</div>			

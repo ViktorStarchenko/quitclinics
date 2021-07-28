@@ -376,7 +376,11 @@ p.post-slider-excerpt {
 }
 
 
-
+/*Blog page title*/
+.blog-title {
+    margin-top: 25px;
+    color: var(--color-blue);
+}
 
 @media screen and (max-width: 1360px) {
 .post-slider-section .post-slider-wrapper .slick-prev.slick-arrow {
@@ -539,7 +543,8 @@ p.post-slider-excerpt {
 		line-height: 2;
 		font-weight: 500;
 	}
-	.post-banner-section h1 {
+	.post-banner-section h1,
+    .post-banner-section .title-h1 {
 		font-family: DMSans;
 		font-size: 23px;
 		font-weight: bold;
@@ -566,6 +571,9 @@ p.post-slider-excerpt {
 		text-align: center;
 		color: #332ce6;
 	}
+    .blog-title {
+        text-align: center;
+    }
 }
 @media screen and (max-width: 580px) {
 .blog-posts-section .post-slider {
