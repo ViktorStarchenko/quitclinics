@@ -46,7 +46,7 @@
     margin: 0;
     padding: 0;
 }
-th, td {
+.single-blog th, .single-blog td {
     border: 1px solid black;
     border-collapse: collapse;
     padding: 5px;
