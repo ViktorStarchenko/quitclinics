@@ -13,6 +13,7 @@
 @import "heydoc-style.css";
 @import "messages-style.css";
 @import "modal-style.css";
+@import "page-404-style.css";
 
 
 /************************ FONTS **************************/
@@ -120,6 +121,7 @@ a {
 button:focus, input:focus {
     outline: none;
 }
+
 /********************** TEXT STYLES ***********************/
 h1, .title-h1,
 h2, .title-h2,
