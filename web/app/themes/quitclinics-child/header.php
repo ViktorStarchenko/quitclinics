@@ -8,6 +8,25 @@
     <link rel="preload" href="/app/themes/quitclinics-child/assets/fonts/DM_Sans/DMSans-Regular.ttf">
     <link rel="preload" href="/app/plugins/easy-accordion-free/public/assets/fonts/fontawesome-webfont.woff2">
     <?php wp_head(); ?>
+    <?php
+    if ( is_front_page() ) : ?>
+        <script>
+            console.log('Structured Data - Organizational Markup')
+        </script>
+        <script type="application/ld+json">
+            {
+                "@context": "http://schema.org",
+                "@type": "Organization",
+                "name": "Quit Clinics",
+                "url": "https://www.quitclinics.com/",
+                "logo": "https://www.quitclinics.com/app/webp-express/webp-images/doc-root/app/uploads/2020/12/logo-client-logo.png.webp",
+                "description": "Get a Nicotine Vaping prescription within 24 Hours! Our doctors are authorised to provide prescriptions. Quit Clinics can help you quit smoking for good.",
+                "email": "support@quitclinics.com"
+            }
+        </script>
+    <?php
+    endif;
+    ?>
     <script>
 
         function addScript(src){
