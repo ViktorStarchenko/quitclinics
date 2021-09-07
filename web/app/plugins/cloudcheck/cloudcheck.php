@@ -86,7 +86,29 @@ if (!class_exists('WP_Cloudcheck_Int')) {
             add_action('wp_ajax_cloudcheck_send_request_ss', array( $this,'cloudcheck_send_request_ss'));
             add_action('wp_ajax_cloudcheck_send_email', array( $this,'send_pdf_by_email'));
 			add_action('init', 'cloudcheck_shortcodes_init');
+			add_action('wp_enqueue_scripts', array( $this,'cloudcheck_load_assets'));
 		}
+
+		function cloudcheck_load_assets () {
+//		    echo '<script type="text/javascript" src="/app/plugins/cloudcheck/js/jquery-3.5.1.min.js"></script>';
+//            echo '<script type="text/javascript" src="/app/plugins/cloudcheck/js/datepicker.min.js"></script>';
+//            echo '<script type="text/javascript" src="/app/plugins/cloudcheck/js/dobpicker.js"></script>';
+//            echo '<script type="text/javascript" src="/app/plugins/cloudcheck/js/cloudcheck.js"></script>';
+//            wp_enqueue_style( 'swiper', get_theme_file_uri( '/asssets/css/swiper-bundle.min.css' ));
+//        swiper slider scripts
+
+            if( is_page( array( 'checkout' ))) {
+                var_dump('checkout');
+
+                wp_enqueue_script( 'cloudcheck-jquery', plugin_dir_url(__FILE__).'js/jquery-3.5.1.min.js' , array(), '1', true );
+                wp_enqueue_script( 'datepicker', plugin_dir_url(__FILE__).'/js/datepicker.min.js' , array('jquery'), '1', true );
+                wp_enqueue_script( 'dobpicker', plugin_dir_url(__FILE__).'/js/dobpicker.js' , array('jquery'), '1', true );
+                wp_enqueue_script( 'cloudcheck', plugin_dir_url(__FILE__).'/js/cloudcheck.js' , array('jquery'), '1', true );
+            } else {
+                var_dump('not checkout');
+            }
+
+        }
 
 
         /**

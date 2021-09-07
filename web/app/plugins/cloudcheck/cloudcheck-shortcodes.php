@@ -34,10 +34,7 @@ function cloudcheck_shortcodes_init()
                
             </section>
             <!-- <script type="text/javascript" src="/app/plugins/cloudcheck/js/bootstrap.min.js"></script> -->
-		    <script type="text/javascript" src="/app/plugins/cloudcheck/js/jquery-3.5.1.min.js"></script>
-            <script type="text/javascript" src="/app/plugins/cloudcheck/js/datepicker.min.js"></script>
-            <script type="text/javascript" src="/app/plugins/cloudcheck/js/dobpicker.js"></script>
-            <script type="text/javascript" src="/app/plugins/cloudcheck/js/cloudcheck.js"></script>';
+		    ';
         return $form;
     }
     add_shortcode('cloudcheck_main_form', 'cloudcheck_main_form_shortcode');

@@ -1,5 +1,7 @@
-(function($) {
 
+
+(function($) {
+    console.log('1')
     $(".cloudcheckForm").submit(function(event) {
         console.log($(this))
         closeAlert()
@@ -126,7 +128,7 @@
 
 
         let is_agreed = $('input[name="is_agreed"]:checked').val();
-        console.log(is_agreed)
+        // console.log(is_agreed)
         if (is_agreed == 'is_agreed') {
             console.log('Да, отмечено')
             if ($(this).find("input#file").val() ) {
@@ -143,7 +145,7 @@
 
     // Global DOB
     function global_dob(data) {
-        console.log(data)
+        // console.log(data)
         var fd = new FormData();
         let dob = data;
         fd.append('dob',dob);
@@ -158,25 +160,25 @@
             processData: false,
             cache: false,
             success: function(data) {
-                console.log(data.type)
+                // console.log(data.type)
                 // showAlert(data.type, "<p><strong>"+ data.message +"</strong></p>");
                 if(data.type == 'success') {
-                    console.log('DOB success')
+                    // console.log('DOB success')
                 } else {
-                    console.log('DOB success')
+                    // console.log('DOB success')
                 }
             },
             error: function(xhr, ajaxOptions, thrownError) {
-                console.log(xhr.status);
-                console.log(xhr.statusText);
-                console.log(xhr.responseText);
-                console.log(thrownError);
-                console.log(ajaxOptions);
+                // console.log(xhr.status);
+                // console.log(xhr.statusText);
+                // console.log(xhr.responseText);
+                // console.log(thrownError);
+                // console.log(ajaxOptions);
                 // showAlert("error", "<p><strong>"+ xhr.responseText +"</strong></p>");
                 if ( xhr.responseText == 'success0') {
-                    console.log('DOB success')
+                    // console.log('DOB success')
                 } else {
-                    console.log('DOB success')
+                    // console.log('DOB success')
                 }
             },
         });
@@ -188,7 +190,7 @@
         var fd = new FormData();
         let is_agreed = $('input[name="is_agreed"]:checked').val();
         var user_id = $('#user_id').val();
-        console.log($('#user_id').val())
+        // console.log($('#user_id').val())
         var fd = new FormData();
         if(user_id) {
             fd.append('user_id',user_id);
@@ -208,22 +210,22 @@
             processData: false,
             cache: false,
             success: function(data) {
-                console.log(data.type)
+                // console.log(data.type)
                 showAlert(data.type, "<p><strong>"+ data.message +"</strong></p>");
                 if(data.type == 'success') {
                     $('.checkout-wrapper').addClass('ready')
-                    console.log('entry made')
+                    // console.log('entry made')
                 }
             },
             error: function(xhr, ajaxOptions, thrownError) {
-                console.log(xhr.status);
-                console.log(xhr.statusText);
-                console.log(xhr.responseText);
-                console.log(thrownError);
-                console.log(ajaxOptions);
-                showAlert("error", "<p><strong>"+ xhr.responseText +"</strong></p>");
+                // console.log(xhr.status);
+                // console.log(xhr.statusText);
+                // console.log(xhr.responseText);
+                // console.log(thrownError);
+                // console.log(ajaxOptions);
+                // showAlert("error", "<p><strong>"+ xhr.responseText +"</strong></p>");
                 if ( xhr.responseText == 'success0') {
-                    console.log('agreement was successful')
+                    // console.log('agreement was successful')
                 } else {
 
                 }
@@ -235,7 +237,7 @@
     // Global verification
     function global_verification() {
         var user_id = $('#user_id').val();
-        console.log($('#user_id').val())
+        // console.log($('#user_id').val())
         var fd = new FormData();
         if(user_id) {
             fd.append('user_id',user_id);
@@ -252,12 +254,12 @@
             processData: false,
             cache: false,
             success: function(data) {
-                console.log(data)
+                // console.log(data)
             },
             error: function(xhr, ajaxOptions, thrownError) {
-                console.log(xhr.status);
-                console.log(xhr.statusText);
-                console.log(xhr.responseText);
+                // console.log(xhr.status);
+                // console.log(xhr.statusText);
+                // console.log(xhr.responseText);
                 showAlert("success", "<p><strong>"+ xhr.responseText +"</strong></p>");
                 global_agreement()
             },
@@ -265,6 +267,7 @@
     }// Global verification
 
     function au_nz_verification(requestJson){
+        console.log('форма ау нз')
         $.ajax({
             url: "/wp/wp-admin/admin-ajax.php",
             type: "POST",
@@ -281,9 +284,9 @@
             },
             success: function(data) {
                 $('.btnSubmit').removeClass('spinwheel');
-                console.log(data)
+                // console.log(data)
                 if (data.verification.validated['dateofbirth'] == true && data.verification.validated['name'] == true) {
-                    console.log('all true')
+                    // console.log('all true')
                     $('.checkout-wrapper').addClass('ready')
                     showAlert("success", "<p><strong>Verification completed successfully.</strong></p>");
                     global_verification()
@@ -322,7 +325,7 @@
         var files = $('#file')[0].files;
 
 
-        console.log(fd)
+        // console.log(fd)
 
         var tt = JSON.parse(JSON.stringify(requestJson))
         // console.log(tt)
@@ -333,7 +336,7 @@
         var data_detail = JSON.parse(JSON.stringify(data_array))
 
         // var file = 'http://c.vsbookcollection.space/wp-content/uploads/2021/02/8.jpg'
-        console.log(data_detail)
+        // console.log(data_detail)
 
         fd.append('file',files[0]);
         fd.append('action','cloudcheck_send_request_ss');
@@ -355,10 +358,10 @@
             },
             success: function(data) {
                 $('.btnSubmit').removeClass('spinwheel');
-                console.log("Cloudcheck response: " + JSON.stringify(data));
+                // console.log("Cloudcheck response: " + JSON.stringify(data));
                 // console.log("Cloudcheck response: " + data);
                 if (JSON.stringify(data.notes)) {
-                    showAlert("error", "<strong>" + JSON.stringify(data.notes) + "</strong>");
+                    // showAlert("error", "<strong>" + JSON.stringify(data.notes) + "</strong>");
                     showModal()
                 } else if (JSON.stringify(data.verification)) {
                     // showAlert("error", "<strong>" + JSON.stringify(data.verification) + "</strong>");
@@ -417,8 +420,8 @@
     } //getPdf
 
     function sendEmail(emailList, filepath) {
-        console.log("Sending email to: " + JSON.stringify(emailList));
-        console.log("Attachment: " + filepath);
+        // console.log("Sending email to: " + JSON.stringify(emailList));
+        // console.log("Attachment: " + filepath);
         $.ajax({
             // url: "/wp-admin/admin-ajax.php",
             url: "/wp/wp-admin/admin-ajax.php",
