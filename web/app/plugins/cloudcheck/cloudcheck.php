@@ -98,14 +98,10 @@ if (!class_exists('WP_Cloudcheck_Int')) {
 //        swiper slider scripts
 
             if( is_page( array( 'checkout' ))) {
-                var_dump('checkout');
-
                 wp_enqueue_script( 'cloudcheck-jquery', plugin_dir_url(__FILE__).'js/jquery-3.5.1.min.js' , array(), '1', true );
                 wp_enqueue_script( 'datepicker', plugin_dir_url(__FILE__).'/js/datepicker.min.js' , array('jquery'), '1', true );
                 wp_enqueue_script( 'dobpicker', plugin_dir_url(__FILE__).'/js/dobpicker.js' , array('jquery'), '1', true );
                 wp_enqueue_script( 'cloudcheck', plugin_dir_url(__FILE__).'/js/cloudcheck.js' , array('jquery'), '1', true );
-            } else {
-                var_dump('not checkout');
             }
 
         }
