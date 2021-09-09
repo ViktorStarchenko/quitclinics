@@ -158,13 +158,21 @@
     background-position: center;
     background-size: cover;	
 }
-.post-banner-content a, .post-banner-content p, .post-banner-content h1, .post-banner-content h2, .post-banner-content h3, .post-banner-content h4, .post-banner-content h5, .post-banner-content h6 {
+.post-banner-content a,
+.post-banner-content p,
+.post-banner-content h1,
+.post-banner-content h2,
+.post-banner-content h3,
+.post-banner-content h4,
+.post-banner-content h5,
+.post-banner-content h6,
+.post-banner-content span {
 	color: white;
 }
-.post-content-wrapper a, .post-content-wrapper h2, .post-content-wrapper h3, .post-content-wrapper h4, .post-content-wrapper h5, .post-content-wrapper h6, .wp-block-pullquote, .wp-block-pullquote p {
+.post-content-wrapper a, .post-content-wrapper h2, .post-content-wrapper h3, .post-content-wrapper h4, .post-content-wrapper h5, .post-content-wrapper h6, .wp-block-pullquote, .wp-block-pullquote p, .post-content-wrapper  .post-slider-title {
 	color: #332ce6;
 }
-.post-content-wrapper h2, .post-content-wrapper h3, .post-content-wrapper h4, .post-content-wrapper h5, .post-content-wrapper h6, .post-banner-content h6, .post-banner-content h5, .post-banner-content h4, .post-banner-content h3, .post-banner-content h2, .post-banner-content h1{
+.post-content-wrapper h2, .post-content-wrapper h3, .post-content-wrapper h4, .post-content-wrapper h5, .post-content-wrapper h6, .post-banner-content h6, .post-banner-content h5, .post-banner-content h4, .post-banner-content h3, .post-banner-content h2, .post-banner-content h1, .post-content-wrapper .post-slider-title {
 	margin: 45px 0 20px;	
 }
 .post-banner-content  p {
@@ -276,15 +284,19 @@
 	line-height: 0.75;
 	letter-spacing: 0.5px;
 }
-.breadcrumbs span a, .post-slider-wrapper h6 a {
+.breadcrumbs span a, .post-slider-wrapper .post-slider-title a {
 	color: #332ce6;
 	text-decoration: unset;
 	line-height: 1.2;
 	margin-bottom: 15px;
 	display: inline-block;
 }
-.post-slider-wrapper h6 {
+.post-slider-wrapper .post-slider-title {
 	min-height: 40px;
+    font-size: 20px;
+    letter-spacing: 0.15px;
+    font-weight: bold;
+    line-height: 1;
 }
 img.breadcrumbs-separator {
     margin-top: 3px;
@@ -555,10 +567,10 @@ p.post-slider-excerpt {
 		text-align: center;
 		color: #ffffff;
 	}
-	.post-slider-wrapper h6 a {
+	.post-slider-wrapper .post-slider-title a {
 		font-size: 16px;
 	}
-	.post-slider-wrapper h6 {
+	.post-slider-wrapper .post-slider-title {
 		min-height: 30px
 	}
 	.post-content-wrapper .wp-block-pullquote blockquote {
