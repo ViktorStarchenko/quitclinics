@@ -103,7 +103,8 @@
                     <div class="post-slider-block">
                         <p>
                             <a href="<?php the_permalink() ?>" rel="bookmark">
-                                <figure><img alt="<?php the_title(); ?>" src="<?php the_post_thumbnail(); ?>
+                                <figure>
+                                    <img alt="<?php the_title(); ?>" src="<?php echo get_the_post_thumbnail_url(get_the_ID()); ?>">
                             </figure>
                         </a>
                     </p>
