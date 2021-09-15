@@ -1048,6 +1048,26 @@ nav .nav-menu-toggle:checked ~ .nav-menu-toggle-icon {
 }
 
 
+/************************** SASSY STYLES ****************/
+.post-slider-block .heateor_sss_sharing_container {
+    display: none;
+}
+.heateor_sss_sharing_title {
+    font-size: 23px;
+    margin: 45px 0 20px
+}
+.heateor_sss_horizontal_sharing .heateorSssSharing, .heateor_sss_standard_follow_icons_container .heateorSssSharing {
+    transition: background-color .2s ease;
+}
+ul.heateor_sss_follow_ul li, ul.heateor_sss_sharing_ul li {
+    margin: 0 5px!important;
+}
+@media (max-width: 767px) {
+    ul.heateor_sss_follow_ul li, ul.heateor_sss_sharing_ul li {
+        margin: 0px!important;
+    }
+}
+
 
 
 
