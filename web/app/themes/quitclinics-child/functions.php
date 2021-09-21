@@ -33,6 +33,8 @@ if ( ! function_exists( 'suffice_child_enqueue_child_styles' ) ) {
 //        main custom styles
         wp_enqueue_style( 'country-select', get_theme_file_uri( '/assets/js/country-select/build/css/countrySelect.min.css' ), array(), false, 'all');
 //        wp_enqueue_style( 'qc-style-heydoc', get_theme_file_uri( '/assets/css/style-h.css' ), array(), false, 'all');
+
+        wp_enqueue_style( 'slick-styles', get_theme_file_uri( '/assets/css/slick.css' ), array(), false, 'all');
         wp_enqueue_style( 'qc-style', get_theme_file_uri( '/assets/css/qc-style.css' ), array(), false, 'all');
         //bootstrap scripts
 //        wp_enqueue_script( 'bootstrap', get_theme_file_uri( '/assets/js/bootstrap.min.js' ), array(), '1', true );
@@ -43,7 +45,7 @@ if ( ! function_exists( 'suffice_child_enqueue_child_styles' ) ) {
         wp_enqueue_script( 'dobpicker', get_theme_file_uri( '/assets/js/dobpicker.js' ), array(), '1', true );
 
 
-            wp_enqueue_style( 'slick-styles', get_theme_file_uri( '/assets/css/slick.css' ), array(), false, 'all');
+
             wp_enqueue_script( 'slick', get_theme_file_uri( '/assets/js/slick.min.js' ), array('jq-351'), '1', true );
 
 //        wp_enqueue_script( 'heydoc', get_theme_file_uri( '/assets/js/heydoc-script.js' ), array(), '1', true );
