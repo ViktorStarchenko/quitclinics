@@ -322,4 +322,36 @@ function openChat(){
     $(tt).click()
 }
 
-
+// Related blog articles slider
+$(document).ready(function() {
+    if ($(window).width() < 760) {
+        $('.post-slider').slick({
+            infinite: false,
+            slidesToShow: 1,
+            slidesToScroll: 1
+        });
+    } else {
+        $('.post-slider').slick({
+            infinite: false,
+            slidesToShow: 3,
+            slidesToScroll: 1
+        });
+    }
+});
+$( window ).resize(function() {
+    if ($(window).width() < 760) {
+        $('.post-slider').slick("unslick");
+        $('.post-slider').slick({
+            infinite: false,
+            slidesToShow: 1,
+            slidesToScroll: 1
+        });
+    } else {
+        $('.post-slider').slick("unslick");
+        $('.post-slider').slick({
+            infinite: false,
+            slidesToShow: 3,
+            slidesToScroll: 1
+        });
+    }
+});

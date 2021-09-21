@@ -41,11 +41,23 @@ if ( ! function_exists( 'suffice_child_enqueue_child_styles' ) ) {
         wp_enqueue_script( 'jq-351', get_theme_file_uri( '/assets/js/jquery-3.5.1.min.js' ), array(), '1', true );
         wp_enqueue_script( 'country-select', get_theme_file_uri( '/assets/js/country-select/build/js/countrySelect.min.js' ), array(), '1', true );
         wp_enqueue_script( 'dobpicker', get_theme_file_uri( '/assets/js/dobpicker.js' ), array(), '1', true );
+
+        if ( 'blog' === get_post_type() ) {
+            wp_enqueue_style( 'slick-styles', get_theme_file_uri( '/assets/css/slick.css' ), array(), false, 'all');
+            wp_enqueue_script( 'slick', get_theme_file_uri( '/assets/js/slick.min.js' ), array('jq-351'), '1', true );
+        }
 //        wp_enqueue_script( 'heydoc', get_theme_file_uri( '/assets/js/heydoc-script.js' ), array(), '1', true );
         wp_enqueue_script( 'main', get_theme_file_uri( '/assets/js/main.js' ), array(), '1', true );
+
 	 }
 }
 add_action( 'wp_enqueue_scripts', 'quitclinics_child_enqueue_child_styles' );
+
+add_action( 'wp_enqueue_scripts', 'enqueue_properties_scripts' );
+
+function enqueue_properties_scripts() {
+
+}
 
 /*Write here your own functions */
 
@@ -155,4 +167,13 @@ function add_async_attribute($tag, $handle)
         return $tag;
     }
 
+}
+add_action('rest_api_init', 'api_init');
+
+
+function api_init() {
+    register_rest_route('wpjm-jobadder/', '/feed', array(
+        'methods' => 'POST',
+        'callback' => 'process_feed',
+    ));
 }

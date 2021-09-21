@@ -61,43 +61,43 @@
 	</section>
     
 
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-<?php wp_enqueue_script( 'slick', get_theme_file_uri( '/assets/js/slick.min.js' ), array('jq-351'), '1', true ); ?>
+<!--    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>-->
+<?php //wp_enqueue_script( 'slick', get_theme_file_uri( '/assets/js/slick.min.js' ), array('jq-351'), '1', true ); ?>
 <!--<script type='text/javascript' src='/app/themes/quitclinics-child/assets/js/slick.min.js'></script>-->
-<link rel='stylesheet' href='/app/themes/quitclinics-child/assets/css/slick.css' type='text/css' media='all' />
+<!--<link rel='stylesheet' href='/app/themes/quitclinics-child/assets/css/slick.css' type='text/css' media='all' />-->
 <script>
-	$(document).ready(function() {
-		if ($(window).width() < 760) {
-			$('.post-slider').slick({
-			  infinite: false,
-			  slidesToShow: 1,
-			  slidesToScroll: 1
-			});
-		} else {
-			$('.post-slider').slick({
-			  infinite: false,
-			  slidesToShow: 3,
-			  slidesToScroll: 1
-			});
-		}
-	});
-	$( window ).resize(function() {
-		if ($(window).width() < 760) {
-			$('.post-slider').slick("unslick");
-			$('.post-slider').slick({
-			  infinite: false,
-			  slidesToShow: 1,
-			  slidesToScroll: 1
-			});
-		} else {
-			$('.post-slider').slick("unslick");
-			$('.post-slider').slick({
-			  infinite: false,
-			  slidesToShow: 3,
-			  slidesToScroll: 1
-			});
-		}
-	});
+	// $(document).ready(function() {
+	// 	if ($(window).width() < 760) {
+	// 		$('.post-slider').slick({
+	// 		  infinite: false,
+	// 		  slidesToShow: 1,
+	// 		  slidesToScroll: 1
+	// 		});
+	// 	} else {
+	// 		$('.post-slider').slick({
+	// 		  infinite: false,
+	// 		  slidesToShow: 3,
+	// 		  slidesToScroll: 1
+	// 		});
+	// 	}
+	// });
+	// $( window ).resize(function() {
+	// 	if ($(window).width() < 760) {
+	// 		$('.post-slider').slick("unslick");
+	// 		$('.post-slider').slick({
+	// 		  infinite: false,
+	// 		  slidesToShow: 1,
+	// 		  slidesToScroll: 1
+	// 		});
+	// 	} else {
+	// 		$('.post-slider').slick("unslick");
+	// 		$('.post-slider').slick({
+	// 		  infinite: false,
+	// 		  slidesToShow: 3,
+	// 		  slidesToScroll: 1
+	// 		});
+	// 	}
+	// });
 </script>
 <footer class="footer">
 <?php //get_template_part( 'nav', 'below-single' ); ?>
