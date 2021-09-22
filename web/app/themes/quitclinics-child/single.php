@@ -34,7 +34,7 @@
 	<section class="post-slider-section">
 		<div class="row wrapper-1240 post-slider-wrapper">
 			<h4>Other articles</h4>
-			<div class="post-slider">
+			<div class="post-slider post-slider-init">
 				<?php $postssl = array(  
 			        'post_type' => 'blog',
 			        'post_status' => 'publish',

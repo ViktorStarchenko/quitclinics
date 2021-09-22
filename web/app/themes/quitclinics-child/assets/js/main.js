@@ -325,13 +325,13 @@ function openChat(){
 // Related blog articles slider
 $(document).ready(function() {
     if ($(window).width() < 760) {
-        $('.post-slider').slick({
+        $('.post-slider-init').slick({
             infinite: false,
             slidesToShow: 1,
             slidesToScroll: 1
         });
     } else {
-        $('.post-slider').slick({
+        $('.post-slider-init').slick({
             infinite: false,
             slidesToShow: 3,
             slidesToScroll: 1
@@ -340,15 +340,15 @@ $(document).ready(function() {
 });
 $( window ).resize(function() {
     if ($(window).width() < 760) {
-        $('.post-slider').slick("unslick");
-        $('.post-slider').slick({
+        $('.post-slider-init').slick("unslick");
+        $('.post-slider-init').slick({
             infinite: false,
             slidesToShow: 1,
             slidesToScroll: 1
         });
     } else {
-        $('.post-slider').slick("unslick");
-        $('.post-slider').slick({
+        $('.post-slider-init').slick("unslick");
+        $('.post-slider-init').slick({
             infinite: false,
             slidesToShow: 3,
             slidesToScroll: 1
