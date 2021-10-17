@@ -21,4 +21,5 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 global $product;
 ?>
-<p class="<?php echo esc_attr( apply_filters( 'woocommerce_product_price_class', 'price price-custom' ) ); ?>">$<?php echo $product->price; ?> for <?php echo $product->name; ?></p>
+
+<p class="<?php echo esc_attr( apply_filters( 'woocommerce_product_price_class', 'price price-custom' ) ); ?>"><?php echo $product->get_price_html(); ?> for <?php echo esc_attr($product->name); ?></p>
