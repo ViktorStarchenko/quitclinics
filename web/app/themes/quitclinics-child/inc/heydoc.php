@@ -182,7 +182,7 @@ function create_questionnaire($data){
                 'post_name' => $slug,
                 'post_title' => $title,
                 'post_type' => 'questionnaire',
-                'post_status' => 'publish',
+                'post_status' => 'draft',
                 'post_category' => array('logged')
             ]);
             //THE ACF PART
@@ -241,3 +241,21 @@ function create_questionnaire($data){
         }
 }
 
+
+//add_action('admin_init', 'questionnaire_set_to_draft' );
+function questionnaire_set_to_draft() {
+
+    $args =  array(
+        'post_type' => 'questionnaire',
+        'posts_per_page' => 100,
+        'order'          => 'ASC',
+        'post_status' => 'publish'
+    );
+    $slider_posts = get_posts( $args );
+
+    foreach ( $slider_posts as $slide ) {
+//        var_dump($slide->ID);
+        $post = array( 'ID' => $slide->ID, 'post_status' => 'draft' );
+        wp_update_post($post);
+    }
+}
