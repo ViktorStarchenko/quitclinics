@@ -291,6 +291,9 @@ jQuery(document).ready(function(){
     if($('.woocommerce-form-register #reg_password' ).length > 0) {
         jQuery('#reg_password').attr('placeholder', 'User Password');
     }
+    if($('.woocommerce-form-register #reg_username' ).length > 0) {
+        jQuery('#reg_username').attr('placeholder', 'Username');
+    }
 });// Add login/register forms labels
 
 
