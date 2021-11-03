@@ -298,6 +298,7 @@ jQuery(document).ready(function($) {
                     if (data.login_status == "OK") {
                         arlet_string = 'Login Successfull! ';
                         $(".alert_status").val(arlet_string);
+                        $(".alert_status").text(arlet_string);
                         $('.alert_status').removeClass('error');
                         $('.alert_status').addClass('success');
                         $(".alert_status").show();
@@ -382,6 +383,7 @@ jQuery(document).ready(function($) {
                             }
 
                             $(".alert_status").val(arlet_string);
+                            $(".alert_status").text(arlet_string);
                             $('.alert_status').removeClass('error');
                             $('.alert_status').addClass('success');
                             $(".alert_status").show();
@@ -440,6 +442,7 @@ jQuery(document).ready(function($) {
                     if (data.lost_pwd_status == "OK") {
                         arlet_string = 'Check your email for a link to reset your password. ';
                         $(".alert_status").val(arlet_string);
+                        $(".alert_status").text(arlet_string);
                         $('.alert_status').removeClass('error');
                         $('.alert_status').addClass('success');
                         $(".alert_status").show();
