@@ -38,7 +38,8 @@ function cshlg_add_login_form() {
 
             <form class="login_form" id="login_form" method="post" action="#">
                 <h2>Login</h2>
-                <input type="text" class="alert_status" readonly>
+<!--                <input type="text" class="alert_status" readonly>-->
+                <span type="text" class="alert_status" readonly></span>
                 <?php if ($display_labels == 'Labels'): ?>
                     <label for="login_user"> <?php _e('Email Address'); ?></label>
                 <?php endif ?>
@@ -82,7 +83,8 @@ function cshlg_add_login_form() {
 
             <form class="lost_pwd_form" action="<?php echo home_url(); ?>" method="post">
                 <h2>Forgotten Password?</h2>
-                <input type="text" class="alert_status" readonly>
+<!--                <input type="text" class="alert_status" readonly>-->
+                <span class="alert_status" readonly></span>
                 <?php if ($display_labels == 'Labels'): ?>
                 <label for="lost_pwd_user_email">Username or Email Adress</label>
                 <?php endif ?>
