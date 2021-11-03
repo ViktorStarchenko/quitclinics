@@ -318,6 +318,7 @@ jQuery(document).ready(function($) {
                     }else {
                         arlet_string = 'Wrong Username or Password! ';
                         $(".alert_status").val(arlet_string);
+                        $(".alert_status").text(arlet_string);
                         $('.alert_status').removeClass('success');
                         $('.alert_status').addClass('error');
                         $(".alert_status").show();
@@ -444,11 +445,12 @@ jQuery(document).ready(function($) {
                         $(".alert_status").show();
                     }else {
                         if (data.lost_pwd_status == 'ERRORMAIL') {
-                            arlet_string = 'Cant sent Email';
+                            arlet_string = 'An error has occurred while sending an email, please try again or contact support';
                         }else{
-                            arlet_string = 'Not registered User or Email';
+                            arlet_string = 'Account not found, please try again or contact support';
                         }
                         $(".alert_status").val(arlet_string);
+                        $(".alert_status").text(arlet_string);
                         $('.alert_status').removeClass('success');
                         $('.alert_status').addClass('error');
                         $(".alert_status").show();

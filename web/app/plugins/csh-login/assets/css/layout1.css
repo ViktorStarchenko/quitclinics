@@ -75,6 +75,18 @@
     border: solid 1px #ed7c7c;
     background-color: rgba(237, 124, 124, 1)!important;
 }
+span.alert_status.error {
+    width: 100%;
+    border-radius: 2px;
+    border: solid 1px #ed7c7c;
+    background-color: rgba(237,124,124,1)!important;
+    line-height: 1.5;
+    display: inline-block;
+    padding: 13.5px 12px !important;
+    padding: 13.5px 12px !important;
+    margin-bottom: 12px !important;
+    min-height: 32px !important;
+}
 
 a.boxclose{
     width: 30px;
