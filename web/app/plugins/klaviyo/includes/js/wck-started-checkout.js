@@ -37,7 +37,7 @@ function getKlaviyoCookie() {
   var name = klaviyo_cookie_id + "=";
   var decodedCookie = decodeURIComponent(document.cookie);
   var ca = decodedCookie.split(';');
-  for(var i = 0; i < ca.length; i++) {
+  for (var i = 0; i < ca.length; i++) {
     var c = ca[i];
     while (c.charAt(0) == ' ') {
       c = c.substring(1);
@@ -59,8 +59,8 @@ function setKlaviyoCookie(cookie_data) {
 
 function klIdentifyBillingField() {
   var billingFields = ["first_name", "last_name"];
-  for (var i=0; i<billingFields.length; i++) {
-    (function() {
+  for (var i = 0; i < billingFields.length; i++) {
+    (function () {
       var nameType = billingFields[i];
       jQuery('input[name="billing_' + nameType + '"]').change(function () {
         var email = jQuery('input[name="billing_email"]').val();
@@ -79,7 +79,7 @@ function klIdentifyBillingField() {
   }
 }
 
-window.addEventListener("load", function() {
+window.addEventListener("load", function () {
   // Custom checkouts/payment platforms may still load this file but won't
   // fire woocommerce_after_checkout_form hook to load checkout data.
   if (typeof kl_checkout === 'undefined') {
@@ -91,11 +91,17 @@ window.addEventListener("load", function() {
     var event_object = {
       'token': public_key.token,
       'event': '$started_checkout',
-      'customer_properties': {
-        '$email': kl_checkout.email
-      },
+      'customer_properties': {},
       'properties': kl_checkout.event_data
     };
+
+    if (kl_checkout.email) {
+      event_object.customer_properties['$email'] = kl_checkout.email;
+    } else if (kl_checkout.exchange_id) {
+      event_object.customer_properties['$exchange_id'] = kl_checkout.exchange_id;
+    } else {
+      return;
+    }
 
     makePublicAPIcall('track', event_object);
   };
@@ -103,11 +109,16 @@ window.addEventListener("load", function() {
   var klCookie = getKlaviyoCookie();
 
   // Priority of emails for syncing Started Checkout event: Logged-in user,
-  // cookied, billing email address
+  // cookied exchange ID, cookied email, billing email address
   if (kl_checkout.email !== "") {
-    identify_object.properties = {'$email': kl_checkout.email};
+    identify_object.properties = {
+      '$email': kl_checkout.email
+    };
     makePublicAPIcall('identify', identify_object);
     setKlaviyoCookie(identify_object.properties);
+    WCK.trackStartedCheckout();
+  } else if (klCookie && JSON.parse(klCookie).$exchange_id !== undefined) {
+    kl_checkout.exchange_id = JSON.parse(klCookie).$exchange_id;
     WCK.trackStartedCheckout();
   } else if (klCookie && JSON.parse(klCookie).$email !== undefined) {
     kl_checkout.email = JSON.parse(klCookie).$email;
@@ -116,10 +127,12 @@ window.addEventListener("load", function() {
     if (jQuery) {
       jQuery('input[name="billing_email"]').change(function () {
         var elem = jQuery(this),
-        email = jQuery.trim(elem.val());
+          email = jQuery.trim(elem.val());
 
         if (email && /@/.test(email)) {
-          var params = {"$email" : email};
+          var params = {
+            "$email": email
+          };
           var first_name = jQuery('input[name="billing_first_name"]').val();
           var last_name = jQuery('input[name="billing_last_name"]').val();
           if (first_name) {

@@ -10,8 +10,8 @@
 
 
 function klIdentifyBrowser(klUser) {
+  var _learnq = window._learnq || [];
   if (klUser.current_user_email) {
-    var _learnq = window._learnq || [];
     _learnq.push(["identify", {
       "$email": klUser.current_user_email
     }]);
