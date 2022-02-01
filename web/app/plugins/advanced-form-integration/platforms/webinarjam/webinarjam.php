@@ -101,7 +101,7 @@ function adfoin_webinarjam_action_fields() {
                 </td>
 
                 <td>
-                    <p><?php _e('To learn more details on the fields go to the link: ', 'advanced-form-integration' );?><a target="_blank" href="https://documentation.webinarjam.com/register-a-person-to-a-specific-webinar/">https://documentation.webinarjam.com/register-a-person-to-a-specific-webinar/</a></p>
+                    <p><?php _e('To learn more details on the fields go to the link: ', 'advanced-form-integration' );?><a target="_blank" rel="noopener noreferrer" href="https://documentation.webinarjam.com/register-a-person-to-a-specific-webinar/">https://documentation.webinarjam.com/register-a-person-to-a-specific-webinar/</a></p>
                 </td>
             </tr>
             <tr class="alternate" v-if="action.task == 'register_webinar'">
@@ -285,7 +285,7 @@ function adfoin_webinarjam_save_integration() {
         $id = esc_sql( trim( $params['edit_id'] ) );
 
         if ( $type != 'update_integration' &&  !empty( $id ) ) {
-            exit;
+            return;
         }
 
         $result = $wpdb->update( $integration_table,
@@ -310,14 +310,14 @@ function adfoin_webinarjam_save_integration() {
 }
 
 /*
- * Handles sending data to Drip API
+ * Handles sending data to Webinarjam API
  */
 function adfoin_webinarjam_send_data( $record, $posted_data ) {
 
     $api_token   = get_option( 'adfoin_webinarjam_api_token' ) ? get_option( 'adfoin_webinarjam_api_token' ) : "";
 
     if( !$api_token ) {
-        exit;
+        return;
     }
 
     $record_data = json_decode( $record["data"], true );

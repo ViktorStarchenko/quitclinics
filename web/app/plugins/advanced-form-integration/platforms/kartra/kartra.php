@@ -49,7 +49,7 @@ function adfoin_kartra_settings_view( $current_tab ) {
                            class="regular-text"/>
                     <p class="description" id="code-description"><a
                             href="https://app.kartra.com/integrations/api/key"
-                            target="_blank"><?php _e( 'Click here to get API Key and API Password', 'advanced-form-integration' ); ?></a></p>
+                            target="_blank" rel="noopener noreferrer"><?php _e( 'Click here to get API Key and API Password', 'advanced-form-integration' ); ?></a></p>
                 </td>
             </tr>
             <tr valign="top">
@@ -228,7 +228,7 @@ function adfoin_kartra_save_integration() {
         $id = esc_sql( trim( $params['edit_id'] ) );
 
         if ( $type != 'update_integration' &&  !empty( $id ) ) {
-            exit;
+            return;
         }
 
         $result = $wpdb->update( $integration_table,
@@ -262,7 +262,7 @@ function adfoin_kartra_send_data( $record, $posted_data ) {
     $app_id       = "zrbNVFqSAJLw";
 
     if(!$api_key || !$api_password ) {
-        exit;
+        return;
     }
 
     $record_data = json_decode( $record["data"], true );

@@ -78,20 +78,20 @@ class Advanced_Form_Integration_Submission {
             return;
         }
 
-        $action_provider_id  = isset( $_POST["action_provider"] ) ? sanitize_text_field( $_POST["action_provider"] ) : "";
+        $action_provider_id = isset( $_POST["action_provider"] ) ? sanitize_text_field( $_POST["action_provider"] ) : "";
 
         $trigger_data = isset( $_POST["triggerData"] ) ? adfoin_sanitize_text_or_array_field( $_POST["triggerData"] ) : array();
         if( $trigger_data ) {
-            $trigger_data = json_decode( wp_unslash( $trigger_data ), true );
+            $trigger_data = json_decode( $trigger_data, true );
         }
 
-        $action_data  = isset( $_POST["actionData"] ) ? adfoin_sanitize_text_or_array_field( $_POST["actionData"] ) : array();
+        $action_data = isset( $_POST["actionData"] ) ? adfoin_sanitize_text_or_array_field( $_POST["actionData"] ) : array();
 
         if( $action_data ) {
-            $action_data = json_decode( wp_unslash( $action_data ), true );
+            $action_data = json_decode( $action_data, true );
         }
 
-        $field_data   = isset( $_POST["fieldData"] ) ? adfoin_sanitize_text_or_array_field( $_POST["fieldData"] ) : array();
+        $field_data = isset( $_POST["fieldData"] ) ? adfoin_sanitize_text_or_array_field( $_POST["fieldData"] ) : array();
 
         $integration_title = isset( $trigger_data["integrationTitle"] ) ? $trigger_data["integrationTitle"] : "";
         $form_provider_id  = isset( $trigger_data["formProviderId"] ) ? $trigger_data["formProviderId"] : "";
@@ -142,6 +142,8 @@ class Advanced_Form_Integration_Submission {
                     'form_provider'   => $form_provider_id,
                     'form_id'         => $form_id,
                     'form_name'       => $form_name,
+                    'action_provider' => $action_provider,
+                    'task'            => $task,
                     'data'            => json_encode( $all_data, true ),
                 ),
                 array(

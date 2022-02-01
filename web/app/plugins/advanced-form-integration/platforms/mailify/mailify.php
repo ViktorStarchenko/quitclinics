@@ -212,7 +212,7 @@ function adfoin_mailify_save_integration() {
         $id = esc_sql( trim( $params['edit_id'] ) );
 
         if ( $type != 'update_integration' &&  !empty( $id ) ) {
-            exit;
+            return;
         }
 
         $result = $wpdb->update( $integration_table,
@@ -245,7 +245,7 @@ function adfoin_mailify_send_data( $record, $posted_data ) {
     $key            = get_option( 'adfoin_mailify_key' ) ? get_option( 'adfoin_mailify_key' ) : '';
 
     if( !$account_number || !$key ) {
-        exit;
+        return;
     }
 
     $record_data = json_decode( $record["data"], true );

@@ -68,7 +68,7 @@ function adfoin_drip_settings_view( $current_tab )
     ?>"
                            class="regular-text"/>
                     <p>
-                        To find your API token login to your Drip account and go to <a target="_blank" href="https://www.getdrip.com/user/edit">https://www.getdrip.com/user/edit</a>. It will be near the bottom under 'API Token'
+                        To find your API token login to your Drip account and go to <a target="_blank" rel="noopener noreferrer" href="https://www.getdrip.com/user/edit">https://www.getdrip.com/user/edit</a>. It will be near the bottom under 'API Token'
                     </p>
                 </td>
             </tr>
@@ -379,7 +379,7 @@ function adfoin_drip_save_integration()
     if ( $type == 'update_integration' ) {
         $id = esc_sql( trim( $params['edit_id'] ) );
         if ( $type != 'update_integration' && !empty($id) ) {
-            exit;
+            return;
         }
         $result = $wpdb->update( $integration_table, array(
             'title'         => $integration_title,
@@ -408,7 +408,7 @@ function adfoin_drip_send_data( $record, $posted_data )
 {
     $api_token = ( get_option( 'adfoin_drip_api_token' ) ? get_option( 'adfoin_drip_api_token' ) : "" );
     if ( !$api_token ) {
-        exit;
+        return;
     }
     $record_data = json_decode( $record["data"], true );
     if ( array_key_exists( "cl", $record_data["action_data"] ) ) {

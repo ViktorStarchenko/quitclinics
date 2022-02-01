@@ -1,18 +1,18 @@
 === Connect Contact Form 7, WooCommerce To Google Sheets & Other Platforms  - Advanced Form Integration ===
 Contributors: nasirahmed, freemius
-Tags: contact form 7, cf7, woocommerce, google sheet, google sheets, Pipedrive, active campaign, AWeber, campaign monitor, clinchpad, close.io, convertkit, curated, directiq, drip, emailoctopus, freshsales, getresponse, google sheets, jumplead, klaviyo, liondesk, mailerlite, mailify, mailjet, moonmail, moosend, omnisend, revue, Sendinblue
+Tags: Contact Form 7, WooCommerce, Google Calendar, Google Sheets, Pipedrive, active campaign, AWeber, campaign monitor, clinchpad, close.io, convertkit, curated, directiq, drip, emailoctopus, freshsales, getresponse, google sheets, jumplead, klaviyo, liondesk, mailerlite, mailify, mailjet, moonmail, moosend, omnisend, revue, Sendinblue
 Requires at least: 3.0.1
-Tested up to: 5.7
-Stable tag: 5.7
+Tested up to: 5.8
+Stable tag: 5.8
 Requires PHP: 5.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Send Contact Form 7 submission & WooCommerce order data to other 30+ platforms.
+Send Contact Form 7 submission & WooCommerce order data to other 50+ platforms.
 
 == DESCRIPTION ==
 
-Connect Contact Form 7 & WooCommerce to 30+ other platforms. It works like when a form is submitted to your website, the plugin will automatically create a new row in Google Sheets, subscribe to a mailing list in Sendinblue, Mailchimp, Klaviyo, etc. Similarly, it allows to send WooCommerce order data.
+Connect Contact Form 7 & WooCommerce to 50+ other platforms. It works like when a form is submitted to your website, the plugin will automatically create a new row in Google Sheets, subscribe to a mailing list in Sendinblue, Mailchimp, Klaviyo, etc. Similarly, it allows to send WooCommerce order data.
 
 * **Easy to use**: The plugin was created, keeping not-tech people in mind. New integrations can be set up in a few minutes. No coding skill is required, almost no learning curve.
 
@@ -34,8 +34,7 @@ The following plugins work as a sender platform.
 
 *  **[Contact Form 7](https://wordpress.org/plugins/contact-form-7/)**: Any contact form created using Contact Form 7 can be integrated. So when a user submits the form, data will be sent to connected platforms.
 
-*  **[WooCommerce](https://wordpress.org/plugins/contact-form-7/)**: When a new order is placed or order status is processing/on-hold/completed/failed/pending/refunded/canceled in a WooCommerce shop, the order data can be sent to connected platforms. The following are the regular fields that the plugin allows to send by default:
-Order ID, Parent ID, User ID, Billing First Name, Billing Last Name, Formatted Billing Full Name, Billing Company, Billing Address 1, Billing Address 2, Billing City, Billing State, Billing Postcode, Billing Country, Billing Email, Billing Phone, Formatted Billing Address, Shipping First Name, Shipping Last Name, Shipping Full Name, Shipping Company, Shipping Address 1, Shipping Address 2, Shipping City, Shipping State, Shipping Postcode, Shipping Country, Shipping Email, Shipping Phone, Formatted Shipping Address, Shipping Address Map URL, Payment Method, Payment Method Title, Transaction ID, Order Created Via, Date Completed, Date Created, Date Modified, Date Paid, Cart Hash, Currency, Customer ID, Customer IP Address, Customer User Agent, Customer Note, Total, Formatted Order Total, Order Item Total, Prices Include Tax, Discount Total, Discount Tax, Shipping Total, Shipping Tax, Cart Tax, Total Tax, Total Discount, Subtotal, Tax Totals, Items Full JSON, Line Item(s) ID, Line Item(s) Name, Line Item(s) SKU, Line Item(s) Variation ID, Line Item(s) Quantity, Line Item(s) Total, Line Item(s) Price, Line Item(s) Sale Price, Line Item(s) Regular Price, Line Item(s) Subtotal, Line Item(s) Subtotal Tax, Line Item(s) Subtotal With Tax, Line Item(s) Total Tax, Line Item(s) Total With Tax, Line Item(s) Number In Cart, Line Item(s) Attributes, Taxes, Shipping Methods, Shipping Method, Coupons Applied and Coupons Amount Total.
+*  **[WooCommerce](https://wordpress.org/plugins/contact-form-7/)**: When a new order is placed or order status is processing/on-hold/completed/failed/pending/refunded/canceled in a WooCommerce shop, the order data can be sent to connected platforms. The following are the regular fields that the plugin allows to send by default: Order ID, Parent ID, User ID, Billing First Name, Billing Last Name, Formatted Billing Full Name, Billing Company, Billing Address 1, Billing Address 2, Billing City, Billing State, Billing Postcode, Billing Country, Billing Email, Billing Phone, Formatted Billing Address, Shipping First Name, Shipping Last Name, Shipping Full Name, Shipping Company, Shipping Address 1, Shipping Address 2, Shipping City, Shipping State, Shipping Postcode, Shipping Country, Shipping Email, Shipping Phone, Formatted Shipping Address, Shipping Address Map URL, Payment Method, Payment Method Title, Transaction ID, Order Created Via, Date Completed, Date Created, Date Modified, Date Paid, Cart Hash, Currency, Customer ID, Customer IP Address, Customer User Agent, Customer Note, Total, Formatted Order Total, Order Item Total, Prices Include Tax, Discount Total, Discount Tax, Shipping Total, Shipping Tax, Cart Tax, Total Tax, Total Discount, Subtotal, Tax Totals, Items Full JSON, Line Item(s) ID, Line Item(s) Name, Line Item(s) SKU, Line Item(s) Variation ID, Line Item(s) Quantity, Line Item(s) Total, Line Item(s) Price, Line Item(s) Sale Price, Line Item(s) Regular Price, Line Item(s) Subtotal, Line Item(s) Subtotal Tax, Line Item(s) Subtotal With Tax, Line Item(s) Total Tax, Line Item(s) Total With Tax, Line Item(s) Number In Cart, Line Item(s) Attributes, Taxes, Shipping Methods, Shipping Method, Coupons Applied and Coupons Amount Total.
 
  In addition to regular fields, you can also use WooCommerce custom order fields. For example, to send fields created by the [Checkout Field Editor](https://wordpress.org/plugins/woo-checkout-field-editor-pro/) plugin,  you have to add the input field name value manually as a tag. For example, in the checkout page, you’ve added an extra field for Interests and its name value is “interests”, then add a tag {{interests}} while creating the integration. The plugin should parse the value from user input and send it to the connected platform field. 
 
@@ -54,7 +53,7 @@ Order ID, Parent ID, User ID, Billing First Name, Billing Last Name, Formatted B
 <li><a href="https://wordpress.org/plugins/everest-forms/">Everest Forms</a></li>
 <li><a href="https://wordpress.org/plugins/smart-forms/">Smart Forms</a></li>
 <li><a href="https://wordpress.org/plugins/formcraft-form-builder/">FormCraft</a></li>
-<li><a href="https://wordpress.org/plugins/forminator/">Forminator</a></li>
+<li><a href="https://wordpress.org/plugins/forminator/">Forminator (Forms only)</a></li>
 <li><a href="https://wordpress.org/plugins/happyforms/">Happy Forms</a></li>
 <li><a href="https://wordpress.org/plugins/planso-forms/">Planso Forms</a></li>
 <li>Inbound Webhooks</li>
@@ -67,19 +66,27 @@ Order ID, Parent ID, User ID, Billing First Name, Billing Last Name, Formatted B
 
 *  **[Agile CRM](https://www.agilecrm.com/)** - This plugin allows creating contact, deal and note. Requires a pro license to use tags and custom fields.
 
-*  **[Autopilot](https://www.autopilothq.com/)** - This plugin allows creating/updating contact and adding to a list. Requires a pro license to use custom fields.
+*  **[Asana](https://www.asana.com/)** - Allows to create a new task.
+
+*  **[Autopilot](https://autopilotapp.com/)** - Allows creating contact. Requires a pro license to use tags and custom fields.
+
+*  **[Autopilot Journeys](https://journeys.autopilotapp.com/)** - This plugin allows creating/updating contact and adding to a list. Requires a pro license to use custom fields.
 
 *  **[AWeber](https://www.aweber.com/)** - Allows to create contact and subscribe to a list. Pro license is required to use custom fields and tags.
+
+*  **[Benchmark Email](https://www.benchmarkemail.com/)** - Allows to create contact and subscribe to a list. Pro license is required to use custom fields.
 
 *  **[Campaign Monitor](https://www.campaignmonitor.com/)** - Allows to create contact and subscribe to list. Pro license is required to use custom fields.
 
 *  **[ClinchPad CRM](https://clinchpad.com/)** - Simpler than a traditional CRM. This plugin allows creating new contact in Clinchpad when a form is submitted.
 
-*  **[Close CRM](https://close.com/)** - Close is the inside sales CRM of choice for startups and SMBs. You can add a new lead to Close CRM.
+*  **[Close CRM](https://close.com/)** - Close is the inside sales CRM of choice for startups and SMBs. You can add a new lead and contact to Close CRM. The Pro version supports custom fields.
+
+*  **[Constant Contact](https://www.constantcontact.com/)** - Allows you to create new contacts and subscribe to a list. Pro license is required to use custom fields and tags.
 
 *  **[ConvertKit](https://convertkit.com/)** - ConvetKit is another popular email marketing software. This plugin allows you to create a new contact and subscribe to a sequence. Pro license is required to use custom fields and tags.
 
-*  **[Copper CRM](https://www.copper.com/)** - Allows you to create a new contact in Copper CRM.
+*  **[Copper CRM](https://www.copper.com/)** - Allows you to create a new company, person and deal in Copper CRM. The Pro version supports custom fields and tags.
 
 *  **[Curated](https://curated.co/)** - Add subscriber.
 
@@ -89,13 +96,15 @@ Order ID, Parent ID, User ID, Billing First Name, Billing Last Name, Formatted B
 
 *  **[Elastic Email](https://elasticemail.com/)** - Elastic Email is a marketing platform built on the most cost-effective delivery engine. You can create a contact and add it to a mailing list. Pro license is required to use custom fields.
 
-*  **[EmailOctopus](https://emailoctopus.com/)** - Allows you to add contact and subscribe to a list.
+*  **[EmailOctopus](https://emailoctopus.com/)** - Allows you to add contact and subscribe to a list. Pro license is required to use custom fields.
 
 *  **[EverWebinar](https://home.everwebinar.com/index)** - Add registrant to webinar.
 
-*  **[Freshsales](https://www.freshworks.com/freshsales-crm/)** - Freshsales is a full-fledged Sales CRM software for your business. This plugin allows for creating contacts and leads.
+*  **[Freshworks CRM (Freshsales)](https://www.freshworks.com/crm/sales/)** - Freshworks CRM is a full-fledged Sales CRM software for your business. This plugin allows you to create account, contact and deals with custom fields.
 
 *  **[GetResponse](https://www.getresponse.com/)** - GetResponse is a powerful, simplified tool to send emails, create pages, and automate your marketing. This plugin allows you to create a subscriber and add it to the mailing list The Pro version supports custom fields and tags.
+
+*  **[Google Calendar](https://calendar.google.com)** - Allows you to create a new event on a selected Google Calendar with supplied data.
 
 *  **[Google Sheets](https://seheets.google.com)** - When a sender form is submitted, or a WooCommerce order is created, this plugin allows you to create a new row on a selected sheet with supplied data. In the Pro version, it is allowed to create separate rows for WooCommerce Order Items. For example, if an order has 5 items so 5 separate rows will be created for each item.
 
@@ -115,11 +124,9 @@ Order ID, Parent ID, User ID, Billing First Name, Billing Last Name, Formatted B
 
 *  **[MailerLite](https://www.mailerlite.com/)** - MailierLite offers to create advanced email marketing campaigns with features like automation, landing pages, and surveys. Using this plugin, you can add contact and subscribe to a group. Requires a Pro license to use custom fields.
 
-*  **[Mailify](https://www.mailify.com/)** - Mailify is a email marketing solution. Our plugin allows you to create contacts and subscribe to lists.
+*  **[Mailify](https://www.mailify.com/)** - Mailify is a email marketing solution. This plugin allows you to create contacts and subscribe to lists. Requires a Pro license to use custom fields.
 
-*  **[Mailjet](https://www.mailjet.com/)** - Allows you to create a contact and add it to a list.
-
-*  **[Moonmail](https://www.moonmail.io/)** - Allows you to create a contact and add it to a list.
+*  **[Mailjet](https://www.mailjet.com/)** - Allows you to create a contact and add it to a list. Requires a Pro license to use custom fields.
 
 *  **[Moosend](https://moosend.com/)** - Allows you to create a contact and add it to a list. Requires a Pro license to use custom fields.
 
@@ -141,6 +148,8 @@ Order ID, Parent ID, User ID, Billing First Name, Billing Last Name, Formatted B
 
 *  **[Sendy](https://sendy.co/)** - Allows creating contact and subscribe to a list. Pro license is required to use custom fields.
 
+*  **[Slack](https://slack.com/)** - Allows sending channel message.
+
 *  **[Smartsheet](https://smartsheet.com/)** - Allows creating new row.
 
 *  **[Trello](https://www.trello.com/)** - This plugin allows you to create new card in Trello.
@@ -153,7 +162,11 @@ Order ID, Parent ID, User ID, Billing First Name, Billing Last Name, Formatted B
 
 *  **[Woodpecker.co](https://woodpecker.co/)** - Allows creating subscriber. Requires Pro license to use custom fields.
 
+*  **WordPress** - Create new post.
+
 *  **[Zapier](https://zapier.com/)** - Sends data to Zapier webhook.
+
+*  **[ZOHO Campaigns](https://www.zoho.com/campaigns/)** - Allows creating subscriber and adding to a list. Requires Pro license to use custom fields.
 
 ### WHY I CREATED THIS PLUGIN ###
 
@@ -264,6 +277,105 @@ For any query, feel free to send an email to support@advancedformintegration.com
 3. Conditional logics
 
 == Changelog ==
+
+= 1.46.0 [2022-01-24] =
+* [Added] Keap integration support
+* [Updated] Pipedrive integration
+
+= 1.45.0 [2022-01-17] =
+* [Added] ZOHO Campaigns support
+
+= 1.44.0 [2022-01-04] =
+* [Added] New Autopilot support
+
+= 1.43.01 [2021-12-20] =
+* [Updated] Copper CRM Integration
+
+= 1.43.00 [2021-12-15] =
+* [Added] Constant Contact support
+* [Fixed] Minor OAuth issue
+* [Updated] Close CRM integration
+* [Updated] Omnisend integration
+* [Updated] Mailify integration
+* [Updated] Moosend Integration
+
+= 1.42.13 [2021-11-29] =
+* [Updated] Conditional Logic
+
+= 1.42.12 [2021-11-19] =
+* [Fixed] Pipedrive empty fields
+
+= 1.42.11 [2021-11-17] =
+* [Fixed] AWeber access token expires
+
+= 1.42.10 [2021-11-15] =
+* [Updated] SendPulse integration
+* [Fixed] WooCommerce addtional checkout fields issue
+
+= 1.42.9 [2021-11-06] =
+* [Fixed] Few issues
+
+= 1.42.5 [2021-10-26] =
+* [Fixed] AWeber auth issue
+
+= 1.42.5 [2021-10-22] =
+* [Fixed] Campaign Monitor integration issue
+
+= 1.42.4 [2021-10-19] =
+* [Fixed] Aweber fetching contact list while edit integration
+* [Updated] As the supported list grew, activate/deactivate option added in the settings.
+
+= 1.42.3 [2021-10-11] =
+* [Update] Revue integration
+
+= 1.42.2 [2021-10-06] =
+* [Fixed] Error while showing full log
+
+= 1.42.1 [2021-10-04] =
+* [Updated] Freshworks CRM (Freshsales) integration
+
+= 1.42.0 [2021-09-28] =
+* [Added] WordPress - Create new post
+
+= 1.41.0 [2021-09-08] =
+* [Added] Google Calendar support
+
+= 1.40.1 [2021-08-10] =
+* [Fixed] SendPulse list loading issue
+
+= 1.40.0 [2021-08-02] =
+* [Added] Benchmark Email support
+
+= 1.39.1 [2021-07-19] =
+* [Fixed] Aweber not showing all contact lists
+
+= 1.39.0 [2021-07-07] =
+* [Added] Asana Integration
+* [Fixed] Fetch 50+ Sendinblue lists
+
+= 1.38.0 [2021-06-10] =
+* [Added] Slack Integration
+
+= 1.37.8 [2021-05-31] =
+* [Updated] Edit Integration
+* [Updated] Log View
+
+= 1.37.7 [2021-05-22] =
+* [Updated] Mailify Integration
+* [Updated] Mailjet Integration
+
+= 1.37.6 [2021-05-05] =
+* [Updated] Sendinblue Integration
+
+= 1.37.5 [2021-05-03] =
+* [Updated] Close CRM Integration
+
+= 1.37.4 [2021-04-22] =
+* [Updated] Pipedrive Integration
+* [Updated] Insightly Integration
+
+= 1.37.3 [2021-04-14] =
+* [Updated] Copper integration
 
 = 1.37.2 [2021-04-08] =
 * [Updated] GetResponse integration

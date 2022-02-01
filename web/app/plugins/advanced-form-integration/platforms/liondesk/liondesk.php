@@ -47,7 +47,7 @@ function adfoin_liondesk_settings_view( $current_tab ) {
                            value="<?php echo $api_key; ?>" placeholder="<?php _e( 'Please enter Acess Token', 'advanced-form-integration' ); ?>"
                            class="regular-text"/>
                     <p>
-                        1. Go to <a target="_blank" href="https://developers.liondesk.com/account/app">https://developers.liondesk.com/account/app</a> and click NEW APP <br>
+                        1. Go to <a target="_blank" rel="noopener noreferrer" href="https://developers.liondesk.com/account/app">https://developers.liondesk.com/account/app</a> and click NEW APP <br>
                         2. Put any name. For example: ‘Advanced Form Integration’ <br>
                         3. Put any url as redirect URI. For example ‘https://advancedformintegraion.com' <br>
                         4. Now click REVEAL MY ACCESS TOKEN <br>
@@ -157,7 +157,7 @@ function adfoin_liondesk_save_integration() {
         $id = esc_sql( trim( $params['edit_id'] ) );
 
         if ( $type != 'update_integration' &&  !empty( $id ) ) {
-            exit;
+            return;
         }
 
         $result = $wpdb->update( $integration_table,
@@ -189,7 +189,7 @@ function adfoin_liondesk_send_data( $record, $posted_data ) {
     $api_key    = get_option( 'adfoin_liondesk_api_key' ) ? get_option( 'adfoin_liondesk_api_key' ) : "";
 
     if( !$api_key ) {
-        exit;
+        return;
     }
 
     $record_data = json_decode( $record["data"], true );
@@ -247,6 +247,8 @@ function adfoin_liondesk_send_data( $record, $posted_data ) {
             "spouce_birthday"  => $spouce_birthday
         );
 
+        $body = array_filter( $body );
+
         $args = array(
             "headers" => $headers,
             "body" => json_encode( $body )
@@ -257,5 +259,5 @@ function adfoin_liondesk_send_data( $record, $posted_data ) {
         adfoin_add_to_log( $response, $url, $args, $record );
     }
 
-    exit();
+    return;
 }

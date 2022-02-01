@@ -148,7 +148,7 @@ function adfoin_get_mailjet_list() {
         )
     );
 
-    $url  = "https://api.mailjet.com/v3/REST/contactslist";
+    $url  = "https://api.mailjet.com/v3/REST/contactslist?limit=1000";
     $data = wp_remote_request( $url, $args );
 
     if( is_wp_error( $data ) ) {
@@ -212,7 +212,7 @@ function adfoin_mailjet_save_integration() {
         $id = esc_sql( trim( $params['edit_id'] ) );
 
         if ( $type != 'update_integration' &&  !empty( $id ) ) {
-            exit;
+            return;
         }
 
         $result = $wpdb->update( $integration_table,
@@ -245,7 +245,7 @@ function adfoin_mailjet_send_data( $record, $posted_data ) {
     $secret_key = get_option( 'adfoin_mailjet_secret_key' ) ? get_option( 'adfoin_mailjet_secret_key' ) : "";
 
     if( !$api_key || !$secret_key ) {
-        exit;
+        return;
     }
 
     $record_data = json_decode( $record["data"], true );

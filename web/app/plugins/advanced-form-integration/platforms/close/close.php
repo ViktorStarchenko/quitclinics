@@ -44,9 +44,9 @@ function adfoin_close_settings_view( $current_tab ) {
                 <th scope="row"> <?php _e( 'API Key', 'advanced-form-integration' ); ?></th>
                 <td>
                     <input type="text" name="adfoin_close_api_token"
-                           value="<?php echo $api_token; ?>" placeholder="<?php _e( 'Please enter API Token', 'advanced-form-integration' ); ?>"
+                           value="<?php echo $api_token; ?>" placeholder="<?php _e( 'Please enter API Key', 'advanced-form-integration' ); ?>"
                            class="regular-text"/>
-                    <p class="description" id="code-description"><?php _e( 'Please go to Settings > API keys', 'advanced-form-integration' ); ?></a></p>
+                    <p class="description" id="code-description"><?php _e( 'Go to Settings > API keys', 'advanced-form-integration' ); ?></a></p>
                 </td>
 
             </tr>
@@ -83,97 +83,160 @@ function adfoin_close_action_fields() {
     ?>
     <script type="text/template" id="close-action-template">
         <table class="form-table">
-            <tr valign="top" v-if="action.task == 'add_contact'">
+            <tr valign="top" v-if="action.task == 'add_lead'">
                 <th scope="row">
-                    <?php esc_attr_e( 'Lead Fields', 'advanced-form-integration' ); ?>
+                    <?php esc_attr_e( 'Map Fields', 'advanced-form-integration' ); ?>
                 </th>
                 <td scope="row">
 
                 </td>
             </tr>
-
             <editable-field v-for="field in fields" v-bind:key="field.value" v-bind:field="field" v-bind:trigger="trigger" v-bind:action="action" v-bind:fielddata="fielddata"></editable-field>
         </table>
     </script>
     <?php
 }
 
-/*
- * Saves connection mapping
- */
-function adfoin_close_save_integration() {
-    $params = array();
-    parse_str( adfoin_sanitize_text_or_array_field( $_POST['formData'] ), $params );
-
-    $trigger_data = isset( $_POST["triggerData"] ) ? adfoin_sanitize_text_or_array_field( $_POST["triggerData"] ) : array();
-    $action_data  = isset( $_POST["actionData"] ) ? adfoin_sanitize_text_or_array_field( $_POST["actionData"] ) : array();
-    $field_data   = isset( $_POST["fieldData"] ) ? adfoin_sanitize_text_or_array_field( $_POST["fieldData"] ) : array();
-
-    $integration_title = isset( $trigger_data["integrationTitle"] ) ? $trigger_data["integrationTitle"] : "";
-    $form_provider_id  = isset( $trigger_data["formProviderId"] ) ? $trigger_data["formProviderId"] : "";
-    $form_id           = isset( $trigger_data["formId"] ) ? $trigger_data["formId"] : "";
-    $form_name         = isset( $trigger_data["formName"] ) ? $trigger_data["formName"] : "";
-    $action_provider   = isset( $action_data["actionProviderId"] ) ? $action_data["actionProviderId"] : "";
-    $task              = isset( $action_data["task"] ) ? $action_data["task"] : "";
-    $type              = isset( $params["type"] ) ? $params["type"] : "";
-
-
-
-    $all_data = array(
-        'trigger_data' => $trigger_data,
-        'action_data'  => $action_data,
-        'field_data'   => $field_data
+function adfoin_close_get_headers() {
+    $headers = array(
+        'Content-Type'  => 'application/json',
+        'Authorization' => ''
     );
 
-    global $wpdb;
+    $api_token = get_option( 'adfoin_close_api_token' ) ? get_option( 'adfoin_close_api_token' ) : "";
 
-    $integration_table = $wpdb->prefix . 'adfoin_integration';
+    if( $api_token ) {
+        $headers['Authorization'] = 'Basic ' . base64_encode( $api_token . ':' );
+    }
+    return $headers;
+}
 
-    if ( $type == 'new_integration' ) {
+// add_action( 'wp_ajax_adfoin_get_close_owner_list', 'adfoin_get_close_owner_list', 10, 0 );
 
-        $result = $wpdb->insert(
-            $integration_table,
-            array(
-                'title'           => $integration_title,
-                'form_provider'   => $form_provider_id,
-                'form_id'         => $form_id,
-                'form_name'       => $form_name,
-                'action_provider' => $action_provider,
-                'task'            => $task,
-                'data'            => json_encode( $all_data, true ),
-                'status'          => 1
-            )
-        );
+// /*
+//  * Get Close Owners
+//  */
+// function adfoin_get_close_owner_list() {
+//     // Security Check
+//     if (! wp_verify_nonce( $_POST['_nonce'], 'advanced-form-integration' ) ) {
+//         die( __( 'Security check Failed', 'advanced-form-integration' ) );
+//     }
 
+//     $headers = adfoin_close_get_headers();
+
+//     if( !$headers['Authorization'] ) {
+//         return;
+//     }
+
+//     $url = "https://api.close.com/api/v1/user/";
+
+//     $args = array(
+//         "headers" => $headers
+//     );
+
+//     $data = wp_remote_get( $url, $args );
+
+//     if( is_wp_error( $data ) ) {
+//         wp_snd_json_error();
+//     }
+
+//     $body  = json_decode( wp_remote_retrieve_body( $data ) );
+//     $users = array();
+
+//     foreach( $body as) {
+//         $users[$single->id] = $single->first_name . $single->last_name;
+//     }
+
+//     wp_send_json_success( $users );
+// }
+
+add_action( 'wp_ajax_adfoin_get_close_all_fields', 'adfoin_get_close_all_fields', 10, 0 );
+
+/*
+ * Get Close fields
+ */
+function adfoin_get_close_all_fields() {
+    // Security Check
+    if (! wp_verify_nonce( $_POST['_nonce'], 'advanced-form-integration' ) ) {
+        die( __( 'Security check Failed', 'advanced-form-integration' ) );
     }
 
-    if ( $type == 'update_integration' ) {
+    $headers = adfoin_close_get_headers();
 
-        $id = esc_sql( trim( $params['edit_id'] ) );
-
-        if ( $type != 'update_integration' &&  !empty( $id ) ) {
-            exit;
-        }
-
-        $result = $wpdb->update( $integration_table,
-            array(
-                'title'           => $integration_title,
-                'form_provider'   => $form_provider_id,
-                'form_id'         => $form_id,
-                'form_name'       => $form_name,
-                'data'            => json_encode( $all_data, true ),
-            ),
-            array(
-                'id' => $id
-            )
-        );
+    if( !$headers['Authorization'] ) {
+        return;
     }
 
-    if ( $result ) {
-        wp_send_json_success();
-    } else {
-        wp_send_json_error();
+    $lead_fields = array(
+        array( 'key' => 'lead_name', 'value' => 'Name [Lead]', 'description' => 'Lead / Company / Organization (Required)' ),
+        array( 'key' => 'lead_url', 'value' => 'URL [Lead]', 'description' => '' ),
+        array( 'key' => 'lead_description', 'value' => 'Description [Lead]', 'description' => '' ),
+        array( 'key' => 'lead_addresslabel', 'value' => 'Address Label [Lead]', 'description' => 'business, mailing, other' ),
+        array( 'key' => 'lead_street1', 'value' => 'Street 1 [Lead]', 'description' => '' ),
+        array( 'key' => 'lead_street2', 'value' => 'Street 2 [Lead]', 'description' => '' ),
+        array( 'key' => 'lead_city', 'value' => 'City [Lead]', 'description' => '' ),
+        array( 'key' => 'lead_state', 'value' => 'State [Lead]', 'description' => '' ),
+        array( 'key' => 'lead_zip', 'value' => 'Zip [Lead]', 'description' => '' ),
+        array( 'key' => 'lead_country', 'value' => 'Country [Lead]', 'description' => '' ),
+    );
+
+    $cont_fields = array(
+        array( 'key' => 'cont_name', 'value' => 'Name [Contact]', 'description' => '' ),
+        array( 'key' => 'cont_title', 'value' => 'Title [Contact]', 'description' => '' ),
+        array( 'key' => 'cont_officeemail', 'value' => 'Office Email [Contact]', 'description' => '' ),
+        array( 'key' => 'cont_directemail', 'value' => 'Direct Email [Contact]', 'description' => '' ),
+        array( 'key' => 'cont_homeeemail', 'value' => 'Home Email [Contact]', 'description' => '' ),
+        array( 'key' => 'cont_otheremail', 'value' => 'Other Email [Contact]', 'description' => '' ),
+        array( 'key' => 'cont_officephone', 'value' => 'Office Phone [Contact]', 'description' => '' ),
+        array( 'key' => 'cont_directphone', 'value' => 'Direct Phone [Contact]', 'description' => '' ),
+        array( 'key' => 'cont_mobilephone', 'value' => 'Mobile Phone [Contact]', 'description' => '' ),
+        array( 'key' => 'cont_homephone', 'value' => 'Home Phone [Contact]', 'description' => '' ),
+        array( 'key' => 'cont_faxphone', 'value' => 'Fax Phone [Contact]', 'description' => '' ),
+        array( 'key' => 'cont_otherphone', 'value' => 'Other Phone [Contact]', 'description' => '' ),
+    );
+
+    $deal_fields = array(
+        array( 'key' => 'deal_status_id', 'value' => 'Status ID [Opportunity]', 'description' => '' ),
+        array( 'key' => 'deal_note', 'value' => 'Note [Opportunity]', 'description' => '' ),
+        array( 'key' => 'deal_confidence', 'value' => 'Confidence [Opportunity]', 'description' => '' ),
+        array( 'key' => 'deal_value', 'value' => 'Value [Opportunity]', 'description' => '' ),
+        array( 'key' => 'deal_value_period', 'value' => 'Value Period [Opportunity]', 'description' => '' ),
+    );
+
+    $final_data = array_merge( $lead_fields, $cont_fields, $deal_fields );
+
+    wp_send_json_success( $final_data );
+}
+
+function adfoin_close_check_if_lead_exists( $lead_name ) {
+
+    $headers = adfoin_close_get_headers();
+
+    if( !$headers['Authorization'] || !$lead_name ) {
+        return;
     }
+
+    $url = "https://api.close.com/api/v1/lead?query=name:{$lead_name}&_limit=1";
+
+    $args = array(
+        "headers" => $headers
+    );
+
+    $data = wp_remote_get( $url, $args );
+
+    if( is_wp_error( $data ) ) {
+        return;
+    }
+
+    $body  = json_decode( wp_remote_retrieve_body( $data ) );
+
+    if( 0 == $body->total_results ) {
+        return;
+    }
+
+    $lead_id = $body->data[0]->id;
+
+    return $lead_id;
 }
 
 /*
@@ -181,10 +244,10 @@ function adfoin_close_save_integration() {
  */
 function adfoin_close_send_data( $record, $posted_data ) {
 
-    $api_token    = get_option( 'adfoin_close_api_token' ) ? get_option( 'adfoin_close_api_token' ) : "";
+    $headers = adfoin_close_get_headers();
 
-    if( !$api_token ) {
-        exit;
+    if( !$headers['Authorization'] ) {
+        return;
     }
 
     $record_data = json_decode( $record["data"], true );
@@ -197,73 +260,181 @@ function adfoin_close_send_data( $record, $posted_data ) {
         }
     }
 
-    $data = $record_data["field_data"];
-    $task = $record["task"];
+    $data    = $record_data["field_data"];
+    $task    = $record["task"];
+    $owner   = $data["owner"];
+    $lead_id = "";
+    $cont_id = "";
+    $deal_id = "";
 
     if( $task == "add_lead" ) {
-        $org_name     = empty( $data["orgName"] ) ? "" : adfoin_get_parsed_values( $data["orgName"], $posted_data );
-        $org_url      = empty( $data["url"] ) ? "" : adfoin_get_parsed_values( $data["url"], $posted_data );
-        $description  = empty( $data["description"] ) ? "" : adfoin_get_parsed_values( $data["description"], $posted_data );
-        $contact_name = empty( $data["contactName"] ) ? "" : adfoin_get_parsed_values( $data["contactName"], $posted_data );
-        $title        = empty( $data["title"] ) ? "" : adfoin_get_parsed_values( $data["title"], $posted_data );
-        $email        = empty( $data["email"] ) ? "" : adfoin_get_parsed_values( $data["email"], $posted_data );
-        $phone        = empty( $data["phone"] ) ? "" : adfoin_get_parsed_values( $data["phone"], $posted_data );
-        $address1     = empty( $data["address1"] ) ? "" : adfoin_get_parsed_values( $data["address1"], $posted_data );
-        $address2     = empty( $data["address2"] ) ? "" : adfoin_get_parsed_values( $data["address2"], $posted_data );
-        $city         = empty( $data["city"] ) ? "" : adfoin_get_parsed_values( $data["city"], $posted_data );
-        $zip          = empty( $data["zip"] ) ? "" : adfoin_get_parsed_values( $data["zip"], $posted_data );
-        $state        = empty( $data["state"] ) ? "" : adfoin_get_parsed_values( $data["state"], $posted_data );
-        $country      = empty( $data["country"] ) ? "" : adfoin_get_parsed_values( $data["country"], $posted_data );
-        $url          = "https://api.close.com/api/v1/lead/";
 
-        $headers = array(
-            'Content-Type' => 'application/json',
-            'Authorization' => 'Basic ' . base64_encode( $api_token . ':' )
-        );
+        $holder    = array();
+        $lead_data = array();
+        $cont_data = array();
+        $deal_data = array();
 
-        $body = json_encode( array(
-            "name"        => $org_name,
-            "url"         => $org_url,
-            "description" => $description,
-            "contacts" => array(
-                array(
-                    "name"   => $contact_name,
-                    "title"  => $title,
-                    "emails" => array(
-                        array(
-                            "type"  => "office",
-                            "email" => $email
-                        )
-                    ),
-                    "phones" => array(
-                        array(
-                            "type"  => "office",
-                            "phone" => $phone
-                        )
-                    )
-                )
-            ),
-            "addresses" => array(
-                array(
-                    "label"     => "business",
-                    "address_1" => $address1,
-                    "address_2" => $address2,
-                    "city"      => $city,
-                    "state"     => $state,
-                    "zipcode"   => $zip,
-                    "country"   => $country
-                )
-            )
-        ) , true );
+        foreach( $data as $key => $value ) {
+            $holder[$key] = adfoin_get_parsed_values( $data[$key], $posted_data );
+        }
 
-        $args = array(
-            "headers" => $headers,
-            "body"    => $body
-        );
+        foreach( $holder as $key => $value ) {
+            if( substr( $key, 0, 5 ) == 'lead_' && $value ) {
+                $key = substr( $key, 5 );
 
-        $response = wp_remote_post( $url, $args );
+                $lead_data[$key] = $value;
+            }
 
-        adfoin_add_to_log( $response, $url, $args, $record );
+            if( substr( $key, 0, 5 ) == 'cont_' && $value ) {
+                $key = substr( $key, 5 );
+
+                $cont_data[$key] = $value;
+            }
+
+            if( substr( $key, 0, 5 ) == 'deal_' && $value ) {
+                $key = substr( $key, 5 );
+
+                $deal_data[$key] = $value;
+            }
+        }
+
+        if( isset( $lead_data['name'] ) && $lead_data['name'] ) {
+
+            $lead_id = adfoin_close_check_if_lead_exists( $lead_data['name'] );
+
+            if( !$lead_id ) {
+                $lead_url = "https://api.close.com/api/v1/lead/";
+
+                $lead_body = array(
+                    'name' => $lead_data['name'],
+                    'addresses' => array()
+                );
+
+                if( isset( $lead_data['description'] ) && $lead_data['description'] ) { $lead_body['description'] = $lead_data['description']; }
+                if( isset( $lead_data['url'] ) && $lead_data['url'] ) { $lead_body['url'] = $lead_data['url']; }
+                if( isset( $lead_data['addresslabel'] ) && $lead_data['addresslabel'] ) { $lead_body['addresses'][0]['label'] = $lead_data['addresslabel']; }
+                if( isset( $lead_data['street1'] ) && $lead_data['street1'] ) { $lead_body['addresses'][0]['address_1'] = $lead_data['street1']; }
+                if( isset( $lead_data['street2'] ) && $lead_data['street2'] ) { $lead_body['addresses'][0]['address_2'] = $lead_data['street2']; }
+                if( isset( $lead_data['city'] ) && $lead_data['city'] ) { $lead_body['addresses'][0]['city'] = $lead_data['city']; }
+                if( isset( $lead_data['state'] ) && $lead_data['state'] ) { $lead_body['addresses'][0]['state'] = $lead_data['state']; }
+                if( isset( $lead_data['zip'] ) && $lead_data['zip'] ) { $lead_body['addresses'][0]['zipcode'] = $lead_data['zip']; }
+                if( isset( $lead_data['country'] ) && $lead_data['country'] ) { $lead_body['addresses'][0]['country'] = $lead_data['country']; }
+
+                $lead_args = array(
+                    "headers" => $headers,
+                    "body"    => json_encode( $lead_body )
+                );
+    
+                $lead_response = wp_remote_post( $lead_url, $lead_args );
+    
+                adfoin_add_to_log( $lead_response, $lead_url, $lead_args, $record );
+    
+                $lead_body = json_decode( wp_remote_retrieve_body( $lead_response ) );
+    
+                if( $lead_response['response']['code'] == 200 ) {
+                    $lead_id = $lead_body->id;
+                }
+            }
+
+            if( isset( $cont_data['name'] ) && $cont_data['name'] ) {
+
+                $cont_body = array(
+                    'lead_id' => $lead_id,
+                    'name'    => $cont_data['name'],
+                    'phones'  => array(),
+                    'emails'  => array(),
+                    'urls'    => array(),
+                );
+
+                if( isset( $cont_data['title'] ) && $cont_data['title'] ) { $cont_body['title'] = $cont_data['title']; }
+
+                if( isset( $cont_data['officeemail'] ) && $cont_data['officeemail'] ) {
+                    array_push( $cont_body['emails'], array( 'type' => 'office', 'email' => $cont_data['officeemail'] ) );
+                }
+
+                if( isset( $cont_data['directemail'] ) && $cont_data['directemail'] ) {
+                    array_push( $cont_body['emails'], array( 'type' => 'direct', 'email' => $cont_data['directemail'] ) );
+                }
+
+                if( isset( $cont_data['homeemail'] ) && $cont_data['homeemail'] ) {
+                    array_push( $cont_body['emails'], array( 'type' => 'home', 'email' => $cont_data['homeemail'] ) );
+                }
+
+                if( isset( $cont_data['otheremail'] ) && $cont_data['otheremail'] ) {
+                    array_push( $cont_body['emails'], array( 'type' => 'other', 'email' => $cont_data['otheremail'] ) );
+                }
+
+                if( isset( $cont_data['officephone'] ) && $cont_data['officephone'] ) {
+                    array_push( $cont_body['phones'], array( 'type' => 'office', 'phone' => $cont_data['officephone'] ) );
+                }
+
+                if( isset( $cont_data['directphone'] ) && $cont_data['directphone'] ) {
+                    array_push( $cont_body['phones'], array( 'type' => 'direct', 'phone' => $cont_data['directphone'] ) );
+                }
+
+                if( isset( $cont_data['mobilephone'] ) && $cont_data['mobilephone'] ) {
+                    array_push( $cont_body['phones'], array( 'type' => 'mobile', 'phone' => $cont_data['mobilephone'] ) );
+                }
+
+                if( isset( $cont_data['faxphone'] ) && $cont_data['faxphone'] ) {
+                    array_push( $cont_body['phones'], array( 'type' => 'fax', 'phone' => $cont_data['faxphone'] ) );
+                }
+
+                if( isset( $cont_data['otherphone'] ) && $cont_data['otherphone'] ) {
+                    array_push( $cont_body['phones'], array( 'type' => 'other', 'phone' => $cont_data['otherphone'] ) );
+                }
+
+                $cont_url = "https://api.close.com/api/v1/contact/";
+
+                $cont_args = array(
+                    "headers" => $headers,
+                    "body"    => json_encode( $cont_body )
+                );
+    
+                $cont_response = wp_remote_post( $cont_url, $cont_args );
+    
+                adfoin_add_to_log( $cont_response, $cont_url, $cont_args, $record );
+    
+                $cont_body = json_decode( wp_remote_retrieve_body( $cont_response ) );
+    
+                if( $cont_response['response']['code'] == 200 ) {
+                    $cont_id = $cont_body->id;
+                }
+
+            }
+
+            if( isset( $deal_data['value'] ) && $deal_data['value'] ) {
+
+                $deal_body = array(
+                    'lead_id' => $lead_id
+                );
+
+                if( isset( $deal_data['value'] ) && $deal_data['value'] ) { $deal_body['value'] = intval( $deal_data['value'] ) * 100; }
+                if( isset( $deal_data['value_period'] ) && $deal_data['value_period'] ) { $deal_body['value_period'] = $deal_data['value_period']; }
+                if( isset( $deal_data['status_id'] ) && $deal_data['status_id'] ) { $deal_body['status_id'] = $deal_data['status_id']; }
+                if( isset( $deal_data['note'] ) && $deal_data['note'] ) { $deal_body['note'] = $deal_data['note']; }
+                if( isset( $deal_data['confidence'] ) && $deal_data['confidence'] ) { $deal_body['confidence'] = intval( $deal_data['confidence'] ); }
+
+                $deal_url = "https://api.close.com/api/v1/opportunity/";
+
+                $deal_args = array(
+                    "headers" => $headers,
+                    "body"    => json_encode( $deal_body )
+                );
+    
+                $deal_response = wp_remote_post( $deal_url, $deal_args );
+    
+                adfoin_add_to_log( $deal_response, $deal_url, $deal_args, $record );
+    
+                $deal_body = json_decode( wp_remote_retrieve_body( $deal_response ) );
+    
+                if( $deal_response['response']['code'] == 200 ) {
+                    $deal_id = $deal_body->id;
+                }
+            }
+        }
+
+        
     }
 
     return;

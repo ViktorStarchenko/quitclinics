@@ -213,7 +213,7 @@ function adfoin_directiq_save_integration() {
         $id = esc_sql( trim( $params['edit_id'] ) );
 
         if ( $type != 'update_integration' &&  !empty( $id ) ) {
-            exit;
+            return;
         }
 
         $result = $wpdb->update( $integration_table,
@@ -246,7 +246,7 @@ function adfoin_directiq_send_data( $record, $posted_data ) {
     $api_key   = get_option( 'adfoin_directiq_api_key' ) ? get_option( 'adfoin_directiq_api_key' ) : '';
 
     if( !$user_name || !$api_key ) {
-        exit;
+        return;
     }
 
     $record_data = json_decode( $record["data"], true );

@@ -23,6 +23,7 @@ class ADFOIN_ConstantContact extends Advanced_Form_Integration_OAuth2 {
 
         $this->authorization_endpoint = self::authorization_endpoint;
         $this->token_endpoint         = self::token_endpoint;
+        $this->refresh_token_endpoint = self::refresh_token_endpoint;
 
         $option = (array) maybe_unserialize( get_option( 'adfoin_constantcontact_keys' ) );
 
@@ -114,8 +115,8 @@ class ADFOIN_ConstantContact extends Advanced_Form_Integration_OAuth2 {
 
         $option       = (array) maybe_unserialize( get_option( 'adfoin_constantcontact_keys' ) );
         $nonce        = wp_create_nonce( "adfoin_constantcontact_settings" );
-        $api_key      = $option['client_id'];
-        $api_secret   = $option['client_secret'];
+        $api_key      = isset( $option['client_id'] ) ? $option['client_id'] : '';
+        $api_secret   = isset( $option['client_secret'] ) ? $option['client_secret'] : '';
         $redirect_uri = $this->get_redirect_uri();
         ?>
 
@@ -126,16 +127,23 @@ class ADFOIN_ConstantContact extends Advanced_Form_Integration_OAuth2 {
             <input type="hidden" name="_nonce" value="<?php echo $nonce ?>"/>
 
             <table class="form-table">
-                <tr valign="top">
-                    <th scope="row"> <?php _e( 'Status', 'advanced-form-integration' ); ?></th>
+            <tr valign="top">
+                    <th scope="row"> <?php _e( 'Instructions', 'advanced-form-integration' ); ?></th>
                     <td>
-                        <?php
-                        if( $this->is_active() ) {
-                            _e( 'Connected', 'advanced-form-integration' );
-                        } else {
-                            _e( 'Not Connected', 'advanced-form-integration' );
-                        }
-                        ?>
+                        <p>
+                            1. Go to <a target="_blank" rel="noopener noreferrer" href="https://app.constantcontact.com/pages/dma/portal/">Constant Contact Developer Portal</a>.</br>
+                            2. Create an application, insert a suitable name.</br>
+                            3. Copy the URL from below and paste in <b>Redirect URI</b> input box.</br>
+                            4. Generate API secret, then copy both API key and secreat from the app and paste below.</br>
+                            5. Save the Application.</br>
+                            6. Click <b>Authorize</b> below.
+                        </p>
+                    </td>
+                </tr>
+                <tr valign="top">
+                    <th scope="row"> <?php _e( 'URL', 'advanced-form-integration' ); ?></th>
+                    <td>
+                        <code><?php echo $redirect_uri; ?></code>
                     </td>
                 </tr>
                 <tr valign="top">
@@ -155,9 +163,15 @@ class ADFOIN_ConstantContact extends Advanced_Form_Integration_OAuth2 {
                     </td>
                 </tr>
                 <tr valign="top">
-                    <th scope="row"> <?php _e( 'Redirect URI', 'advanced-form-integration' ); ?></th>
+                    <th scope="row"> <?php _e( 'Status', 'advanced-form-integration' ); ?></th>
                     <td>
-                        <input type="text" value="<?php echo $redirect_uri; ?>" id="redirect_uri" name="redirect_uri" class="regular-text code" readonly="readonly" onfocus="this.select();" />
+                        <?php
+                        if( $this->is_active() ) {
+                            _e( 'Connected', 'advanced-form-integration' );
+                        } else {
+                            _e( 'Not Connected', 'advanced-form-integration' );
+                        }
+                        ?>
                     </td>
                 </tr>
             </table>
@@ -176,11 +190,15 @@ class ADFOIN_ConstantContact extends Advanced_Form_Integration_OAuth2 {
         $api_key    = isset( $_POST["adfoin_constantcontact_api_key"] ) ? sanitize_text_field( $_POST["adfoin_constantcontact_api_key"] ) : "";
         $api_secret = isset( $_POST["adfoin_constantcontact_api_secret"] ) ? sanitize_text_field( $_POST["adfoin_constantcontact_api_secret"] ) : "";
 
-        $this->client_id     = trim( $api_key );
-        $this->client_secret = trim( $api_secret );
+        if( !$api_key || !$api_secret ) {
+            $this->reset_data();
+        } else{
+            $this->client_id     = trim( $api_key );
+            $this->client_secret = trim( $api_secret );
 
-        $this->save_data();
-        $this->authorize( 'contact_data' );
+            $this->save_data();
+            $this->authorize( 'contact_data' );
+        }
 
         advanced_form_integration_redirect( "admin.php?page=advanced-form-integration-settings&tab=constantcontact" );
     }
@@ -280,45 +298,9 @@ class ADFOIN_ConstantContact extends Advanced_Form_Integration_OAuth2 {
         return site_url( '/wp-json/advancedformintegration/constantcontact' );
     }
 
-    public function email_exists( $email ) {
+    public function create_contact( $properties, $record = array() ) {
 
-        $endpoint = add_query_arg(
-            [ 'email' => $email ],
-            'https://api.cc.email/v3/contacts'
-        );
-
-        $request = [
-            'method'  => 'GET',
-            'headers' => [
-                'Accept'       => 'application/json',
-                'Content-Type' => 'application/json; charset=utf-8',
-            ],
-        ];
-
-        $response = $this->remote_request( $endpoint, $request );
-
-        if ( 400 <= (int) wp_remote_retrieve_response_code( $response ) ) {
-            if ( WP_DEBUG ) {
-                $this->log( $endpoint, $request, $response );
-            }
-
-            return false;
-        }
-
-        $response_body = wp_remote_retrieve_body( $response );
-
-        if ( empty( $response_body ) ) {
-            return false;
-        }
-
-        $response_body = json_decode( $response_body, true );
-
-        return !empty( $response_body['contacts'] );
-    }
-
-    public function create_contact( $properties ) {
-
-        $endpoint = 'https://api.cc.email/v3/contacts';
+        $endpoint = 'https://api.cc.email/v3/contacts?limit=500';
 
         $request = [
             'method'  => 'POST',
@@ -330,6 +312,8 @@ class ADFOIN_ConstantContact extends Advanced_Form_Integration_OAuth2 {
         ];
 
         $response = $this->remote_request( $endpoint, $request );
+
+        adfoin_add_to_log( $response, $endpoint, $request, $record );
 
         return $response;
     }
@@ -356,14 +340,6 @@ class ADFOIN_ConstantContact extends Advanced_Form_Integration_OAuth2 {
         ];
 
         $response = $this->remote_request( $endpoint, $request );
-
-        if ( 400 <= (int) wp_remote_retrieve_response_code( $response ) ) {
-            if ( WP_DEBUG ) {
-//                $this->log( $endpoint, $request, $response );
-            }
-
-            return false;
-        }
 
         $response_body = wp_remote_retrieve_body( $response );
 
@@ -432,119 +408,91 @@ class ADFOIN_ConstantContact extends Advanced_Form_Integration_OAuth2 {
 $constantcontact = ADFOIN_ConstantContact::get_instance();
 
 /*
- * Saves connection mapping
- */
-function adfoin_constantcontact_save_integration() {
-    $params = array();
-    parse_str( adfoin_sanitize_text_or_array_field( $_POST['formData'] ), $params );
-
-    $trigger_data = isset( $_POST["triggerData"] ) ? adfoin_sanitize_text_or_array_field( $_POST["triggerData"] ) : array();
-    $action_data  = isset( $_POST["actionData"] ) ? adfoin_sanitize_text_or_array_field( $_POST["actionData"] ) : array();
-    $field_data   = isset( $_POST["fieldData"] ) ? adfoin_sanitize_text_or_array_field( $_POST["fieldData"] ) : array();
-
-    $integration_title = isset( $trigger_data["integrationTitle"] ) ? $trigger_data["integrationTitle"] : "";
-    $form_provider_id  = isset( $trigger_data["formProviderId"] ) ? $trigger_data["formProviderId"] : "";
-    $form_id           = isset( $trigger_data["formId"] ) ? $trigger_data["formId"] : "";
-    $form_name         = isset( $trigger_data["formName"] ) ? $trigger_data["formName"] : "";
-    $action_provider   = isset( $action_data["actionProviderId"] ) ? $action_data["actionProviderId"] : "";
-    $task              = isset( $action_data["task"] ) ? $action_data["task"] : "";
-    $type              = isset( $params["type"] ) ? $params["type"] : "";
-
-    $all_data = array(
-        'trigger_data' => $trigger_data,
-        'action_data'  => $action_data,
-        'field_data'   => $field_data
-    );
-
-    global $wpdb;
-
-    $integration_table = $wpdb->prefix . 'adfoin_integration';
-
-    if ( $type == 'new_integration' ) {
-
-        $result = $wpdb->insert(
-            $integration_table,
-            array(
-                'title'           => $integration_title,
-                'form_provider'   => $form_provider_id,
-                'form_id'         => $form_id,
-                'form_name'       => $form_name,
-                'action_provider' => $action_provider,
-                'task'            => $task,
-                'data'            => json_encode( $all_data, true ),
-                'status'          => 1
-            )
-        );
-    }
-
-    if ( $type == 'update_integration' ) {
-
-        $id = esc_sql( trim( $params['edit_id'] ) );
-
-        if ( $type != 'update_integration' &&  !empty( $id ) ) {
-            exit;
-        }
-
-        $result = $wpdb->update( $integration_table,
-            array(
-                'title'           => $integration_title,
-                'form_provider'   => $form_provider_id,
-                'form_id'         => $form_id,
-                'form_name'       => $form_name,
-                'data'            => json_encode( $all_data, true ),
-            ),
-            array(
-                'id' => $id
-            )
-        );
-    }
-
-    if ( $result ) {
-        wp_send_json_success();
-    } else {
-        wp_send_json_error();
-    }
-}
-
-/*
  * Handles sending data to Constant Contact API
  */
 function adfoin_constantcontact_send_data( $record, $posted_data ) {
 
-    $record_data = json_decode( $record["data"], true );
+    $record_data = json_decode( $record['data'], true );
 
-    if( array_key_exists( "cl", $record_data["action_data"] ) ) {
-        if( $record_data["action_data"]["cl"]["active"] == "yes" ) {
-            if( !adfoin_match_conditional_logic( $record_data["action_data"]["cl"], $posted_data ) ) {
+    if( array_key_exists( 'cl', $record_data['action_data'] ) ) {
+        if( $record_data['action_data']['cl']['active'] == 'yes' ) {
+            if( !adfoin_match_conditional_logic( $record_data['action_data']['cl'], $posted_data ) ) {
                 return;
             }
         }
     }
 
-    $data    = $record_data["field_data"];
-    $list_id = $data["listId"];
-    $task    = $record["task"];
+    $data    = $record_data['field_data'];
+    $list_id = isset( $data['listId'] ) ? $data['listId'] : '';
+    $task    = $record['task'];
 
 
-    if( $task == "subscribe" ) {
-        $email   = empty( $data["email"] ) ? "" : adfoin_get_parsed_values( $data["email"], $posted_data );
-        $first_name   = empty( $data["firstName"] ) ? "" : adfoin_get_parsed_values($data["firstName"], $posted_data);
-        $last_name    = empty( $data["lastName"] ) ? "" : adfoin_get_parsed_values($data["lastName"], $posted_data);
+    if( $task == 'subscribe' ) {
+        $email          = empty( $data['email'] ) ? '' : adfoin_get_parsed_values( $data['email'], $posted_data );
+        $first_name     = empty( $data['firstName'] ) ? '' : adfoin_get_parsed_values($data['firstName'], $posted_data );
+        $last_name      = empty( $data['lastName'] ) ? '' : adfoin_get_parsed_values($data['lastName'], $posted_data );
+        $company_name   = empty( $data['companyName'] ) ? '' : adfoin_get_parsed_values($data['companyName'], $posted_data );
+        $job_title      = empty( $data['jobTitle'] ) ? '' : adfoin_get_parsed_values($data['jobTitle'], $posted_data );
+        $work_phone     = empty( $data['workPhone'] ) ? '' : adfoin_get_parsed_values($data['workPhone'], $posted_data );
+        $home_phone     = empty( $data['homePhone'] ) ? '' : adfoin_get_parsed_values($data['homePhone'], $posted_data );
+        $mobile_phone   = empty( $data['mobilePhone'] ) ? '' : adfoin_get_parsed_values($data['mobilePhone'], $posted_data );
+        $birthday_month = empty( $data['birthdayMonth'] ) ? '' : adfoin_get_parsed_values($data['birthdayMonth'], $posted_data );
+        $birthday_day   = empty( $data['birthdayDay'] ) ? '' : adfoin_get_parsed_values($data['birthdayDay'], $posted_data );
+        $anniversary    = empty( $data['anniversary'] ) ? '' : adfoin_get_parsed_values($data['anniversary'], $posted_data );
+        $address_type   = empty( $data['addressType'] ) ? '' : adfoin_get_parsed_values($data['addressType'], $posted_data );
+        $address1       = empty( $data['address1'] ) ? '' : adfoin_get_parsed_values($data['address1'], $posted_data );
+        $city           = empty( $data['city'] ) ? '' : adfoin_get_parsed_values($data['city'], $posted_data );
+        $state          = empty( $data['state'] ) ? '' : adfoin_get_parsed_values($data['state'], $posted_data );
+        $zip            = empty( $data['zip'] ) ? '' : adfoin_get_parsed_values($data['zip'], $posted_data );
+        $country        = empty( $data['country'] ) ? '' : adfoin_get_parsed_values($data['country'], $posted_data );
 
         $properties = array(
-            "email_address"  => array(
-                "address" => $email
-            ),
-            "first_name"    => $first_name,
-            "last_name"     => $last_name,
-            "create_source" => "Account"
+            'create_source' => 'Account'
         );
 
+        if( $email ) { $properties['email_address']['address'] = $email; }
+        if( $first_name ) { $properties['first_name'] = $first_name; }
+        if( $last_name ) { $properties['last_name'] = $last_name; }
+        if( $company_name ) { $properties['company_name'] = $company_name; }
+        if( $job_title ) { $properties['job_title'] = $job_title; }
+        if( $birthday_month ) { $properties['birthday_month'] = $birthday_month; }
+        if( $birthday_day ) { $properties['birthday_day'] = $birthday_day; }
+        if( $anniversary ) { $properties['anniversary'] = $anniversary; }
+
+        if( $list_id ) {
+            $properties['list_memberships'] = array( $list_id );
+        }
+
+        if( $work_phone || $home_phone || $mobile_phone ) {
+            $properties['phone_numbers'] = array();
+
+            if( $work_phone ) {
+                array_push( $properties['phone_numbers'], array( 'phone_number' => $work_phone, 'kind' => 'work' ) );
+            }
+
+            if( $home_phone ) {
+                array_push( $properties['phone_numbers'], array( 'phone_number' => $home_phone, 'kind' => 'home' ) );
+            }
+
+            if( $mobile_phone ) {
+                array_push( $properties['phone_numbers'], array( 'phone_number' => $mobile_phone, 'kind' => 'mobile' ) );
+            }
+        }
+
+        if( $address1 ) {
+            $kind = $address_type ? $address_type : 'home';
+            $properties['street_addresses'] = array(array(
+                'kind'        => $kind,
+                'street'      => $address1,
+                'city'        => $city,
+                'state'       => $state,
+                'postal_code' => $zip,
+                'country'     => $country
+            ));
+        }
+
         $constantcontact = ADFOIN_ConstantContact::get_instance();
-        $return = $constantcontact->create_contact( $properties );
-
-        adfoin_add_to_log( $return, 'https://api.cc.email/v3/contacts', $properties, $record );
-
+        $return = $constantcontact->create_contact( $properties, $record );
     }
 
     return;

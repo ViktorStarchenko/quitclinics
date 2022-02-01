@@ -11,7 +11,7 @@ function adfoin_agilecrm_actions( $actions )
     $actions['agilecrm'] = array(
         'title' => __( 'Agile CRM', 'advanced-form-integration' ),
         'tasks' => array(
-        'add_contact' => __( 'Create New Contact', 'advanced-form-integration' ),
+        'add_contact' => __( 'Create New Contact/Deal/Note', 'advanced-form-integration' ),
     ),
     );
     return $actions;
@@ -247,7 +247,7 @@ function adfoin_agilecrm_save_integration()
     if ( $type == 'update_integration' ) {
         $id = esc_sql( trim( $params['edit_id'] ) );
         if ( $type != 'update_integration' && !empty($id) ) {
-            exit;
+            return;
         }
         $result = $wpdb->update( $integration_table, array(
             'title'         => $integration_title,
@@ -285,7 +285,7 @@ function adfoin_get_agilecrm_pipelines()
     $user_email = ( get_option( 'adfoin_agilecrm_email' ) ? get_option( 'adfoin_agilecrm_email' ) : "" );
     $subdomain = ( get_option( 'adfoin_agilecrm_subdomain' ) ? get_option( 'adfoin_agilecrm_subdomain' ) : "" );
     if ( !$api_key || !$subdomain || !$user_email ) {
-        exit;
+        return;
     }
     $users = "";
     $pipelines = "";
@@ -299,14 +299,7 @@ function adfoin_get_agilecrm_pipelines()
     );
     $user_url = "https://{$subdomain}.agilecrm.com/dev/api/users";
     $user_response = wp_remote_get( $user_url, $args );
-    adfoin_add_to_log(
-        $user_response,
-        $user_url,
-        $args,
-        array(
-        "id" => "999",
-    )
-    );
+    // adfoin_add_to_log( $user_response, $user_url, $args, array( "id" => "999" ) );
     
     if ( !is_wp_error( $user_response ) ) {
         $user_body = json_decode( wp_remote_retrieve_body( $user_response ) );
@@ -317,14 +310,7 @@ function adfoin_get_agilecrm_pipelines()
     
     $url = "https://{$subdomain}.agilecrm.com/dev/api/milestone/pipelines";
     $response = wp_remote_get( $url, $args );
-    adfoin_add_to_log(
-        $response,
-        $url,
-        $args,
-        array(
-        "id" => "999",
-    )
-    );
+    // adfoin_add_to_log( $response, $url, $args, array( "id" => "999" ) );
     
     if ( !is_wp_error( $response ) ) {
         $body = json_decode( wp_remote_retrieve_body( $response ) );
@@ -393,6 +379,33 @@ function adfoin_get_agilecrm_pipelines()
 
 }
 
+// Check if contact exists
+function adfoin_agilecrm_check_if_contact_exists( $email, $headers, $subdomain )
+{
+    if ( !$email || !$headers ) {
+        return false;
+    }
+    $url = "https://{$subdomain}.agilecrm.com/dev/api/contacts/search/email/{$email}";
+    $args = array(
+        "headers" => $headers,
+    );
+    $data = wp_remote_get( $url, $args );
+    if ( is_wp_error( $data ) ) {
+        return false;
+    }
+    if ( 200 !== wp_remote_retrieve_response_code( $data ) ) {
+        return false;
+    }
+    $body = json_decode( wp_remote_retrieve_body( $data ) );
+    
+    if ( $body->id ) {
+        return $body->id;
+    } else {
+        return false;
+    }
+
+}
+
 /*
  * Handles sending data to Agile CRM API
  */
@@ -402,7 +415,7 @@ function adfoin_agilecrm_send_data( $record, $posted_data )
     $user_email = ( get_option( 'adfoin_agilecrm_email' ) ? get_option( 'adfoin_agilecrm_email' ) : "" );
     $subdomain = ( get_option( 'adfoin_agilecrm_subdomain' ) ? get_option( 'adfoin_agilecrm_subdomain' ) : "" );
     if ( !$api_key || !$subdomain || !$user_email ) {
-        exit;
+        return;
     }
     $record_data = json_decode( $record["data"], true );
     if ( array_key_exists( "cl", $record_data["action_data"] ) ) {
@@ -431,9 +444,9 @@ function adfoin_agilecrm_send_data( $record, $posted_data )
     if ( $task == "add_contact" ) {
         $headers = array(
             'Content-Type'  => 'application/json',
+            'Accept'        => 'application/json',
             'Authorization' => 'Basic ' . base64_encode( $user_email . ':' . $api_key ),
         );
-        $url = "https://{$subdomain}.agilecrm.com/dev/api/contacts";
         $body = array(
             "properties" => array(
             array(
@@ -478,8 +491,20 @@ function adfoin_agilecrm_send_data( $record, $posted_data )
         )
         ),
         );
+        $contact_id = adfoin_agilecrm_check_if_contact_exists( $email, $headers, $subdomain );
+        
+        if ( $contact_id ) {
+            $url = "https://{$subdomain}.agilecrm.com/dev/api/contacts/edit-properties";
+            $method = 'PUT';
+            $body['id'] = $contact_id;
+        } else {
+            $url = "https://{$subdomain}.agilecrm.com/dev/api/contacts";
+            $method = 'POST';
+        }
+        
         $args = array(
             "headers" => $headers,
+            "method"  => $method,
             "body"    => json_encode( $body ),
         );
         $response = wp_remote_post( $url, $args );

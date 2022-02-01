@@ -7,7 +7,7 @@ add_action( 'wpcf7_submit', 'adfoin_cf7_submission', 10, 2 );
  */
 function adfoin_cf7_submission( $contact_form, $result ) {
 
-    if( 'validation_failed' == $result['status'] ) {
+    if( 'validation_failed' == $result['status'] || 'spam' == $result['status'] ) {
         return;
     }
     

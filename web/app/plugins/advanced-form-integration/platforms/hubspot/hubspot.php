@@ -98,6 +98,38 @@ function adfoin_hubspot_action_fields() {
     <?php
 }
 
+function adfoin_hubspot_request( $endpoint, $method = 'GET', $data = array(), $record = array() ) {
+
+    $api_token = get_option( 'adfoin_hubspot_api_token' ) ? get_option( 'adfoin_hubspot_api_token' ) : "";
+
+    if( !$api_token ) {
+        return;
+    }
+
+    $args = array(
+        'method'  => $method,
+        'headers' => array(
+            'Content-Type' => 'application/json'
+        )
+    );
+
+    $base_url = 'https://api.hubapi.com/crm/v3/';
+    $url      = $base_url . $endpoint;
+    $url      = add_query_arg( array( 'hapikey' => $api_token ), $url );
+
+    if( 'POST' == $method || 'PUT' == $method || 'PATCH' == $method ) {
+        $args['body'] = json_encode( $data );
+    }
+
+    $response = wp_remote_request( $url, $args );
+
+    if( $record ) {
+        adfoin_add_to_log( $response, $url, $args, $record );
+    }
+
+    return $response;
+}
+
 add_action( 'wp_ajax_adfoin_get_hubspot_contact_fields', 'adfoin_get_hubspot_contact_fields', 10, 0 );
 
 /*
@@ -109,33 +141,18 @@ function adfoin_get_hubspot_contact_fields() {
         die( __( 'Security check Failed', 'advanced-form-integration' ) );
     }
 
-    $api_token = get_option( 'adfoin_hubspot_api_token' ) ? get_option( 'adfoin_hubspot_api_token' ) : "";
-
-    if( ! $api_token ) {
-        return array();
-    }
-
     $contact_fields = array();
-
-    $args = array(
-        'headers' => array(
-            'Content-Type' => 'application/json'
-        )
-    );
-
-    $url = "https://api.hubapi.com/properties/v1/contacts/properties?hapikey=" . $api_token;
-
-    $data      = wp_remote_request( $url, $args );
+    $data           = adfoin_hubspot_request( 'properties/contacts' );
 
     if( is_wp_error( $data ) ) {
-        wp_snd_json_error();
+        wp_send_json_error();
     }
 
-    $body = json_decode( $data["body"] );
+    $body = json_decode( wp_remote_retrieve_body( $data ) );
 
-    if( is_array( $body ) ) {
-        foreach( $body as $single ) {
-            if( false == $single->readOnlyValue ) {
+    if( isset( $body->results ) && is_array( $body->results ) ) {
+        foreach( $body->results as $single ) {
+            if( false == $single->modificationMetadata->readOnlyValue ) {
                 $description = $single->description;
 
                 if( $single->options ) {
@@ -154,97 +171,12 @@ function adfoin_get_hubspot_contact_fields() {
     wp_send_json_success( $contact_fields );
 }
 
-
 /*
- * Saves connection mapping
- */
-function adfoin_hubspot_save_integration() {
-    $params = array();
-    parse_str( adfoin_sanitize_text_or_array_field( $_POST['formData'] ), $params );
-
-    $trigger_data = isset( $_POST["triggerData"] ) ? adfoin_sanitize_text_or_array_field( $_POST["triggerData"] ) : array();
-    $action_data  = isset( $_POST["actionData"] ) ? adfoin_sanitize_text_or_array_field( $_POST["actionData"] ) : array();
-    $field_data   = isset( $_POST["fieldData"] ) ? adfoin_sanitize_text_or_array_field( $_POST["fieldData"] ) : array();
-
-    $integration_title = isset( $trigger_data["integrationTitle"] ) ? $trigger_data["integrationTitle"] : "";
-    $form_provider_id  = isset( $trigger_data["formProviderId"] ) ? $trigger_data["formProviderId"] : "";
-    $form_id           = isset( $trigger_data["formId"] ) ? $trigger_data["formId"] : "";
-    $form_name         = isset( $trigger_data["formName"] ) ? $trigger_data["formName"] : "";
-    $action_provider   = isset( $action_data["actionProviderId"] ) ? $action_data["actionProviderId"] : "";
-    $task              = isset( $action_data["task"] ) ? $action_data["task"] : "";
-    $type              = isset( $params["type"] ) ? $params["type"] : "";
-
-
-
-    $all_data = array(
-        'trigger_data' => $trigger_data,
-        'action_data'  => $action_data,
-        'field_data'   => $field_data
-    );
-
-    global $wpdb;
-
-    $integration_table = $wpdb->prefix . 'adfoin_integration';
-
-    if ( $type == 'new_integration' ) {
-
-        $result = $wpdb->insert(
-            $integration_table,
-            array(
-                'title'           => $integration_title,
-                'form_provider'   => $form_provider_id,
-                'form_id'         => $form_id,
-                'form_name'       => $form_name,
-                'action_provider' => $action_provider,
-                'task'            => $task,
-                'data'            => json_encode( $all_data, true ),
-                'status'          => 1
-            )
-        );
-
-    }
-
-    if ( $type == 'update_integration' ) {
-
-        $id = esc_sql( trim( $params['edit_id'] ) );
-
-        if ( $type != 'update_integration' &&  !empty( $id ) ) {
-            exit;
-        }
-
-        $result = $wpdb->update( $integration_table,
-            array(
-                'title'           => $integration_title,
-                'form_provider'   => $form_provider_id,
-                'form_id'         => $form_id,
-                'form_name'       => $form_name,
-                'data'            => json_encode( $all_data, true ),
-            ),
-            array(
-                'id' => $id
-            )
-        );
-    }
-
-    if ( $result ) {
-        wp_send_json_success();
-    } else {
-        wp_send_json_error();
-    }
-}
-
-/*
- * Handles sending data to hubspot API
+ * Handles sending data to Hubspot API
  */
 function adfoin_hubspot_send_data( $record, $posted_data ) {
 
-    $api_token    = get_option( 'adfoin_hubspot_api_token' ) ? get_option( 'adfoin_hubspot_api_token' ) : "";
-
-    if( !$api_token ) {
-        exit;
-    }
-
-    $record_data      = json_decode( $record["data"], true );
+    $record_data = json_decode( $record["data"], true );
 
     if( array_key_exists( "cl", $record_data["action_data"] ) ) {
         if( $record_data["action_data"]["cl"]["active"] == "yes" ) {
@@ -254,32 +186,67 @@ function adfoin_hubspot_send_data( $record, $posted_data ) {
         }
     }
 
-    $data      = $record_data["field_data"];
-    $task      = $record["task"];
+    $data = $record_data["field_data"];
+    $task = $record["task"];
 
     if( $task == "add_contact" ) {
 
-        $holder = array();
+        $holder     = array();
+        $contact_id = '';
+        $method     = 'POST';
+        $endpoint   ='objects/contacts';
 
         if( $data ) {
             foreach( $data as $key => $value ) {
-                array_push( $holder, array( 'property' => $key, 'value' => adfoin_get_parsed_values( $data[$key], $posted_data ) ) );
+                $holder[$key] = adfoin_get_parsed_values( $data[$key], $posted_data );
             }
         }
 
-        $url = "https://api.hubapi.com/contacts/v1/contact/?hapikey=" . $api_token;
+        $email = isset( $holder['email'] ) ? $holder['email'] : '';
 
-        $args = array(
-            "headers" => array(
-                'Content-Type' => 'application/json'
-            ),
-            "body" => json_encode( array( 'properties' => $holder ) )
-        );
+        if( $email ) {
+            $contact_id = adfoin_hubspot_contact_exists( $email );
+            
+            if( $contact_id ) {
+                $method   = 'PATCH';
+                $endpoint = "objects/contacts/{$contact_id}";
+            }
+        }
+        
 
-        $response = wp_remote_post( $url, $args );
+        $body     = array( 'properties' => array_filter( $holder ) );
+        $response = adfoin_hubspot_request( $endpoint, $method, $body, $record );
 
-        adfoin_add_to_log( $response, $url, $args, $record );
     }
 
     return;
+}
+
+function adfoin_hubspot_contact_exists( $email ) {
+
+    $data = array(
+        'filterGroups' => array(
+            array(
+                'filters' => array(
+                    array(
+                        'value' => $email,
+                        'propertyName' => 'email',
+                        'operator' => 'EQ'
+                    )
+                )
+            )
+        )
+    );
+
+    $result = adfoin_hubspot_request( 'objects/contacts/search', 'POST', $data );
+    
+    if( 200 == wp_remote_retrieve_response_code( $result ) ) {
+        $body = json_decode( wp_remote_retrieve_body( $result ), true );
+
+        if( isset( $body['total'] ) && $body['total'] > 0 ) {
+            return $body['results'][0]['id'];
+        }
+    }
+
+    return false;
 }

@@ -9,7 +9,7 @@ add_filter(
 function adfoin_autopilot_actions( $actions )
 {
     $actions['autopilot'] = array(
-        'title' => __( 'Autopilot', 'advanced-form-integration' ),
+        'title' => __( 'Autopilot Journeys', 'advanced-form-integration' ),
         'tasks' => array(
         'subscribe' => __( 'Add/Update Contact', 'advanced-form-integration' ),
     ),
@@ -25,7 +25,7 @@ add_filter(
 );
 function adfoin_autopilot_settings_tab( $providers )
 {
-    $providers['autopilot'] = __( 'Autopilot', 'advanced-form-integration' );
+    $providers['autopilot'] = __( 'Autopilot Journeys', 'advanced-form-integration' );
     return $providers;
 }
 
@@ -247,7 +247,7 @@ function adfoin_autopilot_save_integration()
     if ( $type == 'update_integration' ) {
         $id = esc_sql( trim( $params['edit_id'] ) );
         if ( $type != 'update_integration' && !empty($id) ) {
-            exit;
+            return;
         }
         $result = $wpdb->update( $integration_table, array(
             'title'         => $integration_title,
@@ -270,13 +270,13 @@ function adfoin_autopilot_save_integration()
 }
 
 /*
- * Handles sending data to API
+ * Handles sending data to Autopilot Journeys API
  */
 function adfoin_autopilot_send_data( $record, $posted_data )
 {
     $api_key = ( get_option( 'adfoin_autopilot_api_key' ) ? get_option( 'adfoin_autopilot_api_key' ) : "" );
     if ( !$api_key ) {
-        exit;
+        return;
     }
     $record_data = json_decode( $record["data"], true );
     if ( array_key_exists( "cl", $record_data["action_data"] ) ) {

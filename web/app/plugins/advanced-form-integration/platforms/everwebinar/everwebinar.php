@@ -101,7 +101,7 @@ function adfoin_everwebinar_action_fields() {
                 </td>
 
                 <td>
-                    <p><?php _e('To learn more details on the fields go to the link: ', 'advanced-form-integration' );?><a target="_blank" href="https://documentation.everwebinar.com/register-a-person-to-a-specific-webinar/">https://documentation.everwebinar.com/register-a-person-to-a-specific-webinar-2/</a></p>
+                    <p><?php _e('To learn more details on the fields go to the link: ', 'advanced-form-integration' );?><a target="_blank" rel="noopener noreferrer" href="https://documentation.everwebinar.com/register-a-person-to-a-specific-webinar/">https://documentation.everwebinar.com/register-a-person-to-a-specific-webinar-2/</a></p>
                 </td>
             </tr>
             <tr class="alternate" v-if="action.task == 'register_webinar'">
@@ -285,7 +285,7 @@ function adfoin_everwebinar_save_integration() {
         $id = esc_sql( trim( $params['edit_id'] ) );
 
         if ( $type != 'update_integration' &&  !empty( $id ) ) {
-            exit;
+            return;
         }
 
         $result = $wpdb->update( $integration_table,
@@ -310,14 +310,14 @@ function adfoin_everwebinar_save_integration() {
 }
 
 /*
- * Handles sending data to Drip API
+ * Handles sending data to Everwebinar API
  */
 function adfoin_everwebinar_send_data( $record, $posted_data ) {
 
     $api_token   = get_option( 'adfoin_everwebinar_api_token' ) ? get_option( 'adfoin_everwebinar_api_token' ) : "";
 
     if( !$api_token ) {
-        exit;
+        return;
     }
 
     $record_data = json_decode( $record["data"], true );

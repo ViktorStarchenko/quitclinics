@@ -69,7 +69,7 @@ function adfoin_klaviyo_settings_view( $current_tab )
                            class="regular-text"/>
                     <p class="description" id="code-description"><a
                             href="https://www.klaviyo.com/account#api-keys-tab"
-                            target="_blank"><?php 
+                            target="_blank" rel="noopener noreferrer"><?php 
     _e( 'Click here to create API Key', 'advanced-form-integration' );
     ?></a></p>
                 </td>
@@ -248,7 +248,7 @@ function adfoin_klaviyo_save_integration()
     if ( $type == 'update_integration' ) {
         $id = esc_sql( trim( $params['edit_id'] ) );
         if ( $type != 'update_integration' && !empty($id) ) {
-            exit;
+            return;
         }
         $result = $wpdb->update( $integration_table, array(
             'title'         => $integration_title,
@@ -277,7 +277,7 @@ function adfoin_klaviyo_send_data( $record, $posted_data )
 {
     $api_token = ( get_option( 'adfoin_klaviyo_api_token' ) ? get_option( 'adfoin_klaviyo_api_token' ) : "" );
     if ( !$api_token ) {
-        exit;
+        return;
     }
     $record_data = json_decode( $record["data"], true );
     if ( array_key_exists( "cl", $record_data["action_data"] ) ) {

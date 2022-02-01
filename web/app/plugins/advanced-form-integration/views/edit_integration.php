@@ -12,6 +12,7 @@ $integration_title = $result["title"];
 $form_providers = adfoin_get_form_providers();
 $action_providers = adfoin_get_action_porviders();
 ksort( $action_providers );
+$form_providers_html = adfoin_get_form_providers_html();
 ?>
 
 <script type="text/javascript">
@@ -113,9 +114,7 @@ esc_attr_e( 'Form/Data Provider', 'advanced-form-integration' );
 _e( 'Select...', 'advanced-form-integration' );
 ?> </option>
                                 <?php 
-foreach ( $form_providers as $key => $value ) {
-    echo  "<option value='" . $key . "'> " . $value . " </option>" ;
-}
+echo  $form_providers_html ;
 ?>
                             </select>
                             <div class="spinner" v-bind:class="{'is-active': formLoading}" style="float:none;width:auto;height:auto;padding:10px 0 10px 50px;background-position:20px 0;">
@@ -164,7 +163,7 @@ esc_attr_e( 'Platform', 'advanced-form-integration' );
                             </label>
                         </td>
                         <td>
-                            <select name="action_provider" v-model="action.actionProviderId" @change="changeActionProvider" :disabled="true">
+                            <select name="action_provider" v-model="action.actionProviderId" @change="changeActionProvider">
                                 <option value=""> <?php 
 _e( 'Select...', 'advanced-form-integration' );
 ?> </option>
@@ -188,7 +187,7 @@ esc_attr_e( 'Task', 'advanced-form-integration' );
                             </label>
                         </td>
                         <td>
-                            <select name="task" v-model="action.task" :disabled="true">
+                            <select name="task" v-model="action.task">
                                 <option value=""> <?php 
 _e( 'Select...', 'advanced-form-integration' );
 ?> </option>
@@ -242,7 +241,7 @@ do_action( 'adfoin_action_fields' );
         <td>
             <input v-if="field.type == 'text'" type="text" ref="fieldValue" class="regular-text" v-model="fielddata[field.value]" :name="'fieldData['+field.value+']'" v-bind:required="field.required">
             <textarea rows="5" cols="46" v-if="field.type == 'textarea'" type="text" ref="fieldValue" v-model="fielddata[field.value]" :name="'fieldData['+field.value+']'" v-bind:required="field.required"></textarea>
-            <select @change="updateFieldValue" v-model="selected">
+            <select v-if="trigger.formProviderId !== 'webhooksinbound'" @change="updateFieldValue" v-model="selected">
                 <option value=""><?php 
 _e( 'Form Fields...', 'advanced-form-integration' );
 ?></option>
@@ -265,6 +264,7 @@ esc_attr_e( 'Continue If (conditional logic)', 'advanced-form-integration' );
                 <input type="checkbox" v-model="action.cl.active" true-value="yes" false-value="no"><input class="button-secondary" style="margin-left:10px;" v-if="action.cl.active == 'yes'" type="submit" value="<?php 
 esc_attr_e( 'Add', 'advanced-form-integration' );
 ?>" @click.prevent="clAddCondition" />
+                <!-- <a style="margin-left:10px;" href="https://advancedformintegration.com/docs/conditional-logics/" target="__blank" rel="noopener noreferrer" v-if="action.cl.active == 'yes'">Doc</a> -->
             </td>
         </tr>
 
@@ -302,12 +302,13 @@ esc_attr_e( 'Condition ', 'advanced-form-integration' );
             </label>
         </td>
         <td>
-            <select v-model="condition.field">
+            <select v-model="selected2" @change="updateFieldValue">
                 <option value=""><?php 
 _e( 'Form Field...', 'advanced-form-integration' );
 ?></option>
                 <option v-for="(item, index) in trigger.formFields" :value="index" > {{item}}  </option>
             </select>
+            <input type="text" v-model="condition.field">
             <select v-model="condition.operator">
                 <?php 
 $operators = adfoin_get_cl_conditions();

@@ -8,7 +8,6 @@ class ADFOIN_ZohoCampaigns extends Advanced_Form_Integration_OAuth2 {
     const refresh_token_endpoint = 'https://accounts.zoho.com/oauth/v2/token';
 
     private static $instance;
-//    protected $contact_lists = array();
 
     public static function get_instance() {
 
@@ -45,13 +44,7 @@ class ADFOIN_ZohoCampaigns extends Advanced_Form_Integration_OAuth2 {
 
         if ( isset( $option['api_domain'] ) ) {
             $this->api_domain = $option['api_domain'];
-        }
-
-//        if ( $this->is_active() ) {
-//            if ( isset( $option['contact_lists'] ) ) {
-//                $this->contact_lists = $option['contact_lists'];
-//            }
-//        }
+        } 
 
         add_action( 'admin_init', array( $this, 'auth_redirect' ) );
         add_filter( 'adfoin_action_providers', array( $this, 'adfoin_zohocampaigns_actions' ), 10, 1 );
@@ -60,6 +53,7 @@ class ADFOIN_ZohoCampaigns extends Advanced_Form_Integration_OAuth2 {
         add_action( 'admin_post_adfoin_save_zohocampaigns_keys', array( $this, 'adfoin_save_zohocampaigns_keys' ), 10, 0 );
         add_action( 'adfoin_action_fields', array( $this, 'action_fields' ), 10, 1 );
         add_action( 'wp_ajax_adfoin_get_zohocampaigns_list', array( $this, 'get_zohocampaigns_list' ), 10, 0 );
+        add_action( 'wp_ajax_adfoin_get_zohocampaigns_contact_fifelds', array( $this, 'get_zohocampaigns_contact_fields' ), 10, 0 );
         add_action( "rest_api_init", array( $this, "create_webhook_route" ) );
     }
 
@@ -136,7 +130,7 @@ class ADFOIN_ZohoCampaigns extends Advanced_Form_Integration_OAuth2 {
                     <th scope="row"> <?php _e( 'Instructions', 'advanced-form-integration' ); ?></th>
                     <td>
                         <p>
-                            <?php _e( '1. Go to <a target="_blank" href="https://api-console.zoho.com/">ZOHO API Console</a> and create an <b>OAuth App</b><br>', 'advanced-form-integration' ); ?>
+                            <?php _e( '1. Go to <a target="_blank" rel="noopener noreferrer" href="https://api-console.zoho.com/">ZOHO API Console</a> and create an <b>Server-based Application</b><br>', 'advanced-form-integration' ); ?>
                             <?php printf( __( '2. Put <code><i>%s</i></code> in <b> redirect URL</b><br>', 'advanced-form-integration' ), $redirect_uri ) ?>
                             <?php _e( '3. Copy <b>Client ID</b> and <b>Client Secret</b> from newly created app and save below.<br>', 'advanced-form-integration' ); ?>
                             <?php _e( '4. Click <b>Save & Authorize</b><br>', 'advanced-form-integration' ); ?>
@@ -295,8 +289,6 @@ class ADFOIN_ZohoCampaigns extends Advanced_Form_Integration_OAuth2 {
                 <editable-field v-for="field in fields" v-bind:key="field.value" v-bind:field="field" v-bind:trigger="trigger" v-bind:action="action" v-bind:fielddata="fielddata"></editable-field>
             </table>
         </script>
-
-
         <?php
     }
 
@@ -335,9 +327,7 @@ class ADFOIN_ZohoCampaigns extends Advanced_Form_Integration_OAuth2 {
                 'client_id'     => $this->client_id,
                 'client_secret' => $this->client_secret,
                 'access_token'  => $this->access_token,
-                'refresh_token' => $this->refresh_token,
-                'api_domain'    => $this->api_domain,
-
+                'refresh_token' => $this->refresh_token
             )
         );
 
@@ -360,56 +350,27 @@ class ADFOIN_ZohoCampaigns extends Advanced_Form_Integration_OAuth2 {
         return site_url( '/wp-json/advancedformintegration/zohocampaigns' );
     }
 
-//    public function email_exists( $email ) {
-//
-//        $endpoint = add_query_arg(
-//            [ 'email' => $email ],
-//            'https://api.cc.email/v3/contacts'
-//        );
-//
-//        $request = [
-//            'method'  => 'GET',
-//            'headers' => [
-//                'Accept'       => 'application/json',
-//                'Content-Type' => 'application/json; charset=utf-8',
-//            ],
-//        ];
-//
-//        $response = $this->remote_request( $endpoint, $request );
-//
-//        if ( 400 <= (int) wp_remote_retrieve_response_code( $response ) ) {
-//            if ( WP_DEBUG ) {
-//                $this->log( $endpoint, $request, $response );
-//            }
-//
-//            return false;
-//        }
-//
-//        $response_body = wp_remote_retrieve_body( $response );
-//
-//        if ( empty( $response_body ) ) {
-//            return false;
-//        }
-//
-//        $response_body = json_decode( $response_body, true );
-//
-//        return !empty( $response_body['contacts'] );
-//    }
+    public function create_contact( $listkey, $properties, $record ) {
 
-    public function create_contact( $properties ) {
+        $endpoint = 'https://campaigns.zoho.com/api/v1.1/json/listsubscribe';
 
-        $endpoint = 'https://api.cc.email/v3/contacts';
-
-        $request = [
+        $request = array(
             'method'  => 'POST',
-            'headers' => [
-                'Accept'       => 'application/json',
-                'Content-Type' => 'application/json; charset=utf-8',
-            ],
-            'body'    => json_encode( $properties ),
-        ];
+            'headers' => array(
+                'Content-Type' => 'application/x-www-form-urlencoded',
+            ),
+        );
 
-        $response = $this->remote_request( $endpoint, $request );
+        $data = array(
+            'resfmt' => 'JSON',
+            'listkey' => $listkey,
+            'contactinfo' => json_encode( $properties )
+        );
+
+        $url      = add_query_arg( $data, $endpoint );
+        $response = $this->remote_request( $url, $request );
+
+        adfoin_add_to_log( $response, $url, $data, $record );
 
         return $response;
     }
@@ -460,19 +421,62 @@ class ADFOIN_ZohoCampaigns extends Advanced_Form_Integration_OAuth2 {
         }
     }
 
+    public function get_zohocampaigns_contact_fields() {
+
+        // Security Check
+        if (! wp_verify_nonce( $_POST['_nonce'], 'advanced-form-integration' ) ) {
+            die( __( 'Security check Failed', 'advanced-form-integration' ) );
+        }
+
+        $endpoint = "https://campaigns.zoho.com/api/v1.1/contact/allfields?type=json";
+
+        $request = [
+            'method'  => 'GET',
+            'headers' => [
+                'Content-Type'  => 'application/x-www-form-urlencoded',
+                'Authorization' => 'Zoho-oauthtoken ' . $this->access_token
+            ],
+        ];
+
+        $response = $this->remote_request( $endpoint, $request );
+
+        adfoin_add_to_log( $response, $endpoint, $request, array( "id" => "999" ) );
+
+        if( is_wp_error( $response ) ) {
+            return false;
+        }
+
+        $response_body = wp_remote_retrieve_body( $response );
+
+        if ( empty( $response_body ) ) {
+            return array();
+        }
+
+        $response_body = json_decode( $response_body, true );
+        $fields        = array();
+
+        if ( isset( $response_body['response']['fieldnames']['fieldname'] ) && !empty( $response_body['response']['fieldnames']['fieldname'] ) ) {
+            foreach( $response_body['response']['fieldnames']['fieldname'] as $field ) {
+                array_push( $fields, array( 'key' => $field['DISPLAY_NAME'], 'value' => $field['DISPLAY_NAME'], 'descriptioin' => '' ) );
+            }
+
+            wp_send_json_success( $fields );
+        } else {
+            wp_send_json_error();
+        }
+    }
+
     protected function remote_request( $url, $request = array() ) {
 
         static $refreshed = false;
 
-        $request = wp_parse_args( $request, [ ] );
-
         $request['headers'] = array_merge(
-
-            array( 'Authorization' => $this->get_http_authorization_header( 'bearer' ), ),
-            $request['headers']
+            $request['headers'],
+            array( 'Authorization' => $this->get_http_authorization_header( 'bearer' ), )
+            
         );
 
-        $response = wp_remote_request( esc_url_raw( $url ), $request );
+        $response = wp_remote_request( $url, $request );
 
         if ( 401 === wp_remote_retrieve_response_code( $response )
             and !$refreshed
@@ -497,52 +501,6 @@ class ADFOIN_ZohoCampaigns extends Advanced_Form_Integration_OAuth2 {
 
         return $response;
     }
-
-//    public function update_contact_lists( $selection = [ ] ) {
-//
-//        $contact_lists        = [ ];
-//        $contact_lists_on_api = $this->get_contact_lists();
-//
-//        if ( false !== $contact_lists_on_api ) {
-//            foreach ( (array) $contact_lists_on_api as $list ) {
-//                if ( isset( $list['list_id'] ) ) {
-//                    $list_id = trim( $list['list_id'] );
-//                } else {
-//                    continue;
-//                }
-//
-//                if ( isset( $this->contact_lists[$list_id]['selected'] ) ) {
-//                    $list['selected'] = $this->contact_lists[$list_id]['selected'];
-//                } else {
-//                    $list['selected'] = [ ];
-//                }
-//
-//                $contact_lists[$list_id] = $list;
-//            }
-//        } else {
-//            $contact_lists = $this->contact_lists;
-//        }
-//
-//        foreach ( (array) $selection as $key => $ids_or_names ) {
-//            foreach ( $contact_lists as $list_id => $list ) {
-//                if ( in_array( $list['list_id'], (array) $ids_or_names, true )
-//                    or in_array( $list['name'], (array) $ids_or_names, true )
-//                ) {
-//                    $contact_lists[$list_id]['selected'][$key] = true;
-//                } else {
-//                    unset( $contact_lists[$list_id]['selected'][$key] );
-//                }
-//            }
-//        }
-//
-//        $this->contact_lists = $contact_lists;
-//
-//        if ( $selection ) {
-//            $this->save_data();
-//        }
-//
-//        return $this->contact_lists;
-//    }
 }
 
 $zohocampaigns = ADFOIN_ZohoCampaigns::get_instance();
@@ -598,7 +556,7 @@ function adfoin_zohocampaigns_save_integration() {
         $id = esc_sql( trim( $params['edit_id'] ) );
 
         if ( $type != 'update_integration' &&  !empty( $id ) ) {
-            exit;
+            return;
         }
 
         $result = $wpdb->update( $integration_table,
@@ -623,44 +581,39 @@ function adfoin_zohocampaigns_save_integration() {
 }
 
 /*
- * Handles sending data to Constant Contact API
+ * Handles sending data to Zoho Campaign API
  */
 function adfoin_zohocampaigns_send_data( $record, $posted_data ) {
 
-    $record_data = json_decode( $record["data"], true );
+    $record_data = json_decode( $record['data'], true );
 
-    if( array_key_exists( "cl", $record_data["action_data"] ) ) {
-        if( $record_data["action_data"]["cl"]["active"] == "yes" ) {
-            if( !adfoin_match_conditional_logic( $record_data["action_data"]["cl"], $posted_data ) ) {
+    if( array_key_exists( 'cl', $record_data['action_data'] ) ) {
+        if( $record_data['action_data']['cl']['active'] == 'yes' ) {
+            if( !adfoin_match_conditional_logic( $record_data['action_data']['cl'], $posted_data ) ) {
                 return;
             }
         }
     }
 
-    $data    = $record_data["field_data"];
-    $list_id = $data["listId"];
-    $task    = $record["task"];
+    $data    = $record_data['field_data'];
+    $list_id = $data['listId'];
+    $task    = $record['task'];
 
 
-    if( $task == "subscribe" ) {
-        $email   = empty( $data["email"] ) ? "" : adfoin_get_parsed_values( $data["email"], $posted_data );
-        $first_name   = empty( $data["firstName"] ) ? "" : adfoin_get_parsed_values($data["firstName"], $posted_data);
-        $last_name    = empty( $data["lastName"] ) ? "" : adfoin_get_parsed_values($data["lastName"], $posted_data);
+    if( $task == 'subscribe' ) {
+        $email      = empty( $data['email'] ) ? '' : adfoin_get_parsed_values( $data['email'], $posted_data );
+        $first_name = empty( $data['firstName'] ) ? '' : adfoin_get_parsed_values($data['firstName'], $posted_data);
+        $last_name  = empty( $data['lastName'] ) ? '' : adfoin_get_parsed_values($data['lastName'], $posted_data);
 
         $properties = array(
-            "email_address"  => array(
-                "address" => $email
-            ),
-            "first_name"    => $first_name,
-            "last_name"     => $last_name,
-            "create_source" => "Account"
+            'Contact Email' => $email
         );
 
+        if( $first_name ) { $properties['First Name'] = $first_name; }
+        if( $last_name ) { $properties['Last Name'] = $last_name; }
+
         $zohocampaigns = ADFOIN_ZohoCampaigns::get_instance();
-        $return = $zohocampaigns->create_contact( $properties );
-
-        adfoin_add_to_log( $return, 'https://api.cc.email/v3/contacts', $properties, $record );
-
+        $return = $zohocampaigns->create_contact( $list_id, $properties, $record );
     }
 
     return;

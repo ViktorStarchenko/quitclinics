@@ -91,88 +91,21 @@ function adfoin_revue_action_fields() {
                 </td>
             </tr>
 
+            <tr valign="top" class="alternate" v-if="action.task == 'subscribe'">
+                <td scope="row-title">
+                    <label for="tablecell">
+                        <?php esc_attr_e( 'Disable Double Opt-In', 'advanced-form-integration' ); ?>
+                    </label>
+                </td>
+                <td>
+                    <input type="checkbox" name="fieldData[doptin]" value="true" v-model="fielddata.doptin">
+                </td>
+            </tr>
+
             <editable-field v-for="field in fields" v-bind:key="field.value" v-bind:field="field" v-bind:trigger="trigger" v-bind:action="action" v-bind:fielddata="fielddata"></editable-field>
         </table>
     </script>
     <?php
-}
-
-/*
- * Saves connection mapping
- */
-function adfoin_revue_save_integration() {
-    $params = array();
-    parse_str( adfoin_sanitize_text_or_array_field( $_POST['formData'] ), $params );
-
-    $trigger_data = isset( $_POST["triggerData"] ) ? adfoin_sanitize_text_or_array_field( $_POST["triggerData"] ) : array();
-    $action_data  = isset( $_POST["actionData"] ) ? adfoin_sanitize_text_or_array_field( $_POST["actionData"] ) : array();
-    $field_data   = isset( $_POST["fieldData"] ) ? adfoin_sanitize_text_or_array_field( $_POST["fieldData"] ) : array();
-
-    $integration_title = isset( $trigger_data["integrationTitle"] ) ? $trigger_data["integrationTitle"] : "";
-    $form_provider_id  = isset( $trigger_data["formProviderId"] ) ? $trigger_data["formProviderId"] : "";
-    $form_id           = isset( $trigger_data["formId"] ) ? $trigger_data["formId"] : "";
-    $form_name         = isset( $trigger_data["formName"] ) ? $trigger_data["formName"] : "";
-    $action_provider   = isset( $action_data["actionProviderId"] ) ? $action_data["actionProviderId"] : "";
-    $task              = isset( $action_data["task"] ) ? $action_data["task"] : "";
-    $type              = isset( $params["type"] ) ? $params["type"] : "";
-
-
-
-    $all_data = array(
-        'trigger_data' => $trigger_data,
-        'action_data'  => $action_data,
-        'field_data'   => $field_data
-    );
-
-    global $wpdb;
-
-    $integration_table = $wpdb->prefix . 'adfoin_integration';
-
-    if ( $type == 'new_integration' ) {
-
-        $result = $wpdb->insert(
-            $integration_table,
-            array(
-                'title'           => $integration_title,
-                'form_provider'   => $form_provider_id,
-                'form_id'         => $form_id,
-                'form_name'       => $form_name,
-                'action_provider' => $action_provider,
-                'task'            => $task,
-                'data'            => json_encode( $all_data, true ),
-                'status'          => 1
-            )
-        );
-
-    }
-
-    if ( $type == 'update_integration' ) {
-
-        $id = esc_sql( trim( $params['edit_id'] ) );
-
-        if ( $type != 'update_integration' &&  !empty( $id ) ) {
-            exit;
-        }
-
-        $result = $wpdb->update( $integration_table,
-            array(
-                'title'           => $integration_title,
-                'form_provider'   => $form_provider_id,
-                'form_id'         => $form_id,
-                'form_name'       => $form_name,
-                'data'            => json_encode( $all_data, true ),
-            ),
-            array(
-                'id' => $id
-            )
-        );
-    }
-
-    if ( $result ) {
-        wp_send_json_success();
-    } else {
-        wp_send_json_error();
-    }
 }
 
 /*
@@ -183,7 +116,7 @@ function adfoin_revue_send_data( $record, $posted_data ) {
     $api_key    = get_option( 'adfoin_revue_api_key' ) ? get_option( 'adfoin_revue_api_key' ) : "";
 
     if( !$api_key ) {
-        exit;
+        return;
     }
 
     $record_data = json_decode( $record["data"], true );
@@ -201,12 +134,19 @@ function adfoin_revue_send_data( $record, $posted_data ) {
 
     if( $task == "subscribe" ) {
         $email      = empty( $data["email"] ) ? "" : adfoin_get_parsed_values( $data["email"], $posted_data );
-        $first_name = empty( $data["firsName"] ) ? "" : adfoin_get_parsed_values( $data["firstName"], $posted_data );
+        $first_name = empty( $data["firstName"] ) ? "" : adfoin_get_parsed_values( $data["firstName"], $posted_data );
+        $last_name  = empty( $data["lastName"] ) ? "" : adfoin_get_parsed_values( $data["lastName"], $posted_data );
+        $doptin     = $data["doptin"];
 
         $data = array(
             'email'      => $email,
-            'first_name' => $first_name
+            'first_name' => $first_name,
+            'last_name'  => $last_name
         );
+
+        if("true" == $doptin) {
+            $data['double_opt_in'] = false;
+        }
 
         $url = "https://www.getrevue.co/api/v2/subscribers";
 
