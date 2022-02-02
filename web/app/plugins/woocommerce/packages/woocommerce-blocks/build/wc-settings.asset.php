@@ -1,1 +1,1 @@
-<?php return array('dependencies' => array('wp-deprecated', 'wp-hooks', 'wp-polyfill'), 'version' => '48a969bdd1d1931e53379ba08c0f65e2');
+<?php return array('dependencies' => array('wp-hooks', 'wp-i18n', 'wp-polyfill'), 'version' => 'd48e74bb256f1f749ee1dd2b20d1f92a');

@@ -103,6 +103,19 @@ class Notes extends \WC_REST_CRUD_Controller {
 
 		register_rest_route(
 			$this->namespace,
+			'/' . $this->rest_base . '/tracker/(?P<note_id>[\d-]+)/user/(?P<user_id>[\d-]+)',
+			array(
+				array(
+					'methods'             => \WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'track_opened_email' ),
+					'permission_callback' => '__return_true',
+				),
+				'schema' => array( $this, 'get_public_item_schema' ),
+			)
+		);
+
+		register_rest_route(
+			$this->namespace,
 			'/' . $this->rest_base . '/update',
 			array(
 				array(
@@ -179,6 +192,7 @@ class Notes extends \WC_REST_CRUD_Controller {
 		$args['page']       = $request['page'];
 		$args['type']       = isset( $request['type'] ) ? $request['type'] : array();
 		$args['status']     = isset( $request['status'] ) ? $request['status'] : array();
+		$args['source']     = isset( $request['source'] ) ? $request['source'] : array();
 		$args['is_deleted'] = 0;
 
 		if ( 'date' === $args['orderby'] ) {
@@ -403,6 +417,29 @@ class Notes extends \WC_REST_CRUD_Controller {
 	}
 
 	/**
+	 * Maybe add a nonce to a URL.
+	 *
+	 * @link https://codex.wordpress.org/WordPress_Nonces
+	 *
+	 * @param string $url The URL needing a nonce.
+	 * @param string $action The nonce action.
+	 * @param string $name The nonce anme.
+	 * @return string A fully formed URL.
+	 */
+	private function maybe_add_nonce_to_url( string $url, string $action = '', string $name = '' ) : string {
+		if ( empty( $action ) ) {
+			return $url;
+		}
+
+		if ( empty( $name ) ) {
+			// Default paramater name.
+			$name = '_wpnonce';
+		}
+
+		return add_query_arg( $name, wp_create_nonce( $action ), $url );
+	}
+
+	/**
 	 * Prepare a note object for serialization.
 	 *
 	 * @param array           $data Note data.
@@ -422,7 +459,11 @@ class Notes extends \WC_REST_CRUD_Controller {
 		$data['is_deleted']        = (bool) $data['is_deleted'];
 		foreach ( (array) $data['actions'] as $key => $value ) {
 			$data['actions'][ $key ]->label  = stripslashes( $data['actions'][ $key ]->label );
-			$data['actions'][ $key ]->url    = $this->prepare_query_for_response( $data['actions'][ $key ]->query );
+			$data['actions'][ $key ]->url    = $this->maybe_add_nonce_to_url(
+				$this->prepare_query_for_response( $data['actions'][ $key ]->query ),
+				(string) $data['actions'][ $key ]->nonce_action,
+				(string) $data['actions'][ $key ]->nonce_name
+			);
 			$data['actions'][ $key ]->status = stripslashes( $data['actions'][ $key ]->status );
 		}
 		$data = $this->filter_response_by_context( $data, $context );
@@ -449,6 +490,21 @@ class Notes extends \WC_REST_CRUD_Controller {
 		 * @param WP_REST_Request  $request  Request used to generate the response.
 		 */
 		return apply_filters( 'woocommerce_rest_prepare_note', $response, $data, $request );
+	}
+
+
+	/**
+	 * Track opened emails.
+	 *
+	 * @param WP_REST_Request $request Request object.
+	 */
+	public function track_opened_email( $request ) {
+		$note = NotesRepository::get_note( $request->get_param( 'note_id' ) );
+		if ( ! $note ) {
+			return;
+		}
+
+		NotesRepository::record_tracks_event_with_user( $request->get_param( 'user_id' ), 'email_note_opened', array( 'note_name' => $note->get_name() ) );
 	}
 
 	/**
@@ -513,6 +569,15 @@ class Notes extends \WC_REST_CRUD_Controller {
 			'validate_callback' => 'rest_validate_request_arg',
 			'items'             => array(
 				'enum' => Note::get_allowed_statuses(),
+				'type' => 'string',
+			),
+		);
+		$params['source']   = array(
+			'description'       => __( 'Source of note.', 'woocommerce' ),
+			'type'              => 'array',
+			'sanitize_callback' => 'wp_parse_list',
+			'validate_callback' => 'rest_validate_request_arg',
+			'items'             => array(
 				'type' => 'string',
 			),
 		);

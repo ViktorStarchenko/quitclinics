@@ -9,6 +9,8 @@ namespace Automattic\WooCommerce\Admin\Notes;
 
 defined( 'ABSPATH' ) || exit;
 
+use Automattic\WooCommerce\Admin\Survey;
+
 /**
  * Giving_Feedback_Notes
  */
@@ -29,15 +31,13 @@ class GivingFeedbackNotes {
 	 * @return Note
 	 */
 	protected static function get_note() {
-		// We need to show Admin Giving feeback notification after 8 days of install.
-		$eight_days_in_seconds = 8 * DAY_IN_SECONDS;
-		if ( ! self::wc_admin_active_for( $eight_days_in_seconds ) ) {
+		if ( ! self::is_wc_admin_active_in_date_range( 'week-1-4' ) ) {
 			return;
 		}
 
 		// Otherwise, create our new note.
 		$note = new Note();
-		$note->set_title( __( 'Give feedback', 'woocommerce' ) );
+		$note->set_title( __( 'You\'re invited to share your experience', 'woocommerce' ) );
 		$note->set_content( __( 'Now that you’ve chosen us as a partner, our goal is to make sure we\'re providing the right tools to meet your needs. We\'re looking forward to having your feedback on the store setup experience so we can improve it in the future.', 'woocommerce' ) );
 		$note->set_content_data( (object) array() );
 		$note->set_type( Note::E_WC_ADMIN_NOTE_INFORMATIONAL );
@@ -46,7 +46,7 @@ class GivingFeedbackNotes {
 		$note->add_action(
 			'share-feedback',
 			__( 'Share feedback', 'woocommerce' ),
-			'https://automattic.survey.fm/new-onboarding-survey'
+			Survey::get_url( '/store-setup-survey' )
 		);
 		return $note;
 	}

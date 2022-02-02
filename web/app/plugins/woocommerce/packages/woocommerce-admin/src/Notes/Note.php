@@ -21,12 +21,14 @@ class Note extends \WC_Data {
 	const E_WC_ADMIN_NOTE_INFORMATIONAL = 'info';      // used for presenting informational messages.
 	const E_WC_ADMIN_NOTE_MARKETING     = 'marketing'; // used for adding marketing messages.
 	const E_WC_ADMIN_NOTE_SURVEY        = 'survey';    // used for adding survey messages.
+	const E_WC_ADMIN_NOTE_EMAIL         = 'email';     // used for adding notes that will be sent by email.
 
 	// Note status codes.
 	const E_WC_ADMIN_NOTE_PENDING    = 'pending';    // the note is pending - hidden but not actioned.
 	const E_WC_ADMIN_NOTE_UNACTIONED = 'unactioned'; // the note has not yet been actioned by a user.
 	const E_WC_ADMIN_NOTE_ACTIONED   = 'actioned';   // the note has had its action completed by a user.
 	const E_WC_ADMIN_NOTE_SNOOZED    = 'snoozed';    // the note has been snoozed by a user.
+	const E_WC_ADMIN_NOTE_SENT       = 'sent';    // the note has been sent by email to the user.
 
 	/**
 	 * This is the name of this object type.
@@ -82,7 +84,7 @@ class Note extends \WC_Data {
 			$this->set_object_read( true );
 		}
 
-		$this->data_store = \WC_Data_Store::load( 'admin-note' );
+		$this->data_store = Notes::load_data_store();
 		if ( $this->get_id() > 0 ) {
 			$this->data_store->read( $this );
 		}
@@ -127,6 +129,7 @@ class Note extends \WC_Data {
 			self::E_WC_ADMIN_NOTE_INFORMATIONAL,
 			self::E_WC_ADMIN_NOTE_MARKETING,
 			self::E_WC_ADMIN_NOTE_SURVEY,
+			self::E_WC_ADMIN_NOTE_EMAIL,
 		);
 
 		return apply_filters( 'woocommerce_note_types', $allowed_types );
@@ -143,6 +146,7 @@ class Note extends \WC_Data {
 			self::E_WC_ADMIN_NOTE_ACTIONED,
 			self::E_WC_ADMIN_NOTE_UNACTIONED,
 			self::E_WC_ADMIN_NOTE_SNOOZED,
+			self::E_WC_ADMIN_NOTE_SENT,
 		);
 
 		return apply_filters( 'woocommerce_note_statuses', $allowed_statuses );
@@ -499,6 +503,9 @@ class Note extends \WC_Data {
 			$this->error( 'admin_note_invalid_data', __( 'The admin note date prop cannot be empty.', 'woocommerce' ) );
 		}
 
+		if ( is_string( $date ) ) {
+			$date = wc_string_to_timestamp( $date );
+		}
 		$this->set_date_prop( 'date_created', $date );
 	}
 
@@ -508,6 +515,9 @@ class Note extends \WC_Data {
 	 * @param string|integer|null $date UTC timestamp, or ISO 8601 DateTime. If the DateTime string has no timezone or offset, WordPress site timezone will be assumed. Null if there is no date.
 	 */
 	public function set_date_reminder( $date ) {
+		if ( is_string( $date ) ) {
+			$date = wc_string_to_timestamp( $date );
+		}
 		$this->set_date_prop( 'date_reminder', $date );
 	}
 
@@ -603,6 +613,8 @@ class Note extends \WC_Data {
 			'status'        => $status,
 			'primary'       => $primary,
 			'actioned_text' => $actioned_text,
+			'nonce_name'    => null,
+			'nonce_action'  => null,
 		);
 
 		$note_actions   = $this->get_prop( 'actions', 'edit' );
@@ -617,5 +629,36 @@ class Note extends \WC_Data {
 	 */
 	public function set_actions( $actions ) {
 		$this->set_prop( 'actions', $actions );
+	}
+
+	/**
+	 * Add a nonce to an existing note action.
+	 *
+	 * @link https://codex.wordpress.org/WordPress_Nonces
+	 *
+	 * @param string $note_action_name Name of action to add a nonce to.
+	 * @param string $nonce_action The nonce action.
+	 * @param string $nonce_name The nonce Name. This is used as the paramater name in the resulting URL for the action.
+	 * @return void
+	 * @throws \Exception If note name cannot be found.
+	 */
+	public function add_nonce_to_action( string $note_action_name, string $nonce_action, string $nonce_name ) {
+		$actions   = $this->get_prop( 'actions', 'edit' );
+
+		$matching_action = null;
+		foreach ( $actions as $i => $action ) {
+			if ( $action->name === $note_action_name ) {
+				$matching_action =& $actions[ $i ];
+			}
+		}
+
+		if ( empty( $matching_action ) ) {
+			throw new \Exception( sprintf( 'Could not find action %s in note %s', $note_action_name, $this->get_name() ) );
+		}
+
+		$matching_action->nonce_action = $nonce_action;
+		$matching_action->nonce_name   = $nonce_name;
+
+		$this->set_actions( $actions );
 	}
 }
