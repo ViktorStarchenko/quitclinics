@@ -57,14 +57,14 @@ function adfoin_omnisend_settings_view( $current_tab )
         <table class="form-table">
             <tr valign="top">
                 <th scope="row"> <?php 
-    _e( 'API Token', 'advanced-form-integration' );
+    _e( 'API Key', 'advanced-form-integration' );
     ?></th>
                 <td>
                     <input type="text" name="adfoin_omnisend_api_token"
                            value="<?php 
     echo  $api_token ;
     ?>" placeholder="<?php 
-    _e( 'Please enter API Token', 'advanced-form-integration' );
+    _e( 'Please enter API Key', 'advanced-form-integration' );
     ?>"
                            class="regular-text"/>
                     <p class="description" id="code-description"><?php 
@@ -193,7 +193,7 @@ function adfoin_omnisend_save_integration()
     if ( $type == 'update_integration' ) {
         $id = esc_sql( trim( $params['edit_id'] ) );
         if ( $type != 'update_integration' && !empty($id) ) {
-            exit;
+            return;
         }
         $result = $wpdb->update( $integration_table, array(
             'title'         => $integration_title,
@@ -222,7 +222,7 @@ function adfoin_omnisend_send_data( $record, $posted_data )
 {
     $api_token = ( get_option( 'adfoin_omnisend_api_token' ) ? get_option( 'adfoin_omnisend_api_token' ) : "" );
     if ( !$api_token ) {
-        exit;
+        return;
     }
     $record_data = json_decode( $record["data"], true );
     if ( array_key_exists( "cl", $record_data["action_data"] ) ) {

@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 class WCK_API
 {
-    const VERSION = '2.3.6';
+    const VERSION = '2.5.5';
 
     const KLAVIYO_BASE_URL = 'klaviyo/v1';
     const ORDERS_ENDPOINT = 'orders';
@@ -152,7 +152,7 @@ function get_products_count(WP_REST_Request $request)
         return $validated_request;
     }
 
-    $args = process_resource_args($request, 'product');
+    $args = process_resource_args($request, array('product', 'product_variation'));
     $loop = new WP_Query($args);
     $data = count_loop($loop);
     return array('product_count' => $loop->found_posts);
@@ -165,7 +165,7 @@ function get_products(WP_REST_Request $request)
         return $validated_request;
     }
 
-    $args = process_resource_args($request, 'product');
+    $args = process_resource_args($request, array('product', 'product_variation'));
 
     $loop = new WP_Query($args);
     $data = count_loop($loop);

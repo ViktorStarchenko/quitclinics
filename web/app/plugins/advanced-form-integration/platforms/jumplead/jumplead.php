@@ -48,7 +48,7 @@ function adfoin_jumplead_settings_view( $current_tab ) {
                            class="regular-text"/>
                     <p class="description" id="code-description"><a
                             href="https://app.jumplead.com/settings/access-tokens"
-                            target="_blank"><?php _e( 'Click here to get Personal Access Token', 'advanced-form-integration' ); ?></a></p>
+                            target="_blank" rel="noopener noreferrer"><?php _e( 'Click here to get Personal Access Token', 'advanced-form-integration' ); ?></a></p>
                 </td>
             </tr>
         </table>
@@ -181,7 +181,7 @@ function adfoin_jumplead_save_integration() {
         $id = esc_sql( trim( $params['edit_id'] ) );
 
         if ( $type != 'update_integration' &&  !empty( $id ) ) {
-            exit;
+            return;
         }
 
         $result = $wpdb->update( $integration_table,
@@ -213,7 +213,7 @@ function adfoin_jumplead_send_data( $record, $posted_data ) {
     $api_key   = get_option( 'adfoin_jumplead_api_key' ) ? get_option( 'adfoin_jumplead_api_key' ) : "";
 
     if(!$api_key ) {
-        exit;
+        return;
     }
 
     $client_id = adfoin_get_jumplead_get_client_id( $api_key );

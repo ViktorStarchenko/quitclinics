@@ -499,7 +499,7 @@ function adfoin_activecampaign_save_integration()
     if ( $type == 'update_integration' ) {
         $id = esc_sql( trim( $params['edit_id'] ) );
         if ( $type != 'update_integration' && !empty($id) ) {
-            exit;
+            return;
         }
         $result = $wpdb->update( $integration_table, array(
             'title'         => $integration_title,
@@ -522,14 +522,14 @@ function adfoin_activecampaign_save_integration()
 }
 
 /*
- * Handles sending data to Mailchimp API
+ * Handles sending data to ActiveCampaign API
  */
 function adfoin_activecampaign_send_data( $record, $posted_data )
 {
     $api_key = ( get_option( 'adfoin_activecampaign_api_key' ) ? get_option( 'adfoin_activecampaign_api_key' ) : "" );
     $base_url = ( get_option( 'adfoin_activecampaign_url' ) ? get_option( 'adfoin_activecampaign_url' ) : "" );
     if ( !$api_key || !$base_url ) {
-        exit;
+        return;
     }
     $record_data = json_decode( $record["data"], true );
     if ( array_key_exists( "cl", $record_data["action_data"] ) ) {

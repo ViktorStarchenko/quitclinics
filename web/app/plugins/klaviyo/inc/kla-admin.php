@@ -1,13 +1,20 @@
 <?PHP
 class WPKlaviyoAdmin {
 
+    const SMS_DISCLOSURE_TEXT = 'By checking this box and entering your phone number above, you consent to receive marketing text messages (such as [promotion codes] and [cart reminders]) from [company name] at the number provided, including messages sent by autodialer. Consent is not a condition of any purchase. Message and data rates may apply. Message frequency varies. You can unsubscribe at any time by replying STOP or clicking the unsubscribe link (where available) in one of our messages. View our Privacy Policy [link] and Terms of Service [link].';
+
     function __construct() {
         if (is_admin()) {
+            add_action( 'init', array( $this, 'includes') );
             $klaviyo_settings = get_option('klaviyo_settings');
 
             add_action('admin_menu', array(&$this, 'add_options_subpanel'));
             add_filter('plugin_action_links_' . KLAVIYO_BASENAME, array(&$this, 'plugin_settings_link'));
         }
+    }
+
+    public function includes() {
+        include_once KLAVIYO_PATH . 'includes/admin/class-kl-plugins-screen-updates.php';
     }
 
     function add_options_subpanel() {
@@ -48,24 +55,82 @@ class WPKlaviyoAdmin {
 
     function settings() {
         $klaviyo_settings = $this->process_settings();
-
-        $content = '<p>Insert your Klaviyo API key below to connect. You can find them on your Klaviyo <a href="https://www.klaviyo.com/account#api-keys-tab">account page</a>.</p>
-            <p>Insert your Klaviyo List ID to add a newsletter checkbox on the checkout page. <a href="https://help.klaviyo.com/hc/en-us/articles/115005078647-Find-a-List-ID">How to find list ID</a>.</p>
-            <table class="form-table">';
+        $content = '';
 
         if (function_exists('wp_nonce_field')) {
-          $content .= wp_nonce_field('klaviyo-update-settings', '_wpnonce', true, false);
+            $content .= wp_nonce_field('klaviyo-update-settings', '_wpnonce', true, false);
         }
-        $content .= '<tr><th scope="row"><label for="klaviyo_public_api_key">Public API Key</label></th><td><input type="text" class="regular-text" name="klaviyo_public_api_key" value="' . $klaviyo_settings['public_api_key'] . '" /></td></tr>';
-        $content .= '<tr><th scope="row"><label for="klaviyo_newsletter_list_id">Add a subscribe to newsletter checkbox on the checkout page</label></th><td><input type="text" class="regular-text" name="klaviyo_newsletter_list_id" placeholder="Klaviyo list ID" value="' . $klaviyo_settings['klaviyo_newsletter_list_id'] . '" /></td></tr>';
-        $content .= '<tr><th scope="row"><label for="klaviyo_newsletter_text">Subscribe to newsletter text</label></th><td><input type="text" class="regular-text" name="klaviyo_newsletter_text" placeholder="Eg. I do not mind if you send me relevant updates." value="' . $klaviyo_settings['klaviyo_newsletter_text'] . '" /></td></tr>';
-        $content .= '<tr><th scope="row"><label for="klaviyo_configuration_warning">Disable Configuration Warning</label></th><td><input type="checkbox" name="admin_settings_message" value="true" ' . checked($klaviyo_settings['admin_settings_message'], 'true', false) . ' /></td></tr>';
-        $content .= '<tr><th scope="row"><label for="klaviyo_popup">Enable Klaviyo signup forms</label></th><td><input type="checkbox" name="klaviyo_popup" value="true" ' . checked($klaviyo_settings['klaviyo_popup'], 'true', false) . ' /></td></tr>';
-        $content .= '</table>';
-        $content .= '<p>This will automatically install the Klaviyo script needed for signup forms. This script is required for the built-in signup form widget. Learn more about Klaviyo <a href="https://help.klaviyo.com/hc/en-us/articles/360002035871-Install-Klaviyo-Signup-Forms#verify-your-installation">Signup forms.</a></p>';
-        
+
+        $sms_list_id = isset( $klaviyo_settings['klaviyo_sms_list_id'] ) ? $klaviyo_settings['klaviyo_sms_list_id'] : null;
+        $sms_subscribe_checkbox = isset( $klaviyo_settings['klaviyo_sms_subscribe_checkbox'] ) ? $klaviyo_settings['klaviyo_sms_subscribe_checkbox'] : false;
+        $sms_consent_text = isset( $klaviyo_settings['klaviyo_sms_consent_text'] ) ? $klaviyo_settings['klaviyo_sms_consent_text'] : null;
+        $sms_disclosure_text = isset( $klaviyo_settings['klaviyo_sms_consent_disclosure_text'] ) ? $klaviyo_settings['klaviyo_sms_consent_disclosure_text'] : null;
+
+        $content .= '<div xmlns="http://www.w3.org/1999/html">
+                    <form>
+                        <section style="margin:20px 0px 20px">
+                            <label for="klaviyo_public_api_key"><b>Public API Key</b></label>
+                            <input type="text" class="regular-text" name="klaviyo_public_api_key" style="display:block" value="' . $klaviyo_settings['public_api_key'] . '" />
+                            <p style="margin: 2px"><small>You can find them on your <a href="https://www.klaviyo.com/account#api-keys-tab">Klaviyo account page</a></small></p>
+                        </section>
+
+                        <section style="margin:20px 0px 0px">
+                            <input type="checkbox" name="klaviyo_popup" value="true" ' . checked($klaviyo_settings['klaviyo_popup'], 'true', false) . ' />
+                            <label for="klaviyo_popup">Enable Klaviyo signup forms</label>
+                        </section>
+
+                        <section style="margin:10px 0px">
+                            <input type="checkbox" name="admin_settings_message" value="true" ' . checked($klaviyo_settings['admin_settings_message'], 'true', false) . ' />
+                            <label for="admin_settings_message">Disable configuration warning</label>
+                        </section>
+
+                        <section style="margin:20px 0px 20px">
+                            <p>
+                                <b style="font-size: larger">Subscribe contacts at checkout</b></br>
+                                <small>Contacts will be subscribed to the specified list when they click "Place Order"</small>
+                            </p>
+
+                            <label style="display:block" for="klaviyo_newsletter_list_id"><b>Klaviyo List ID for Email</b></label>
+                            <input type="text" class="regular-text" name="klaviyo_newsletter_list_id" placeholder="Email list ID" style="display:block" value="' . $klaviyo_settings['klaviyo_newsletter_list_id'] . '" />
+
+                            <label style="display:block;margin:5px 0px 0px 0px" for="klaviyo_sms_list_id"><b>Klaviyo List ID for SMS</b></label>
+                            <input type="text" class="regular-text" name="klaviyo_sms_list_id" placeholder="SMS list ID" style="display:block" value="' . $sms_list_id . '" />
+
+                            <p style="margin: 2px"><small><a href="https://help.klaviyo.com/hc/en-us/articles/115005078647-Find-a-List-ID">How to find List ID</a></small></p>
+
+                        </section>
+
+                        <section style="margin:20px 0px 20px">
+                            <p style="margin-bottom: 5px"><b style="font-size: large"> Email </b></p>
+                            <input type="checkbox" name="klaviyo_subscribe_checkbox" value="true" ' . checked($klaviyo_settings['klaviyo_subscribe_checkbox'], 'true', false) . ' />
+                            <label for="klaviyo_subscribe_checkbox">Subscribe contacts to email marketing</label>
+
+                            <p style="margin:2px"><small>Adds a checkbox to the checkout page for opt-in</small></p>
+                            <label style="display:block;margin:10px 0px" for="klaviyo_newsletter_text"><b>Subscribe to newsletter text</b></label>
+                            <input type="text" class="regular-text" name="klaviyo_newsletter_text" placeholder="Subscribe to email updates" style="display:block;margin:0px;width=100%" value="' . $klaviyo_settings['klaviyo_newsletter_text'] . '" />
+
+                            <p style="margin-bottom: 5px"><b style="font-size: large"> SMS </b></p>
+                            <input type="checkbox" name="klaviyo_sms_subscribe_checkbox" value="true" ' . checked($sms_subscribe_checkbox, 'true', false) . ' />
+                            <label for="klaviyo_sms_subscribe_checkbox">Subscribe contacts to SMS marketing</label>
+
+                            <p style="margin:2px"><small>Adds a checkbox to the checkout page for opt-in. You need to first <a href="https://help.klaviyo.com/hc/en-us/articles/360039190611-On-Demand-Training-Getting-Started-with-Klaviyo-SMS">set up SMS in Klaviyo</a></small></p>
+                            <label style="display:block;margin:10px 0px" for="klaviyo_sms_consent_text"><b>SMS opt-in checkbox text</b></label>
+                            <input type="text" class="regular-text" name="klaviyo_sms_consent_text" placeholder="Subscribe to SMS updates" style="display:block;margin:0px;width=100%" value="' . $sms_consent_text . '" />
+
+                        </section>
+
+                        <section style="margin:20px 0px 20px">
+                            <label style="display:block;margin:10px 0px" for="klaviyo_sms_consent_disclosure_text"><b>SMS consent disclosure text</b></label>
+                            <textarea rows="10" cols="20" class="regular-text" name="klaviyo_sms_consent_disclosure_text" placeholder="' . self::SMS_DISCLOSURE_TEXT . '" >' . $sms_disclosure_text . '</textarea>
+
+                            <p style="margin:2px"><small>You must include disclosure language for TCPA compliance. You should also update your Terms of Service and Privacy Policy to include the terms of your SMS marketing program</small></p>
+                            <p><a href="https://help.klaviyo.com/hc/en-us/articles/360035055312-About-US-SMS-Compliance-Laws">Learn more about SMS consent and compliance</a></p>
+                        </section>
+                    </form>
+                    </div>';
+
         $wrapped_content = $this->postbox('klaviyo-settings', 'Connect to Klaviyo', $content);
-        
+
         $this->admin_wrap('Klaviyo Settings', $wrapped_content);
     }
 
@@ -73,7 +138,7 @@ class WPKlaviyoAdmin {
         $klaviyo_notification = new WPKlaviyoNotification('settings_update');
 
         if (!empty($_POST['klaviyo_option_submitted'])) {
-             
+
             $klaviyo_settings = get_option('klaviyo_settings');
 
             if ($_GET['page'] == 'klaviyo_settings' && check_admin_referer('klaviyo-update-settings')) {
@@ -81,24 +146,55 @@ class WPKlaviyoAdmin {
                     $klaviyo_settings['public_api_key'] = $_POST['klaviyo_public_api_key'];
                 }
 
-                $klaviyo_setting_keys = ['klaviyo_public_api_key', 'admin_settings_message', 'klaviyo_subscribe_checkbox', 'klaviyo_newsletter_list_id', 'klaviyo_newsletter_text', 'klaviyo_popup'];
-                $klaviyo_updated_settings = array_fill_keys($klaviyo_setting_keys, '');
-                
+                $klaviyo_setting_keys = [
+                    'klaviyo_public_api_key',
+                    'admin_settings_message',
+                    'klaviyo_subscribe_checkbox',
+                    'klaviyo_newsletter_list_id',
+                    'klaviyo_newsletter_text',
+                    'klaviyo_popup',
+                    'klaviyo_sms_subscribe_checkbox',
+                    'klaviyo_sms_list_id',
+                    'klaviyo_sms_consent_text',
+                    'klaviyo_sms_consent_disclosure_text',
+                ];
+                $klaviyo_updated_settings = array_fill_keys( $klaviyo_setting_keys, '' );
+
                 foreach($_POST as $key => $value) {
-                    if ( 'klaviyo_newsletter_text' === $key ) {
-                        $value = stripslashes($value);
+                    if ( in_array( $key, array( 'klaviyo_newsletter_text', 'klaviyo_sms_consent_text', 'klaviyo_sms_consent_disclosure_text', ) ) ) {
+                        $value = trim( stripslashes( $value ) );
                     }
 
                     $klaviyo_updated_settings[$key] = $value;
                 }
-                
+
                 $klaviyo_settings = array_merge($klaviyo_settings, $klaviyo_updated_settings);
-                                
-                $klaviyo_notification->display_message(3);
-                update_option('klaviyo_settings', $klaviyo_settings);
+
+                if ( empty( $klaviyo_settings['klaviyo_sms_consent_disclosure_text'] ) ) {
+                    $klaviyo_settings['klaviyo_sms_consent_disclosure_text'] = self::SMS_DISCLOSURE_TEXT;
+                }
+
+                if ( $klaviyo_settings['klaviyo_subscribe_checkbox'] && !$klaviyo_settings['klaviyo_newsletter_list_id'] ) {
+                    $klaviyo_notification->admin_message( 'add_email_list_id', 10 );
+                }
+
+                if ( $klaviyo_settings['klaviyo_sms_subscribe_checkbox'] && !$klaviyo_settings['klaviyo_sms_list_id'] ) {
+                    $klaviyo_notification->admin_message( 'add_sms_list_id', 10 );
+                }
+
+                if (
+                    $klaviyo_settings['klaviyo_sms_list_id'] == $klaviyo_settings['klaviyo_newsletter_list_id']
+                    && !empty( $klaviyo_settings['klaviyo_sms_list_id'] )
+                    && !empty( $klaviyo_settings['klaviyo_newsletter_list_id'] )
+                ) {
+                    $klaviyo_notification->admin_message( 'same_list_ids', 10 );
+                }
+
+                $klaviyo_notification->display_message( 3 );
+                update_option( 'klaviyo_settings', $klaviyo_settings );
             }
         }
-        
+
         return get_option('klaviyo_settings');
     }
 
@@ -118,7 +214,7 @@ class WPKlaviyoAdmin {
         $wrapper = '';
         $wrapper .= '<div id="' . $id . '" class="postbox">';
         $wrapper .=   '<div class="handlediv" title="Click to toggle"><br /></div>';
-        $wrapper .=   '<h3 class="hndle"><span>' . $title . '</span></h3>';
+        $wrapper .=   '<h2 class="hndle" style="font-size: large"><span>' . $title . '</span></h2>';
         $wrapper .=   '<div class="inside">' . $content . '</div>';
         $wrapper .= '</div>';
         return $wrapper;
@@ -126,9 +222,9 @@ class WPKlaviyoAdmin {
 
     function admin_wrap($title, $content) {
 
-    $showpluginsupport = $this->show_plugin_support();
+        $showpluginsupport = $this->show_plugin_support();
 
-      echo <<<EOT
+        echo <<<EOT
         <div class="wrap">
           <div class="dashboard-widgets-wrap">
             <h2>{$title}</h2>
@@ -154,5 +250,5 @@ class WPKlaviyoAdmin {
 EOT;
 
     }
-  }
+}
 ?>

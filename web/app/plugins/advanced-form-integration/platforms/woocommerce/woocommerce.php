@@ -43,6 +43,7 @@ function adfoin_get_woocommerce_order_fields()
 {
     $fields = array(
         "id"                          => __( "Order ID", "advanced-form-integration" ),
+        "order_number"                => __( "Order Number", "advanced-form-integration" ),
         "parent_id"                   => __( "Parent ID", "advanced-form-integration" ),
         "user_id"                     => __( "User ID", "advanced-form-integration" ),
         "billing_first_name"          => __( "Billing First Name", "advanced-form-integration" ),
@@ -202,21 +203,13 @@ function adfoin_woocommerce_after_admin_order( $order_id )
 }
 
 add_action(
-    'woocommerce_thankyou',
+    'woocommerce_checkout_order_created',
     'adfoin_woocommerce_after_checkout_order',
     10,
-    2
+    1
 );
-function adfoin_woocommerce_after_checkout_order( $order_id )
+function adfoin_woocommerce_after_checkout_order( $order )
 {
-    if ( !$order_id ) {
-        return;
-    }
-    $order = wc_get_order( $order_id );
-    $via = $order->get_created_via();
-    if ( $via != "checkout" ) {
-        return;
-    }
     adfoin_woocommerce_after_submission( $order, 1 );
 }
 
@@ -443,8 +436,17 @@ function adfoin_woocommerce_after_submission( $order, $form_id )
     
     }
     $extra_data = maybe_unserialize( get_option( 'adfoin_wc_checkout_fields' ) );
+    
     if ( is_array( $extra_data ) ) {
         $posted_data = $posted_data + $extra_data;
+        update_option( 'adfoin_wc_checkout_fields', maybe_serialize( array() ) );
+    }
+    
+    $meta_data = get_post_meta( $posted_data['id'] );
+    if ( $meta_data ) {
+        foreach ( $meta_data as $metakey => $metavalue ) {
+            $posted_data[$metakey] = ( isset( $metavalue[0] ) ? $metavalue[0] : '' );
+        }
     }
     foreach ( $saved_records as $record ) {
         $action_provider = $record['action_provider'];

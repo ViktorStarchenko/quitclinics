@@ -7,7 +7,7 @@ function adfoin_pipedrive_actions( $actions ) {
     $actions['pipedrive'] = array(
         'title' => __( 'Pipedrive', 'advanced-form-integration' ),
         'tasks' => array(
-            'add_ocdna'   => __( 'Create New Contact, Organization, Deal, Note, Activity', 'advanced-form-integration' )
+            'add_ocdna' => __( 'Create New Contact, Organization, Deal, Note, Activity', 'advanced-form-integration' )
         )
     );
 
@@ -46,7 +46,7 @@ function adfoin_pipedrive_settings_view( $current_tab ) {
                     <input type="text" name="adfoin_pipedrive_api_token"
                            value="<?php echo $api_token; ?>" placeholder="<?php _e( 'Please enter API Token', 'advanced-form-integration' ); ?>"
                            class="regular-text"/>
-                    <p class="description" id="code-description"><?php _e( 'Go to Settings > Personal preferences > API to get API Token', 'advanced-form-integration' ); ?></a></p>
+                    <p class="description" id="code-description"><?php _e( 'Go to Profile > Personal preferences > API to get API Token', 'advanced-form-integration' ); ?></a></p>
                 </td>
 
             </tr>
@@ -92,7 +92,7 @@ function adfoin_pipedrive_action_fields() {
                 </td>
             </tr>
 
-            <tr class="alternate" v-if="action.task == 'add_ocdna'">
+            <!-- <tr class="alternate" v-if="action.task == 'add_ocdna'">
                 <td>
                     <label for="tablecell">
                         <?php esc_attr_e( 'Instructions', 'advanced-form-integration' ); ?>
@@ -100,9 +100,9 @@ function adfoin_pipedrive_action_fields() {
                 </td>
 
                 <td>
-                    <p><?php _e('This action will create a contact at first (required). Then Organization, Deal, Note and Activity will be created (optional, if filled)', 'advanced-form-integration' );?></p>
+                    <p><?php _e('This action will create a person at first (required). Then Organization, Deal, Note and Activity will be created (optional, if filled)', 'advanced-form-integration' );?></p>
                 </td>
-            </tr>
+            </tr> -->
 
             <tr valign="top" class="alternate" v-if="action.task == 'add_ocdna'">
                 <td scope="row-title">
@@ -195,7 +195,7 @@ function adfoin_get_pipedrive_org_fields() {
     $data      = wp_remote_request( $url, $args );
 
     if( is_wp_error( $data ) ) {
-        wp_snd_json_error();
+        wp_send_json_error();
     }
 
     $body       = json_decode( $data["body"] );
@@ -235,11 +235,7 @@ function adfoin_get_pipedrive_person_fields() {
         return array();
     }
 
-    $person_fields = array(
-        array( 'key' => 'per_name', 'value' => 'Name [Person]', 'description' => '' ),
-        array( 'key' => 'per_email', 'value' => 'Email [Person]', 'description' => '' ),
-        array( 'key' => 'per_phone', 'value' => 'Phone [Person]', 'description' => '' )
-    );
+    $person_fields = array();
 
     $args = array(
         'headers' => array(
@@ -255,14 +251,26 @@ function adfoin_get_pipedrive_person_fields() {
         wp_send_json_success( $person_fields );
     }
 
-    $body = json_decode( $data["body"] );
+    $body = json_decode( wp_remote_retrieve_body( $data ) );
 
     foreach( $body->data as $single ) {
-        if( strlen( $single->key ) == 40 || $single->key == "label" ) {
+        $description = '';
 
-            $description = "";
+        if( true == $single->bulk_edit_allowed ) {
 
-            if( $single->field_type == "enum" ) {
+            if( 'name' == $single->key ) {
+                $description = __( 'Required for creating a person', 'advanced-form-integration' );
+            }
+
+            if( 'visible_to' == $single->key ) {
+                $description = __( 'Owner & followers (private): 1 Entire company (shared): 3', 'advanced-form-integration' );
+            }
+
+            if( 'first_name' == $single->key || 'last_name' == $single->key || 'org_id' == $single->key || 'owner_id' == $single->key ) {
+                continue;
+            }
+
+            if( 'enum' == $single->field_type ) {
                 foreach( $single->options as $value ) {
                     $description .= $value->label . ': ' . $value->id . '  ';
                 }
@@ -278,7 +286,7 @@ function adfoin_get_pipedrive_person_fields() {
 add_action( 'wp_ajax_adfoin_get_pipedrive_deal_fields', 'adfoin_get_pipedrive_deal_fields', 10, 0 );
 
 /*
- * Get Pipedrive Dal Fields
+ * Get Pipedrive Deal Fields
  */
 function adfoin_get_pipedrive_deal_fields() {
     // Security Check
@@ -308,13 +316,14 @@ function adfoin_get_pipedrive_deal_fields() {
     }
 
     $deal_fields = array(
-        array( 'key' => 'deal_title', 'value' => 'Title [Deal]', 'description' => '' ),
-        array( 'key' => 'deal_value', 'value' => 'Value [Deal]', 'description' => '' ),
-        array( 'key' => 'deal_currency', 'value' => 'Currency [Deal]', 'description' => '' ),
+        array( 'key' => 'deal_title', 'value' => 'Title [Deal]', 'description' => __( 'Required for creating a deal.', 'advanced-form-integration' ) ),
+        array( 'key' => 'deal_value', 'value' => 'Value [Deal]', 'description' => 'Numeric value of the deal. If omitted, it will be set to 0.' ),
+        array( 'key' => 'deal_currency', 'value' => 'Currency [Deal]', 'description' => 'Accepts a 3-character currency code. If omitted, currency will be set to the default currency of the authorized user.' ),
         array( 'key' => 'deal_probability', 'value' => 'Probability [Deal]', 'description' => '' ),
         array( 'key' => 'deal_stage_id', 'value' => 'Stage ID [Deal]', 'description' => $stages ),
         array( 'key' => 'deal_status', 'value' => 'Status [Deal]', 'description' => 'Example: open, lost, won, deleted' ),
         array( 'key' => 'deal_lost_reason', 'value' => 'Lost Reason [Deal]', 'description' => '' ),
+        array( 'key' => 'deal_expected_close_date', 'value' => 'Expected Close Date [Deal]', 'description' => 'YYYY-MM-DD' )
     );
 
 
@@ -348,95 +357,11 @@ function adfoin_get_pipedrive_deal_fields() {
 }
 
 /*
- * Saves connection mapping
- */
-function adfoin_pipedrive_save_integration() {
-    $params = array();
-    parse_str( adfoin_sanitize_text_or_array_field( $_POST['formData'] ), $params );
-
-    $trigger_data = isset( $_POST["triggerData"] ) ? adfoin_sanitize_text_or_array_field( $_POST["triggerData"] ) : array();
-    $action_data  = isset( $_POST["actionData"] ) ? adfoin_sanitize_text_or_array_field( $_POST["actionData"] ) : array();
-    $field_data   = isset( $_POST["fieldData"] ) ? adfoin_sanitize_text_or_array_field( $_POST["fieldData"] ) : array();
-
-    $integration_title = isset( $trigger_data["integrationTitle"] ) ? $trigger_data["integrationTitle"] : "";
-    $form_provider_id  = isset( $trigger_data["formProviderId"] ) ? $trigger_data["formProviderId"] : "";
-    $form_id           = isset( $trigger_data["formId"] ) ? $trigger_data["formId"] : "";
-    $form_name         = isset( $trigger_data["formName"] ) ? $trigger_data["formName"] : "";
-    $action_provider   = isset( $action_data["actionProviderId"] ) ? $action_data["actionProviderId"] : "";
-    $task              = isset( $action_data["task"] ) ? $action_data["task"] : "";
-    $type              = isset( $params["type"] ) ? $params["type"] : "";
-
-
-
-    $all_data = array(
-        'trigger_data' => $trigger_data,
-        'action_data'  => $action_data,
-        'field_data'   => $field_data
-    );
-
-    global $wpdb;
-
-    $integration_table = $wpdb->prefix . 'adfoin_integration';
-
-    if ( $type == 'new_integration' ) {
-
-        $result = $wpdb->insert(
-            $integration_table,
-            array(
-                'title'           => $integration_title,
-                'form_provider'   => $form_provider_id,
-                'form_id'         => $form_id,
-                'form_name'       => $form_name,
-                'action_provider' => $action_provider,
-                'task'            => $task,
-                'data'            => json_encode( $all_data, true ),
-                'status'          => 1
-            )
-        );
-
-    }
-
-    if ( $type == 'update_integration' ) {
-
-        $id = esc_sql( trim( $params['edit_id'] ) );
-
-        if ( $type != 'update_integration' &&  !empty( $id ) ) {
-            exit;
-        }
-
-        $result = $wpdb->update( $integration_table,
-            array(
-                'title'           => $integration_title,
-                'form_provider'   => $form_provider_id,
-                'form_id'         => $form_id,
-                'form_name'       => $form_name,
-                'data'            => json_encode( $all_data, true ),
-            ),
-            array(
-                'id' => $id
-            )
-        );
-    }
-
-    if ( $result ) {
-        wp_send_json_success();
-    } else {
-        wp_send_json_error();
-    }
-}
-
-/*
  * Handles sending data to Pipedrive API
  */
 function adfoin_pipedrive_send_data( $record, $posted_data ) {
 
-    $api_token    = get_option( 'adfoin_pipedrive_api_token' ) ? get_option( 'adfoin_pipedrive_api_token' ) : "";
-
-    if( !$api_token ) {
-        exit;
-    }
-
-    $record_data      = json_decode( $record["data"], true );
+    $record_data = json_decode( $record["data"], true );
 
     if( array_key_exists( "cl", $record_data["action_data"] ) ) {
         if( $record_data["action_data"]["cl"]["active"] == "yes" ) {
@@ -498,58 +423,40 @@ function adfoin_pipedrive_send_data( $record, $posted_data ) {
             }
         }
 
-        $headers = array(
-            "Accept"       => "application/json",
-            "Content-Type" => "application/json"
-        );
-
         if( $org_data['name'] ) {
             $org_data["owner_id"] = $owner;
 
-            $url = "https://api.pipedrive.com/v1/organizations?api_token={$api_token}";
+            $org_data     = array_filter( array_map( 'trim', $org_data ) );
+            $org_response = adfoin_pipedrive_request( 'organizations', 'POST', $org_data, $record );
+            $org_body     = json_decode( wp_remote_retrieve_body( $org_response ) );
 
-            $body = json_encode( $org_data );
-
-            $args = array(
-                "headers" => $headers,
-                "body"    => $body
-            );
-
-            $response = wp_remote_post( $url, $args );
-
-            adfoin_add_to_log( $response, $url, $args, $record );
-
-            $body = json_decode( $response["body"] );
-
-            if( $body->success == true ) {
-                $org_id = $body->data->id;
+            if( $org_body->success == true ) {
+                $org_id = $org_body->data->id;
             }
         }
 
-        if( $person_data['name'] ) {
+        if( $person_data['name'] ) {            
             $person_data["owner_id"] = $owner;
 
             if( $org_id ) {
                 $person_data['org_id'] = $org_id;
             }
 
-            $url = "https://api.pipedrive.com/v1/persons?api_token={$api_token}";
+            $person_data = array_filter( array_map( 'trim', $person_data ) );
 
-            $body = json_encode( $person_data );
+            if( isset( $person_data['email'] ) ) {
+                $person_id = adfoin_pipedrive_person_exists( $person_data['email'] );
 
-            $args = array(
-                "headers" => $headers,
-                "body"    => $body
-            );
+                if( $person_id ) {
+                    $person_response = adfoin_pipedrive_request( 'persons/' . $person_id, 'PUT', $person_data, $record );
+                } else{
+                    $person_response = adfoin_pipedrive_request( 'persons', 'POST', $person_data, $record );
+                    $person_body     = json_decode( wp_remote_retrieve_body( $person_response ) );
 
-            $response = wp_remote_post( $url, $args );
-
-            adfoin_add_to_log( $response, $url, $args, $record );
-
-            $body = json_decode( $response["body"] );
-
-            if( $body->success == true ) {
-                $person_id = $body->data->id;
+                    if( $person_body->success == true ) {
+                        $person_id = $person_body->data->id;
+                    }
+                }
             }
         }
 
@@ -564,23 +471,12 @@ function adfoin_pipedrive_send_data( $record, $posted_data ) {
                 $deal_data['person_id'] = $person_id;
             }
 
-            $url = "https://api.pipedrive.com/v1/deals?api_token={$api_token}";
+            $deal_data     = array_filter( array_map( 'trim', $deal_data ) );
+            $deal_response = adfoin_pipedrive_request( 'deals', 'POST', $deal_data, $record );
+            $deal_body     = json_decode( wp_remote_retrieve_body( $deal_response ) );
 
-            $body = json_encode( $deal_data );
-
-            $args = array(
-                "headers" => $headers,
-                "body"    => $body
-            );
-
-            $response = wp_remote_post( $url, $args );
-
-            adfoin_add_to_log( $response, $url, $args, $record );
-
-            $body = json_decode( $response["body"] );
-
-            if( $body->success == true ) {
-                $deal_id = $body->data->id;
+            if( $deal_body->success == true ) {
+                $deal_id = $deal_body->data->id;
             }
         }
 
@@ -599,18 +495,9 @@ function adfoin_pipedrive_send_data( $record, $posted_data ) {
                 $note_data['deal_id'] = $deal_id;
             }
 
-            $url = "https://api.pipedrive.com/v1/notes?api_token={$api_token}";
-
-            $body = json_encode( $note_data );
-
-            $args = array(
-                "headers" => $headers,
-                "body"    => $body
-            );
-
-            $response = wp_remote_post( $url, $args );
-
-            adfoin_add_to_log( $response, $url, $args, $record );
+            $note_data     = array_filter( array_map( 'trim', $note_data ) );
+            $note_response = adfoin_pipedrive_request( 'notes', 'POST', $note_data, $record );
+            $note_body     = json_decode( wp_remote_retrieve_body( $note_response ) );
         }
 
         if( $act_data['subject'] ) {
@@ -628,20 +515,92 @@ function adfoin_pipedrive_send_data( $record, $posted_data ) {
                 $act_data['deal_id'] = $deal_id;
             }
 
-            $url = "https://api.pipedrive.com/v1/activities?api_token={$api_token}";
+            if( isset( $act_data['after_days'] ) && $act_data['after_days'] ) {
+                $after_days = (int) $act_data['after_days'];
 
-            $body = json_encode( $act_data );
+                if( $after_days ) {
+                    $timezone             = wp_timezone();
+                    $date                 = date_create( '+' . $after_days . ' days', $timezone );
+                    $formatted_date       = date_format( $date, 'Y-m-d' );
+                    $act_data['due_date'] = $formatted_date;
 
-            $args = array(
-                "headers" => $headers,
-                "body"    => $body
-            );
+                    unset( $act_data['after_days'] );
+                }
+            }
 
-            $response = wp_remote_post( $url, $args );
-
-            adfoin_add_to_log( $response, $url, $args, $record );
+            $act_data     = array_filter( array_map( 'trim', $act_data ) );
+            $act_response = adfoin_pipedrive_request( 'activities', 'POST', $act_data, $record );
+            $act_body     = json_decode( wp_remote_retrieve_body( $act_response ) );
         }
     }
 
     return;
+}
+
+function adfoin_pipedrive_request( $endpoint, $method, $data = array(), $record = array() ) {
+
+    $api_token = get_option( 'adfoin_pipedrive_api_token' ) ? get_option( 'adfoin_pipedrive_api_token' ) : "";
+
+    if( !$api_token ) {
+        return;
+    }
+
+    $args = array(
+        'method'  => $method,
+        'headers' => array(
+            "Accept"       => "application/json",
+            "Content-Type" => "application/json"
+        )
+    );
+
+    $base_url = 'https://api.pipedrive.com/v1/';
+    $url      = $base_url . $endpoint;
+    $url      = add_query_arg( 'api_token', $api_token, $url );
+
+    if( 'POST' == $method || 'PUT' == $method ) {
+        $args['body'] = json_encode( $data );
+    }
+
+    $response = wp_remote_request( $url, $args );
+
+    if( $record ) {
+        adfoin_add_to_log( $response, $url, $args, $record );
+    }
+
+    return $response;
+}
+
+function adfoin_pipedrive_person_exists( $email ) {
+    if( !$email ) {
+        return false;
+    }
+
+    $endpoint = 'persons/search';
+
+    $query_args = array(
+        'fields'      => 'email',
+        'exact_match' => true,
+        'term'        => $email
+    );
+
+    $endpoint      = add_query_arg( $query_args, $endpoint );
+    $response      = adfoin_pipedrive_request( $endpoint, 'GET' );
+    $response_code = wp_remote_retrieve_response_code( $response );
+    $person_id     = '';
+    
+    if( 200 == $response_code ) {
+        $response_body = json_decode( wp_remote_retrieve_body( $response ), true );
+
+        if( isset( $response_body['data']['items'] ) && is_array( $response_body['data']['items'] ) ) {
+            if( count( $response_body['data']['items'] ) > 0 ) {
+                $person_id = $response_body['data']['items'][0]['item']['id'];
+            }
+        }
+    }
+
+    if( $person_id ) {
+        return $person_id;
+    } else{
+        return false;
+    }
 }

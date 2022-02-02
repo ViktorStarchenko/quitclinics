@@ -3,16 +3,41 @@ Vue.component('webhook-row', {
     template: '#webhook-row-template'
 });
 
+Vue.component('cl-main', {
+    props: ["trigger", "action", "fielddata"],
+    template: '#cl-main-template',
+    data: function() {
+        return{}
+    },
+    methods: {
+        clAddCondition: function(event) {
+            var conditionL = adfoinNewIntegration.action.cl.conditions.length;
+            adfoinNewIntegration.action.cl.conditions.push({id: conditionL+1, field: "", operator: "equal_to", value: ""});
+        }
+    }
+});
+
 Vue.component('conditional-logic', {
     props: ["trigger", "action", "fielddata", "condition"],
     template: '#conditional-logic-template',
     data: function() {
-        return{}
+        return{
+            selected2: ''
+        }
     },
     methods: {
         clRemoveCondition: function(condition) {
             const conditionIndex = adfoinNewIntegration.action.cl.conditions.indexOf(condition);
             adfoinNewIntegration.action.cl.conditions.splice(conditionIndex, 1);
+        },
+        updateFieldValue: function(e) {
+            if(this.selected2 || this.selected2 == 0) {
+                if (this.condition.field || "0" == this.condition.field ) {
+                    this.condition.field += ' {{' + this.selected2 + '}}';
+                } else {
+                    this.condition.field = '{{' + this.selected2 + '}}';
+                }
+            }
         }
     }
 });
@@ -28,7 +53,6 @@ Vue.component('editable-field', {
     methods: {
         updateFieldValue: function(e) {
             if(this.selected || this.selected == 0) {
-
                 if (this.fielddata[this.field.value] || "0" == this.fielddata[this.field.value]) {
                     this.fielddata[this.field.value] += ' {{' + this.selected + '}}';
                 } else {
@@ -36,6 +60,7 @@ Vue.component('editable-field', {
                 }
             }
         },
+        
         inArray: function(needle, haystack) {
             var length = haystack.length;
             for(var i = 0; i < length; i++) {
@@ -282,6 +307,10 @@ Vue.component('aweber', {
             that.fielddata.accounts = response.data;
             that.accountLoading = false;
         });
+
+        if( this.fielddata.accountId ) {
+            this.getLists();
+        }
     },
     template: '#aweber-action-template'
 });
@@ -420,17 +449,7 @@ Vue.component('agilecrm', {
                 {type: 'text', value: 'city', title: 'City [Contact]', task: ['add_contact'], required: false},
                 {type: 'text', value: 'state', title: 'State [Contact]', task: ['add_contact'], required: false},
                 {type: 'text', value: 'zip', title: 'Zip [Contact]', task: ['add_contact'], required: false},
-                {type: 'text', value: 'country', title: 'Country [Contact]', task: ['add_contact'], required: false},
-                {type: 'text', value: 'dealName', title: 'Deal Name [Deal]', task: ['add_contact'], required: false},
-                {type: 'text', value: 'dealValue', title: 'Deal Value [Deal]', task: ['add_contact'], required: false},
-                {type: 'text', value: 'dealProbability', title: 'Deal Probability [Deal]', task: ['add_contact'], required: false},
-                {type: 'text', value: 'dealCloseDate', title: 'Deal Close Date [Deal]', task: ['add_contact'], required: false},
-                {type: 'text', value: 'dealSource', title: 'Deal Source [Deal]', task: ['add_contact'], required: false},
-                {type: 'text', value: 'dealDescription', title: 'Deal Description [Deal]', task: ['add_contact'], required: false},
-                {type: 'text', value: 'dealTrack', title: 'Deal Track [Deal]', task: ['add_contact'], required: false},
-                {type: 'text', value: 'dealMilestone', title: 'Deal Milestone [Deal]', task: ['add_contact'], required: false},
-                {type: 'text', value: 'dealOwner', title: 'Deal Owner [Deal]', task: ['add_contact'], required: false},
-                {type: 'text', value: 'noteDescription', title: 'Note [Note]', task: ['add_contact'], required: false}
+                {type: 'text', value: 'country', title: 'Country [Contact]', task: ['add_contact'], required: false}
             ]
 
         }
@@ -472,6 +491,89 @@ Vue.component('agilecrm', {
         });
     },
     template: '#agilecrm-action-template'
+});
+
+Vue.component('keap', {
+    props: ["trigger", "action", "fielddata"],
+    data: function () {
+        return {
+            listLoading: false,
+            fields: [
+                {type: 'text', value: 'email', title: 'Email', task: ['add_contact'], required: true},
+                {type: 'text', value: 'title', title: 'Title', task: ['add_contact'], required: false},
+                {type: 'text', value: 'firstName', title: 'First Name', task: ['add_contact'], required: false},
+                {type: 'text', value: 'middleName', title: 'Middle Name', task: ['add_contact'], required: false},
+                {type: 'text', value: 'lastName', title: 'Last Name', task: ['add_contact'], required: false},
+                {type: 'text', value: 'suffix', title: 'Suffix', task: ['add_contact'], required: false},
+                {type: 'text', value: 'contactType', title: 'Contact Type', task: ['add_contact'], description: 'Lead, Customer, Other', required: false},
+                {type: 'text', value: 'company', title: 'Company Name', task: ['add_contact'], required: false},
+                {type: 'text', value: 'optin', title: 'Opt-In', task: ['add_contact'], description: 'Has this person opted-in to receiving marketing communications from you? Insert "true" to send them email through Keap.', required: false},
+                {type: 'text', value: 'jobTitle', title: 'Job Title', task: ['add_contact'], required: false},
+                {type: 'text', value: 'website', title: 'Website', task: ['add_contact'], required: false},
+                {type: 'text', value: 'email2', title: 'Email 2', task: ['add_contact'], required: false},
+                {type: 'text', value: 'email3', title: 'Email 3', task: ['add_contact'], required: false},
+                {type: 'text', value: 'mobilePhone', title: 'Mobile Phone', task: ['add_contact'], required: false},
+                {type: 'text', value: 'workPhone', title: 'Work Phone', task: ['add_contact'], required: false},
+                {type: 'text', value: 'homePhone', title: 'Home Phone', task: ['add_contact'], required: false},
+                {type: 'text', value: 'billingStreet1', title: 'Billing Street1', task: ['add_contact'], required: false},
+                {type: 'text', value: 'billingStreet2', title: 'Billing Street2', task: ['add_contact'], required: false},
+                {type: 'text', value: 'billingCity', title: 'Billing City', task: ['add_contact'], required: false},
+                {type: 'text', value: 'billingState', title: 'Billing State', task: ['add_contact'], required: false},
+                {type: 'text', value: 'billingZip', title: 'Billing Zip', task: ['add_contact'], required: false},
+                {type: 'text', value: 'billingCountryCode', title: 'Billing Country Code', task: ['add_contact'], required: false},
+                {type: 'text', value: 'shippingStreet1', title: 'Shipping Street1', task: ['add_contact'], required: false},
+                {type: 'text', value: 'shippingStreet2', title: 'Shipping Street2', task: ['add_contact'], required: false},
+                {type: 'text', value: 'shippingCity', title: 'Shipping City', task: ['add_contact'], required: false},
+                {type: 'text', value: 'shippingState', title: 'Shipping State', task: ['add_contact'], required: false},
+                {type: 'text', value: 'shippingZip', title: 'Shipping Zip', task: ['add_contact'], required: false},
+                {type: 'text', value: 'shippingCountryCode', title: 'Shipping Country Code', task: ['add_contact'], required: false},
+                {type: 'text', value: 'birthday', title: 'Birthday', task: ['add_contact'], required: false},
+                {type: 'text', value: 'anniversary', title: 'Anniversary', task: ['add_contact'], required: false},
+                {type: 'text', value: 'spouseName', title: 'Spouse Name', task: ['add_contact'], required: false},
+                {type: 'text', value: 'facebook', title: 'Facebook', task: ['add_contact'], required: false},
+                {type: 'text', value: 'linkedin', title: 'LinkedIn', task: ['add_contact'], required: false},
+                {type: 'text', value: 'twitter', title: 'Twitter', task: ['add_contact'], required: false},
+            ]
+
+        }
+    },
+    methods: {
+    },
+    created: function() {
+
+    },
+    mounted: function() {
+        var that = this;
+
+        if (typeof this.fielddata.email == 'undefined') {
+            this.fielddata.email = '';
+        }
+
+        if (typeof this.fielddata.firstName == 'undefined') {
+            this.fielddata.firstName = '';
+        }
+
+        if (typeof this.fielddata.lastName == 'undefined') {
+            this.fielddata.lastName = '';
+        }
+
+        // var pipelineRequestData = {
+        //     'action': 'adfoin_get_keap_pipelines',
+        //     '_nonce': adfoin.nonce
+        // };
+
+        // jQuery.post( ajaxurl, pipelineRequestData, function( response ) {
+
+        //     if( response.success ) {
+        //         if( response.data ) {
+        //             response.data.map(function(single) {
+        //                 that.fields.push( { type: 'text', value: single.key, title: single.value, task: ['add_contact'], required: false, description: single.description } );
+        //             });
+        //         }
+        //     }
+        // });
+    },
+    template: '#keap-action-template'
 });
 
 Vue.component('pushover', {
@@ -817,7 +919,7 @@ Vue.component('klaviyo', {
                 {type: 'text', value: 'lastName', title: 'Last Name', task: ['subscribe'], required: false},
                 {type: 'text', value: 'title', title: 'Title', task: ['subscribe'], required: false},
                 {type: 'text', value: 'organization', title: 'Organization', task: ['subscribe'], required: false},
-                {type: 'text', value: 'phoneNumber', title: 'Phone Number', task: ['subscribe'], required: false},
+                {type: 'text', value: 'phoneNumber', title: 'Phone Number', task: ['subscribe'], required: false, description: 'Should be passed with proper country code. For example: "+91xxxxxxxxxx"'},
                 {type: 'text', value: 'address1', title: 'Address 1', task: ['subscribe'], required: false},
                 {type: 'text', value: 'address2', title: 'Address 2', task: ['subscribe'], required: false},
                 {type: 'text', value: 'region', title: 'Region', task: ['subscribe'], required: false},
@@ -1152,13 +1254,56 @@ Vue.component('autopilot', {
     template: '#autopilot-action-template'
 });
 
+Vue.component('benchmark', {
+    props: ["trigger", "action", "fielddata"],
+    data: function () {
+        return {
+            listLoading: false,
+            fields: [
+                {type: 'text', value: 'email', title: 'Email', task: ['subscribe'], required: true},
+                {type: 'text', value: 'firstName', title: 'First Name', task: ['subscribe'], required: false},
+                {type: 'text', value: 'middleName', title: 'Middle Name', task: ['subscribe'], required: false},
+                {type: 'text', value: 'lastName', title: 'Last Name', task: ['subscribe'], required: false}
+            ]
+
+        }
+    },
+    methods: {
+    },
+    created: function() {
+
+    },
+    mounted: function() {
+        var that = this;
+
+        if (typeof this.fielddata.listId == 'undefined') {
+            this.fielddata.listId = '';
+        }
+
+        this.listLoading = true;
+
+        var listRequestData = {
+            'action': 'adfoin_get_benchmark_list',
+            '_nonce': adfoin.nonce
+        };
+
+        jQuery.post( ajaxurl, listRequestData, function( response ) {
+            that.fielddata.list = response.data;
+            that.listLoading = false;
+        });
+    },
+    template: '#benchmark-action-template'
+});
+
 Vue.component('sendpulse', {
     props: ["trigger", "action", "fielddata"],
     data: function () {
         return {
             listLoading: false,
             fields: [
-                {type: 'text', value: 'email', title: 'Email', task: ['subscribe'], required: true}
+                {type: 'text', value: 'email', title: 'Email', task: ['subscribe'], required: true},
+                {type: 'text', value: 'name', title: 'Name', task: ['subscribe'], required: false},
+                {type: 'text', value: 'phone', title: 'Phone', task: ['subscribe'], required: false}
             ]
 
         }
@@ -1525,7 +1670,8 @@ Vue.component('revue', {
             listLoading: false,
             fields: [
                 {type: 'text', value: 'email', title: 'Email', task: ['subscribe'], required: true},
-                {type: 'text', value: 'firstName', title: 'First Name', task: ['subscribe'], required: false}
+                {type: 'text', value: 'firstName', title: 'First Name', task: ['subscribe'], required: false},
+                {type: 'text', value: 'lastName', title: 'Last Name', task: ['subscribe'], required: false}
             ]
 
         }
@@ -1542,8 +1688,45 @@ Vue.component('revue', {
         if (typeof this.fielddata.firstName == 'undefined') {
             this.fielddata.firstName = '';
         }
+
+        if (typeof this.fielddata.doptin == 'undefined') {
+            this.fielddata.doptin = false;
+        }
+
+        if (typeof this.fielddata.doptin != 'undefined') {
+            if(this.fielddata.doptin == "false") {
+                this.fielddata.doptin = false;
+            }
+        }
     },
     template: '#revue-action-template'
+});
+
+Vue.component('slack', {
+    props: ["trigger", "action", "fielddata"],
+    data: function () {
+        return {
+            listLoading: false,
+            fields: [
+                {type: 'textarea', value: 'message', title: 'Message', task: ['sendmsg'], required: false}
+            ]
+
+        }
+    },
+    methods: {
+    },
+    mounted: function() {
+        var that = this;
+
+        if (typeof this.fielddata.url == 'undefined') {
+            this.fielddata.url = '';
+        }
+
+        if (typeof this.fielddata.message == 'undefined') {
+            this.fielddata.message = '';
+        }
+    },
+    template: '#slack-action-template'
 });
 
 Vue.component('liondesk', {
@@ -1786,6 +1969,115 @@ Vue.component('drip', {
     template: '#drip-action-template'
 });
 
+Vue.component('asana', {
+    props: ["trigger", "action", "fielddata"],
+    data: function () {
+        return {
+            workspaceLoading: false,
+            projectLoading: false,
+            sectionLoading: false,
+            userLoading: false,
+            fields: [
+                {type: 'text', value: 'name', title: 'Name', task: ['create_task'], required: true},
+                {type: 'textarea', value: 'notes', title: 'Notes', task: ['create_task'], required: false},
+                {type: 'text', value: 'dueOn', title: 'Due On', task: ['create_task'], required: false, description: 'Use YYYY-MM-DD format'},
+                {type: 'text', value: 'dueOnX', title: 'Due After X Days', task: ['create_task'], required: false, description: 'Accepts numeric value. If filled, due date will be calculated and set'},
+            ]
+
+        }
+    },
+    methods: {
+        getProjects: function() {
+            var that = this;
+            this.projectLoading = true;
+            this.userLoading = true;
+
+            var projectData = {
+                'action': 'adfoin_get_asana_projects',
+                '_nonce': adfoin.nonce,
+                'workspaceId': this.fielddata.workspaceId
+            };
+
+            jQuery.post( ajaxurl, projectData, function( response ) {
+                var projects = response.data;
+                that.fielddata.projects = projects;
+                that.projectLoading = false;
+            });
+
+            var userData = {
+                'action': 'adfoin_get_asana_users',
+                '_nonce': adfoin.nonce,
+                'workspaceId': this.fielddata.workspaceId
+            };
+
+            jQuery.post( ajaxurl, userData, function( response ) {
+                var users = response.data;
+                that.fielddata.users = users;
+                that.userLoading = false;
+            });
+        },
+        getSections: function() {
+            var that = this;
+            this.sectionLoading = true;
+
+            var sectionData = {
+                'action': 'adfoin_get_asana_sections',
+                '_nonce': adfoin.nonce,
+                'projectId': this.fielddata.projectId
+            };
+
+            jQuery.post( ajaxurl, sectionData, function( response ) {
+                var sections = response.data;
+                that.fielddata.sections = sections;
+                that.sectionLoading = false;
+            });
+        }
+    },
+    created: function() {
+
+    },
+    mounted: function() {
+        var that = this;
+
+        if (typeof this.fielddata.workspaceId == 'undefined') {
+            this.fielddata.workspaceId = '';
+        }
+
+        if (typeof this.fielddata.projectId == 'undefined') {
+            this.fielddata.projectId = '';
+        }
+
+        if (typeof this.fielddata.sectionId == 'undefined') {
+            this.fielddata.sectionId = '';
+        }
+
+        if (typeof this.fielddata.userId == 'undefined') {
+            this.fielddata.userId = '';
+        }
+
+        this.workspaceLoading = true;
+
+        var workspaceRequestData = {
+            'action': 'adfoin_get_asana_workspaces',
+            '_nonce': adfoin.nonce
+        };
+
+        jQuery.post( ajaxurl, workspaceRequestData, function( response ) {
+            that.fielddata.workspaces = response.data;
+            that.workspaceLoading = false;
+        });
+
+        if( this.fielddata.workspaceId ) {
+            this.getProjects();
+        }
+
+        if( this.fielddata.workspaceId && this.fielddata.projectId ) {
+            this.getSections();
+        }
+    },
+    template: '#asana-action-template'
+});
+
 Vue.component('everwebinar', {
     props: ["trigger", "action", "fielddata"],
     data: function () {
@@ -1947,8 +2239,23 @@ Vue.component('constantcontact', {
             listLoading: false,
             fields: [
                 {type: 'text', value: 'email', title: 'Email', task: ['subscribe', 'unsubscribe'], required: true},
+                {type: 'text', value: 'jobTitle', title: 'Job Title', task: ['subscribe'], required: false},
+                {type: 'text', value: 'companyName', title: 'Company Name', task: ['subscribe'], required: false},
                 {type: 'text', value: 'firstName', title: 'First Name', task: ['subscribe'], required: false},
-                {type: 'text', value: 'lastName', title: 'Last Name', task: ['subscribe'], required: false}
+                {type: 'text', value: 'lastName', title: 'Last Name', task: ['subscribe'], required: false},
+                {type: 'text', value: 'workPhone', title: 'Work Phone', task: ['subscribe'], required: false},
+                {type: 'text', value: 'homePhone', title: 'Home Phone', task: ['subscribe'], required: false},
+                {type: 'text', value: 'mobilePhone', title: 'Cell Phone', task: ['subscribe'], required: false},
+                {type: 'text', value: 'birthdayMonth', title: 'Birthday Month', task: ['subscribe'], required: false},
+                {type: 'text', value: 'birthdayDay', title: 'Birthday Day', task: ['subscribe'], required: false},
+                {type: 'text', value: 'anniversary', title: 'Anniversary', task: ['subscribe'], required: false},
+                {type: 'text', value: 'addressType', title: 'Address Type', task: ['subscribe'], required: false, description: 'home, work, other'},
+                {type: 'text', value: 'address1', title: 'Address Line 1', task: ['subscribe'], required: false},
+                {type: 'text', value: 'city', title: 'City', task: ['subscribe'], required: false},
+                {type: 'text', value: 'state', title: 'State', task: ['subscribe'], required: false},
+                {type: 'text', value: 'zip', title: 'ZIP', task: ['subscribe'], required: false},
+                {type: 'text', value: 'country', title: 'Country', task: ['subscribe'], required: false},
+                
             ]
 
         }
@@ -1963,18 +2270,6 @@ Vue.component('constantcontact', {
 
         if (typeof this.fielddata.listId == 'undefined') {
             this.fielddata.listId = '';
-        }
-
-        if (typeof this.fielddata.email == 'undefined') {
-            this.fielddata.email = '';
-        }
-
-        if (typeof this.fielddata.firstName == 'undefined') {
-            this.fielddata.firstName = '';
-        }
-
-        if (typeof this.fielddata.lastName == 'undefined') {
-            this.fielddata.lastName = '';
         }
 
         this.listLoading = true;
@@ -1999,6 +2294,8 @@ Vue.component('zohocampaigns', {
             listLoading: false,
             fields: [
                 {type: 'text', value: 'email', title: 'Email', task: ['subscribe'], required: true},
+                {type: 'text', value: 'firstName', title: 'First Name', task: ['subscribe'], required: false},
+                {type: 'text', value: 'lastName', title: 'Last Name', task: ['subscribe'], required: false}
             ]
         }
     },
@@ -2031,6 +2328,124 @@ Vue.component('zohocampaigns', {
         });
     },
     template: '#zohocampaigns-action-template'
+});
+
+Vue.component('wordpress', {
+    props: ["trigger", "action", "fielddata"],
+    data: function () {
+        return {
+            postTypeLoading: false,
+            selected: '',
+            fields:[],
+            title: '',
+            slug: '',
+            author: '',
+            content: '',
+            postMeta: ''
+        }
+    },
+    methods: {
+        updateFieldValue: function(value) {
+            if(this.selected || this.selected == 0) {
+                if (this.fielddata[value] || "0" == this.fielddata[value]) {
+                    this.fielddata[value] += ' {{' + this[value] + '}}';
+                } else {
+                    this.fielddata[value] = '{{' + this[value] + '}}';
+                }
+            }
+        }
+    },
+    created: function() {
+
+    },
+    mounted: function() {
+        var that = this;
+
+        if (typeof this.fielddata.postTypeId == 'undefined') {
+            this.fielddata.postTypeId = '';
+        }
+
+        if (typeof this.fielddata.status == 'undefined') {
+            this.fielddata.status = '';
+        }
+
+        this.postTypeLoading = true;
+
+        var postTypeRequestData = {
+            'action': 'adfoin_get_wordpress_post_types',
+            '_nonce': adfoin.nonce
+        };
+
+        jQuery.post( ajaxurl, postTypeRequestData, function( response ) {
+            that.fielddata.postTypes = response.data;
+            that.postTypeLoading = false;
+        });
+    },
+    watch: {},
+    template: '#wordpress-action-template'
+});
+
+Vue.component('googlecalendar', {
+    props: ["trigger", "action", "fielddata"],
+    data: function () {
+        return {
+            listLoading: false,
+            selected: '',
+            fields:[],
+            title: '',
+            description: '',
+            start: '',
+            end: '',
+            timezone: '',
+            location: '',
+            attendees: ''
+        }
+    },
+    methods: {
+        updateFieldValue: function(value) {
+            if(this.selected || this.selected == 0) {
+                if (this.fielddata[value] || "0" == this.fielddata[value]) {
+                    this.fielddata[value] += ' {{' + this[value] + '}}';
+                } else {
+                    this.fielddata[value] = '{{' + this[value] + '}}';
+                }
+            }
+        }
+    },
+    created: function() {
+
+    },
+    mounted: function() {
+        var that = this;
+
+        if (typeof this.fielddata.calendarId == 'undefined') {
+            this.fielddata.calendarId = '';
+        }
+
+        if (typeof this.fielddata.allDayEvent == 'undefined') {
+            this.fielddata.allDayEvent = false;
+        }
+
+        if (typeof this.fielddata.allDayEvent != 'undefined') {
+            if(this.fielddata.allDayEvent == "false") {
+                this.fielddata.allDayEvent = false;
+            }
+        }
+
+        this.listLoading = true;
+
+        var listRequestData = {
+            'action': 'adfoin_get_googlecalendar_list',
+            '_nonce': adfoin.nonce
+        };
+
+        jQuery.post( ajaxurl, listRequestData, function( response ) {
+            that.fielddata.calendarList = response.data;
+            that.listLoading = false;
+        });
+    },
+    watch: {},
+    template: '#googlecalendar-action-template'
 });
 
 Vue.component('googlesheets', {
@@ -2255,9 +2670,10 @@ Vue.component('pipedrive', {
             worksheetLoading: false,
             fields: [
                 {type: 'text', value: 'note_content', title: 'Content [Note]', task: ['add_ocdna'], required: false, description: ''},
-                {type: 'text', value: 'act_subject', title: 'Subject [Activity]', task: ['add_ocdna'], required: false, description: ''},
+                {type: 'text', value: 'act_subject', title: 'Subject [Activity]', task: ['add_ocdna'], required: false, description: 'Required for creating an activity'},
                 {type: 'text', value: 'act_type', title: 'Type [Activity]', task: ['add_ocdna'], required: false, description: 'Example: call, meeting, task, deadline, email, lunch'},
                 {type: 'text', value: 'act_due_date', title: 'Due Date [Activity]', task: ['add_ocdna'], required: false, description: 'Format: YYYY-MM-DD'},
+                {type: 'text', value: 'act_after_days', title: 'Due Date After X days [Activity]', task: ['add_ocdna'], required: false, description: 'Accepts numeric value. If filled, due date will be calculated and set'},
                 {type: 'text', value: 'act_due_time', title: 'Due Time [Activity]', task: ['add_ocdna'], required: false, description: 'Format: HH:MM'},
                 {type: 'text', value: 'act_duration', title: 'Duration [Activity]', task: ['add_ocdna'], required: false, description: 'Format: HH:MM'},
                 {type: 'text', value: 'act_note', title: 'Note [Activity]', task: ['add_ocdna'], required: false, description: ''},
@@ -2379,6 +2795,29 @@ Vue.component('hubspot', {
     template: '#hubspot-action-template'
 });
 
+Vue.component('autopilotnew', {
+    props: ["trigger", "action", "fielddata"],
+    data: function () {
+        return {
+            listLoading: false,
+            fields: [
+                {type: 'text', value: 'email', title: 'Email', task: ['subscribe'], required: true},
+                {type: 'text', value: 'firstName', title: 'First Name', task: ['subscribe'], required: false},
+                {type: 'text', value: 'lastName', title: 'Last Name', task: ['subscribe'], required: false}
+            ]
+        }
+    },
+    methods: {
+    },
+    created: function() {
+
+    },
+    mounted: function() {
+
+    },
+    template: '#autopilotnew-action-template'
+});
+
 Vue.component('omnisend', {
     props: ["trigger", "action", "fielddata"],
     data: function () {
@@ -2429,21 +2868,8 @@ Vue.component('close', {
     data: function () {
         return {
             listLoading: false,
-            fields: [
-                {type: 'text', value: 'orgName', title: 'Organization Name', task: ['add_lead'], required: true},
-                {type: 'text', value: 'url', title: 'URL', task: ['add_lead'], required: false},
-                {type: 'text', value: 'description', title: 'Description', task: ['add_lead'], required: false},
-                {type: 'text', value: 'contactName', title: 'Contact Name', task: ['add_lead'], required: false},
-                {type: 'text', value: 'title', title: 'Title', task: ['add_lead'], required: false},
-                {type: 'text', value: 'email', title: 'Email', task: ['add_lead'], required: false},
-                {type: 'text', value: 'phone', title: 'Phone', task: ['add_lead'], required: false},
-                {type: 'text', value: 'address1', title: 'Address 1', task: ['add_lead'], required: false},
-                {type: 'text', value: 'address2', title: 'Address 2', task: ['add_lead'], required: false},
-                {type: 'text', value: 'city', title: 'City', task: ['add_lead'], required: false},
-                {type: 'text', value: 'zip', title: 'Zip', task: ['add_lead'], required: false},
-                {type: 'text', value: 'state', title: 'State', task: ['add_lead'], required: false},
-                {type: 'text', value: 'country', title: 'Country', task: ['add_lead'], required: false}
-            ]
+            ownerLoading: false,
+            fields: []
 
         }
     },
@@ -2455,14 +2881,38 @@ Vue.component('close', {
     mounted: function() {
         var that = this;
 
-
-        if (typeof this.fielddata.email == 'undefined') {
-            this.fielddata.email = '';
+        if (typeof this.fielddata.owner == 'undefined') {
+            this.fielddata.owner = '';
         }
 
-        if (typeof this.fielddata.name == 'undefined') {
-            this.fielddata.name = '';
-        }
+        // this.ownerLoading = true;
+
+        // var ownerRequestData = {
+        //     'action': 'adfoin_get_close_owner_list',
+        //     '_nonce': adfoin.nonce
+        // };
+
+        // jQuery.post( ajaxurl, ownerRequestData, function( response ) {
+
+        //     that.fielddata.ownerList = response.data;
+        //     that.ownerLoading = false;
+        // });
+
+        var allRequestData = {
+            'action': 'adfoin_get_close_all_fields',
+            '_nonce': adfoin.nonce
+        };
+
+        jQuery.post( ajaxurl, allRequestData, function( response ) {
+
+            if( response.success ) {
+                if( response.data ) {
+                    response.data.map(function(single) {
+                        that.fields.push( { type: 'text', value: single.key, title: single.value, task: ['add_lead'], required: false, description: single.description } );
+                    });
+                }
+            }
+        });
     },
     template: '#close-action-template'
 });
@@ -2471,36 +2921,53 @@ Vue.component('insightly', {
     props: ["trigger", "action", "fielddata"],
     data: function () {
         return {
-            listLoading: false,
-            fields: [
-                {type: 'text', value: 'email', title: 'Email', task: ['add_contact'], required: true},
-                {type: 'text', value: 'firstName', title: 'First Name', task: ['add_contact'], required: false},
-                {type: 'text', value: 'lastName', title: 'Last Name', task: ['add_contact'], required: false}
-            ]
-
+            ownerLoading: false,
+            fieldsLoading: false,
+            fields: []
         }
     },
-    methods: {
-    },
+    methods: {},
     created: function() {
 
     },
     mounted: function() {
         var that = this;
 
-
-        if (typeof this.fielddata.email == 'undefined') {
-            this.fielddata.email = '';
+        if (typeof this.fielddata.owner == 'undefined') {
+            this.fielddata.owner = '';
         }
 
-        if (typeof this.fielddata.firstName == 'undefined') {
-            this.fielddata.firstName = '';
-        }
+        this.ownerLoading = true;
 
-        if (typeof this.fielddata.lastName == 'undefined') {
-            this.fielddata.lastName = '';
-        }
+        var ownerRequestData = {
+            'action': 'adfoin_get_insightly_owner_list',
+            '_nonce': adfoin.nonce
+        };
+
+        jQuery.post( ajaxurl, ownerRequestData, function( response ) {
+            that.fielddata.ownerList = response.data;
+        });
+
+        var allRequestData = {
+            'action': 'adfoin_get_insightly_all_fields',
+            '_nonce': adfoin.nonce
+        };
+
+        jQuery.post( ajaxurl, allRequestData, function( response ) {
+
+            if( response.success ) {
+                if( response.data ) {
+                    response.data.map(function(single) {
+                        that.fields.push( { type: 'text', value: single.key, title: single.value, task: ['add_contact'], required: false, description: single.description } );
+                    });
+
+                    that.ownerLoading = false;
+                }
+            }
+        });
+
     },
+    watch: {},
     template: '#insightly-action-template'
 });
 
@@ -2508,31 +2975,54 @@ Vue.component('copper', {
     props: ["trigger", "action", "fielddata"],
     data: function () {
         return {
-            listLoading: false,
-            fields: [
-                {type: 'text', value: 'email', title: 'Email', task: ['add_contact'], required: true},
-                {type: 'text', value: 'name', title: 'Name', task: ['add_contact'], required: false}
-            ]
-
+            ownerLoading: false,
+            fieldsLoading: false,
+            fields: []
         }
     },
-    methods: {
-    },
+    methods: {},
     created: function() {
 
     },
     mounted: function() {
         var that = this;
 
-
-        if (typeof this.fielddata.email == 'undefined') {
-            this.fielddata.email = '';
+        if (typeof this.fielddata.owner == 'undefined') {
+            this.fielddata.owner = '';
         }
 
-        if (typeof this.fielddata.name == 'undefined') {
-            this.fielddata.name = '';
-        }
+        this.ownerLoading = true;
+
+        var ownerRequestData = {
+            'action': 'adfoin_get_copper_owner_list',
+            '_nonce': adfoin.nonce
+        };
+
+        jQuery.post( ajaxurl, ownerRequestData, function( response ) {
+
+            that.fielddata.ownerList = response.data;
+        });
+
+        var allRequestData = {
+            'action': 'adfoin_get_copper_all_fields',
+            '_nonce': adfoin.nonce
+        };
+
+        jQuery.post( ajaxurl, allRequestData, function( response ) {
+
+            if( response.success ) {
+                if( response.data ) {
+                    response.data.map(function(single) {
+                        that.fields.push( { type: 'text', value: single.key, title: single.value, task: ['add_contact'], required: false, description: single.description } );
+                    });
+
+                    that.ownerLoading = false;
+                }
+            }
+        });
+
     },
+    watch: {},
     template: '#copper-action-template'
 });
 
@@ -2541,12 +3031,7 @@ Vue.component('freshsales', {
     data: function () {
         return {
             listLoading: false,
-            fields: [
-                {type: 'text', value: 'email', title: 'Email', task: ['add_contact', 'add_lead'], required: true},
-                {type: 'text', value: 'firstName', title: 'First Name', task: ['add_contact', 'add_lead'], required: false},
-                {type: 'text', value: 'lastName', title: 'Last Name', task: ['add_contact', 'add_lead'], required: false}
-            ]
-
+            fields: []
         }
     },
     methods: {
@@ -2557,18 +3042,53 @@ Vue.component('freshsales', {
     mounted: function() {
         var that = this;
 
+        var accountRequestData = {
+            'action': 'adfoin_get_freshsales_account_fields',
+            '_nonce': adfoin.nonce
+        };
 
-        if (typeof this.fielddata.email == 'undefined') {
-            this.fielddata.email = '';
-        }
+        jQuery.post( ajaxurl, accountRequestData, function( response ) {
 
-        if (typeof this.fielddata.firstName == 'undefined') {
-            this.fielddata.firstName = '';
-        }
+            if( response.success ) {
+                if( response.data ) {
+                    response.data.map(function(single) {
+                        that.fields.push( { type: 'text', value: single.key, title: single.value, task: ['add_ocdna'], required: false, description: single.description } );
+                    });
+                }
+            }
+        });
 
-        if (typeof this.fielddata.lastName == 'undefined') {
-            this.fielddata.lastName = '';
-        }
+        var contactRequestData = {
+            'action': 'adfoin_get_freshsales_contact_fields',
+            '_nonce': adfoin.nonce
+        };
+
+        jQuery.post( ajaxurl, contactRequestData, function( response ) {
+
+            if( response.success ) {
+                if( response.data ) {
+                    response.data.map(function(single) {
+                        that.fields.push( { type: 'text', value: single.key, title: single.value, task: ['add_ocdna'], required: false, description: single.description } );
+                    });
+                }
+            }
+        });
+
+        var dealRequestData = {
+            'action': 'adfoin_get_freshsales_deal_fields',
+            '_nonce': adfoin.nonce
+        };
+
+        jQuery.post( ajaxurl, dealRequestData, function( response ) {
+
+            if( response.success ) {
+                if( response.data ) {
+                    response.data.map(function(single) {
+                        that.fields.push( { type: 'text', value: single.key, title: single.value, task: ['add_ocdna'], required: false, description: single.description } );
+                    });
+                }
+            }
+        });
     },
     template: '#freshsales-action-template'
 });
@@ -2578,6 +3098,7 @@ Vue.component('campaignmonitor', {
     data: function () {
         return {
             accountLoading: false,
+            listLoading: false,
             fields: [
                 {type: 'text', value: 'email', title: 'Email', task: ['create_subscriber'], required: true},
                 {type: 'text', value: 'name', title: 'Name', task: ['create_subscriber'], required: false}
@@ -2587,7 +3108,7 @@ Vue.component('campaignmonitor', {
     methods: {
         getList: function() {
             var that = this;
-            this.accountLoading = true;
+            this.listLoading = true;
 
             var listData = {
                 'action': 'adfoin_get_campaignmonitor_list',
@@ -2599,7 +3120,7 @@ Vue.component('campaignmonitor', {
             jQuery.post( ajaxurl, listData, function( response ) {
                 var list = response.data;
                 that.fielddata.list = list;
-                that.accountLoading = false;
+                that.listLoading = false;
             });
         }
     },
@@ -2636,64 +3157,12 @@ Vue.component('campaignmonitor', {
             that.fielddata.accounts = response.data;
             that.accountLoading = false;
         });
+
+        if(this.fielddata.accountId){
+            this.getList();
+        }
     },
     template: '#campaignmonitor-action-template'
-});
-
-Vue.component('moonmail', {
-    props: ["trigger", "action", "fielddata"],
-    data: function () {
-        return {
-            listLoading: false,
-            fields: [
-                {type: 'text', value: 'email', title: 'Email', task: ['subscribe'], required: true},
-                {type: 'text', value: 'firstName', title: 'First Name', task: ['subscribe'], required: false},
-                {type: 'text', value: 'lastName', title: 'Last Name', task: ['subscribe'], required: false}
-            ]
-
-        }
-    },
-    methods: {
-    },
-    created: function() {
-
-    },
-    mounted: function() {
-        var that = this;
-
-        if (typeof this.fielddata.listId == 'undefined') {
-            this.fielddata.listId = '';
-        }
-
-        if (typeof this.fielddata.status == 'undefined') {
-            this.fielddata.listId = '';
-        }
-
-        if (typeof this.fielddata.email == 'undefined') {
-            this.fielddata.email = '';
-        }
-
-        if (typeof this.fielddata.firstName == 'undefined') {
-            this.fielddata.firstName = '';
-        }
-
-        if (typeof this.fielddata.lastName == 'undefined') {
-            this.fielddata.lastName = '';
-        }
-
-        this.listLoading = true;
-
-        var listRequestData = {
-            'action': 'adfoin_get_moonmail_list',
-            '_nonce': adfoin.nonce
-        };
-
-        jQuery.post( ajaxurl, listRequestData, function( response ) {
-            that.fielddata.list = response.data;
-            that.listLoading = false;
-        });
-    },
-    template: '#moonmail-action-template'
 });
 
 Vue.component('clinchpad', {

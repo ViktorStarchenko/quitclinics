@@ -71,7 +71,8 @@ class Advanced_Form_Integration_Log_Table extends WP_List_Table {
             'integration_id'   => esc_html__( 'Integration ID', 'advanced-form-integration' ),
             'request_data'     => esc_html__( 'Request Data', 'advanced-form-integration' ),
             'response_data'    => esc_html__( 'Response Data', 'advanced-form-integration' ),
-            'time'             => esc_html__( 'Time', 'advanced-form-integration' )
+            'time'             => esc_html__( 'Time', 'advanced-form-integration' ),
+            'full_log'         => esc_html__( 'Full Log', 'advanced-form-integration' )
         );
 
         return apply_filters( 'adfoin_log_table_columns', $columns );
@@ -89,44 +90,39 @@ class Advanced_Form_Integration_Log_Table extends WP_List_Table {
     }
 
     /**
-     * Render the form name column with action links.
-     *
-     * @since 1.0.0
-     *
-     * @return string
+     * Render the response code column
      */
     public function column_response_code( $item ) {
 
         $name = ! empty( $item['response_code'] ) ? $item['response_code'] : _e( 'Unknown', 'advanced-form-integration' );
         $name = sprintf( '<span><strong>%s</strong></span>', esc_html__( $name ) );
 
-        // Build all of the row action links.
-        $row_actions = array();
 
-        // Edit.
-        $row_actions['view'] = sprintf(
-            '<a href="%s" title="%s">%s</a>',
-            add_query_arg(
-                array(
-                    'action' => 'view',
-                    'id'     => $item['id'],
-                ),
-                admin_url( 'admin.php?page=advanced-form-integration-log' )
-            ),
-            esc_html__( 'View', 'advanced-form-integration' ),
-            esc_html__( 'View', 'advanced-form-integration' )
-        );
 
         // Build the row action links and return the value.
-        return $name . $this->row_actions( apply_filters( 'adfoin_integration_row_actions', $row_actions, $item ) );
+        return $name;
     }
 
+    /**
+     * Render the request data column
+     */
     public function column_request_data( $item ) {
         echo substr( $item["request_data"], 0, 100 ) . "...";
     }
 
+    /**
+     * Render the response data column
+     */
     public function column_response_data( $item ) {
         echo substr( $item["response_data"], 0, 50 ) . "...";
+    }
+
+    /**
+     * Render the view column.
+     */
+    public function column_full_log( $item ) {
+        $admin_url = admin_url( 'admin.php?page=advanced-form-integration-log' );
+        return '<a href="' . $admin_url . '&action=view&id=' . $item['id'] . '">View</a>';
     }
 
     /**

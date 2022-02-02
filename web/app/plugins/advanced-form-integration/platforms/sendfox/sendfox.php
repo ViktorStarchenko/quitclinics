@@ -46,7 +46,7 @@ function adfoin_sendfox_settings_view( $current_tab ) {
                     <input type="text" name="adfoin_sendfox_api_key"
                            value="<?php echo $api_key; ?>" placeholder="<?php _e( 'Enter Access Token', 'advanced-form-integration' ); ?>"
                            class="regular-text"/>
-                    <p class="description" id="code-description"><?php _e( 'Go to <a target="_blank" href="https://sendfox.com/account/oauth">https://sendfox.com/account/oauth</a> and click "Create New Token"', 'advanced-form-integration' ); ?></a></p>
+                    <p class="description" id="code-description"><?php _e( 'Go to <a target="_blank" rel="noopener noreferrer" href="https://sendfox.com/account/oauth">https://sendfox.com/account/oauth</a> and click "Create New Token"', 'advanced-form-integration' ); ?></a></p>
                 </td>
             </tr>
         </table>
@@ -212,7 +212,7 @@ function adfoin_sendfox_save_integration() {
         $id = esc_sql( trim( $params['edit_id'] ) );
 
         if ( $type != 'update_integration' &&  !empty( $id ) ) {
-            exit;
+            return;
         }
 
         $result = $wpdb->update( $integration_table,
@@ -240,7 +240,7 @@ function adfoin_sendfox_send_data( $record, $posted_data ) {
     $api_key = get_option( 'adfoin_sendfox_api_key' ) ? get_option( 'adfoin_sendfox_api_key' ) : "";
 
     if( !$api_key ) {
-        exit;
+        return;
     }
 
     $record_data = json_decode( $record["data"], true );

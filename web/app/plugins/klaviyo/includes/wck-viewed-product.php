@@ -1,6 +1,6 @@
 <?php
-
-add_action( 'wp_enqueue_scripts', 'load_viewed_product' );
+// Priority 12 to add after Identify Browser.
+add_action( 'wp_enqueue_scripts', 'load_viewed_product', 12 );
 
 /**
  * If on product page, get properties for Viewed Product metric. Enqueue viewed product

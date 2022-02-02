@@ -69,7 +69,7 @@ function adfoin_sendinblue_settings_view( $current_tab )
                            class="regular-text"/>
                     <p class="description" id="code-description"><a
                             href="https://account.sendinblue.com/advanced/api"
-                            target="_blank"><?php 
+                            target="_blank" rel="noopener noreferrer"><?php 
     _e( 'Click here to get API Key.', 'forms-to-sendinblue' );
     ?></a> <?php 
     _e( 'Use V3 key', 'forms-to-sendinblue' );
@@ -202,14 +202,26 @@ function adfoin_get_sendinblue_list()
         'api-key'      => $api_key,
     ),
     );
-    $url = "https://api.sendinblue.com/v3/contacts/lists?limit=50";
-    $data = wp_remote_request( $url, $args );
-    if ( is_wp_error( $data ) ) {
-        wp_send_json_error();
+    $page = 0;
+    $limit = 50;
+    $has_value = true;
+    $all_data = array();
+    while ( $has_value ) {
+        $offset = $page * $limit;
+        $url = "https://api.sendinblue.com/v3/contacts/lists?limit={$limit}&offset={$offset}";
+        $data = wp_remote_request( $url, $args );
+        $body = json_decode( $data["body"] );
+        
+        if ( empty($body->lists) ) {
+            $has_value = false;
+        } else {
+            $lists = wp_list_pluck( $body->lists, 'name', 'id' );
+            $all_data = $all_data + $lists;
+            $page++;
+        }
+    
     }
-    $body = json_decode( $data["body"] );
-    $lists = wp_list_pluck( $body->lists, 'name', 'id' );
-    wp_send_json_success( $lists );
+    wp_send_json_success( $all_data );
 }
 
 /*
@@ -252,7 +264,7 @@ function adfoin_sendinblue_save_integration()
     if ( $type == 'update_integration' ) {
         $id = esc_sql( trim( $params['edit_id'] ) );
         if ( $type != 'update_integration' && !empty($id) ) {
-            exit;
+            return;
         }
         $result = $wpdb->update( $integration_table, array(
             'title'         => $integration_title,
@@ -281,7 +293,7 @@ function adfoin_sendinblue_send_data( $record, $posted_data )
 {
     $api_key = ( get_option( 'adfoin_sendinblue_api_key' ) ? get_option( 'adfoin_sendinblue_api_key' ) : "" );
     if ( !$api_key ) {
-        exit;
+        return;
     }
     $record_data = json_decode( $record["data"], true );
     if ( array_key_exists( "cl", $record_data["action_data"] ) ) {
@@ -314,6 +326,8 @@ function adfoin_sendinblue_send_data( $record, $posted_data )
             "NOME"      => $first_name,
             "COGNOME"   => $last_name,
             "SOBRENOME" => $last_name,
+            "PRENOM"    => $first_name,
+            "NOM"       => $last_name,
         ),
             'listIds'       => array( intval( $list_id ) ),
             'updateEnabled' => true,

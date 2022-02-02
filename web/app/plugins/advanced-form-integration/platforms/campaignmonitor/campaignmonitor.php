@@ -163,6 +163,7 @@ function adfoin_campaignmonitor_action_fields()
     ?></option>
                         <option v-for="(item, index) in fielddata.list" :value="index" > {{item}}  </option>
                     </select>
+                    <div class="spinner" v-bind:class="{'is-active': listLoading}" style="float:none;width:auto;height:auto;padding:10px 0 10px 50px;background-position:20px 0;"></div>
                 </td>
             </tr>
 
@@ -314,7 +315,7 @@ function adfoin_campaignmonitor_save_integration()
     if ( $type == 'update_integration' ) {
         $id = esc_sql( trim( $params['edit_id'] ) );
         if ( $type != 'update_integration' && !empty($id) ) {
-            exit;
+            return;
         }
         $result = $wpdb->update( $integration_table, array(
             'title'         => $integration_title,
@@ -343,7 +344,7 @@ function adfoin_campaignmonitor_send_data( $record, $posted_data )
 {
     $api_token = ( get_option( 'adfoin_campaignmonitor_api_token' ) ? get_option( 'adfoin_campaignmonitor_api_token' ) : "" );
     if ( !$api_token ) {
-        exit;
+        return;
     }
     $record_data = json_decode( $record["data"], true );
     if ( array_key_exists( "cl", $record_data["action_data"] ) ) {

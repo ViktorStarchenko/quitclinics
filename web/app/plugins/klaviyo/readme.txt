@@ -1,9 +1,9 @@
 === Klaviyo ===
 Contributors: klaviyo, bialecki, bawhalley
 Tags: analytics, email, marketing, klaviyo, woocommerce
-Requires at least: 3.8
-Tested up to: 5.6
-Stable tag: 2.3.6
+Requires at least: 4.4
+Tested up to: 5.8
+Stable tag: 2.5.5
 
 Easily integrate Klaviyo with your WooCommerce stores. Makes it simple to send abandoned cart emails, add a newsletter sign up to your site and more.
 
@@ -53,6 +53,45 @@ Integrating Klaviyo and your WooCommerce store is a quick, two-step process:
 For detailed instructions on integrating Klaviyo and WooCommerce please visit our [Help Center](https://help.klaviyo.com/hc/en-us/articles/115005255808-Integrate-with-WooCommerce).
 
 == Changelog ==
+
+= 2.5.5 2021-12-09 =
+* Update - Support for Synching Product Variations.
+
+= 2.5.4 2021-11-10 =
+* Update - Default SMS consent disclosure text
+
+= 2.5.3 2021-10-27 =
+* Fixed - Over representation of cart value in Added to Cart events.
+
+= 2.5.2 2021-08-10 =
+* Add - Support for Chained Products
+* Deprecation - Displaying Email checkbox on checkout pages based on ListId set in Plugin settings.
+This will be displayed using the Email checkbox setting on the Plugin settings page, as done for SMS checkout checkbox
+
+= 2.5.1 2021-07-23 =
+* Update - Adjusted priority of kl_added_to_cart_event hook to allow for line item calculations.
+
+= 2.5.0 2021-07-12 =
+* Add - Added to Cart event.
+
+= 2.4.2 2021-06-16 =
+* Add - Use exchange_id for "Started Checkout" if available
+* Update - Lowered priority of consent checkboxes to address conflicts with some checkout plugins
+
+= 2.4.1 2021-04-14 =
+* Fix - Address console error faced while displaying deprecation notice on plugin settings page.
+
+= 2.4.0 2021-03-17 =
+* Add - Class to handle Plugins screen update messages.
+* Add - Collecting SMS consent at checkout.
+* Update - Refactor adding checkout checkbox to allow for re-ordering in form.
+* Update - Plugin settings form redesigned to be more intuitive.
+* Update - Enqueue Identify script before Viewed Product script.
+* Update - Moving to webhooks to collect Email and SMS consent.
+* Fix - Remove unnecessary wp_reset_query call in Klaviyo analytics.
+* Fix - Move _learnq assignment outside of conditional in identify javascript.
+* Fix - Assign commenter email value for localization.
+
 = 2.3.6 2020-10-27 =
 * Fix - Remove escaping backslashes from Started Checkout title property
 

@@ -182,7 +182,7 @@ class ADFOIN_GoogleSheets extends Advanced_Form_Integration_OAuth2
                     <td>
                         <p>
                             <?php 
-        _e( '1. Go to <a target="_blank" href="https://console.developers.google.com/">Google Developer Console</a> and create a <b>New Project</b><br>
+        _e( '1. Go to <a target="_blank" rel="noopener noreferrer" href="https://console.developers.google.com/">Google Developer Console</a> and create a <b>New Project</b><br>
                                       2. Go to <b>Library</b> side menu and search for <b>Google Sheets API</b>, open it and click <b>ENABLE</b>.<br>
                                       3. Again search for <b>Google Drive API</b>, open it and click <b>ENABLE</b>.<br>', 'advanced-form-integration' );
         ?>
@@ -199,7 +199,7 @@ class ADFOIN_GoogleSheets extends Advanced_Form_Integration_OAuth2
         _e( '7. Click <b>Save & Authorize</b>, if appears <b>App is not verified</b> error click <b>show advanced</b> and then <b>Go to App</b>.<br><br>', 'advanced-form-integration' );
         ?>
                                       <?php 
-        _e( '(You can also check this video instruction <a target="_blank" href="https://youtu.be/VJIHgJkyyCM">https://youtu.be/VJIHgJkyyCM</a>)', 'advanced-form-integration' );
+        _e( '(You can also check this video instruction <a target="_blank" rel="noopener noreferrer" href="https://youtu.be/VJIHgJkyyCM">https://youtu.be/VJIHgJkyyCM</a>)', 'advanced-form-integration' );
         ?>
                         </p>
                     </td>
@@ -246,6 +246,16 @@ class ADFOIN_GoogleSheets extends Advanced_Form_Integration_OAuth2
         _e( 'Enter Client Secret', 'advanced-form-integration' );
         ?>"
                                class="regular-text"/>
+                    </td>
+                </tr>
+                <tr valign="top">
+                    <th scope="row"> <?php 
+        _e( 'Re-Authorize', 'advanced-form-integration' );
+        ?></th>
+                    <td>
+                    <?php 
+        _e( 'Try re-authorizing if you face issues. Go to <a target="_blank" rel="noopener noreferrer" href="https://myaccount.google.com/permissions" ><b>Google App Permissions</b></a> and hit <b>REMOVE ACCESS</b> on any previous authorization of this app. Now click on the <b>Save & Authorize</b> button below and finish the authorization process again.', 'advanced-form-integration' );
+        ?>
                     </td>
                 </tr>
             </table>
@@ -665,7 +675,7 @@ function adfoin_googlesheets_save_integration()
     if ( $type == 'update_integration' ) {
         $id = esc_sql( trim( $params['edit_id'] ) );
         if ( $type != 'update_integration' && !empty($id) ) {
-            exit;
+            return;
         }
         $result = $wpdb->update( $integration_table, array(
             'title'         => $integration_title,
@@ -688,7 +698,7 @@ function adfoin_googlesheets_save_integration()
 }
 
 /*
- * Handles sending data to Constant Contact API
+ * Handles sending data to Google Sheets API
  */
 function adfoin_googlesheets_send_data( $record, $posted_data )
 {

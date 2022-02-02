@@ -24,8 +24,10 @@ class ADFOIN_Aweber extends Advanced_Form_Integration_OAuth2
     {
         $this->authorization_endpoint = self::authorization_endpoint;
         $this->token_endpoint = self::token_endpoint;
-        //        $this->generate_pkce_hashes();
         $option = (array) maybe_unserialize( get_option( 'adfoin_aweber_keys' ) );
+        if ( isset( $option['auth_code'] ) ) {
+            $this->auth_code = $option['auth_code'];
+        }
         if ( isset( $option['code_verifier'] ) ) {
             $this->code_verifier = $option['code_verifier'];
         }
@@ -186,15 +188,15 @@ class ADFOIN_Aweber extends Advanced_Form_Integration_OAuth2
                                 href="<?php 
         echo  esc_url( $url ) ;
         ?>"
-                                target="_blank"><?php 
-        _e( 'Click here to get code', 'advanced-form-integration' );
+                                target="_blank" rel="noopener noreferrer"><?php 
+        _e( 'Click here to get the code', 'advanced-form-integration' );
         ?></a></p>
                     </td>
                 </tr>
 
             </table>
             <?php 
-        submit_button( __( 'Authorize & Save', 'advanced-form-integration' ) );
+        submit_button( __( 'Save', 'advanced-form-integration' ) );
         ?>
         </form>
 
@@ -364,6 +366,18 @@ class ADFOIN_Aweber extends Advanced_Form_Integration_OAuth2
         update_option( 'adfoin_aweber_keys', maybe_serialize( $option ) );
     }
     
+    protected function get_http_authorization_header( $scheme = 'basic' )
+    {
+        $scheme = strtolower( trim( $scheme ) );
+        switch ( $scheme ) {
+            case 'bearer':
+                return sprintf( 'Bearer %s', $this->access_token );
+            case 'basic':
+            default:
+                return sprintf( 'Basic %s', base64_encode( $this->client_id . ':' . $this->client_secret ) );
+        }
+    }
+    
     protected function reset_data()
     {
         $this->client_id = '';
@@ -375,7 +389,12 @@ class ADFOIN_Aweber extends Advanced_Form_Integration_OAuth2
         $this->save_data();
     }
     
-    public function create_contact( $properties, $account_id, $list_id )
+    public function create_contact(
+        $properties,
+        $account_id,
+        $list_id,
+        $record = array()
+    )
     {
         $endpoint = "https://api.aweber.com/1.0/accounts/{$account_id}/lists/{$list_id}/subscribers";
         $request = [
@@ -386,6 +405,30 @@ class ADFOIN_Aweber extends Advanced_Form_Integration_OAuth2
             'body'    => json_encode( $properties ),
         ];
         $response = $this->remote_request( $endpoint, $request );
+        adfoin_add_to_log(
+            $response,
+            $endpoint,
+            $request,
+            $record
+        );
+        return $response;
+    }
+    
+    protected function remote_request( $url, $request = array() )
+    {
+        $refreshed = false;
+        $request = wp_parse_args( $request, [] );
+        $request['headers'] = array_merge( $request['headers'], array(
+            'Authorization' => $this->get_http_authorization_header( 'bearer' ),
+        ) );
+        $response = wp_remote_request( esc_url_raw( $url ), $request );
+        
+        if ( 401 === wp_remote_retrieve_response_code( $response ) and !$refreshed ) {
+            $this->refresh_token();
+            $refreshed = true;
+            $response = $this->remote_request( $url, $request );
+        }
+        
         return $response;
     }
     
@@ -435,23 +478,15 @@ class ADFOIN_Aweber extends Advanced_Form_Integration_OAuth2
         $response_body = wp_remote_retrieve_body( $response );
         $response_body = json_decode( $response_body, true );
         
-        if ( 401 == $response_code ) {
-            // Unauthorized
-            $this->access_token = null;
-            $this->refresh_token = null;
+        if ( isset( $response_body['access_token'] ) ) {
+            $this->access_token = $response_body['access_token'];
         } else {
-            
-            if ( isset( $response_body['access_token'] ) ) {
-                $this->access_token = $response_body['access_token'];
-            } else {
-                $this->access_token = null;
-            }
-            
-            if ( isset( $response_body['refresh_token'] ) ) {
-                $this->refresh_token = $response_body['refresh_token'];
-            }
+            $this->access_token = null;
         }
         
+        if ( isset( $response_body['refresh_token'] ) ) {
+            $this->refresh_token = $response_body['refresh_token'];
+        }
         $this->save_data();
         return $response;
     }
@@ -470,19 +505,34 @@ class ADFOIN_Aweber extends Advanced_Form_Integration_OAuth2
             'Content-Type' => 'application/json',
         ),
         );
-        $response = $this->remote_request( $endpoint, $request );
-        if ( 400 <= (int) wp_remote_retrieve_response_code( $response ) ) {
-            wp_send_json_error();
-        }
-        $response_body = wp_remote_retrieve_body( $response );
-        if ( empty($response_body) ) {
-            wp_send_json_error();
-        }
-        $response_body = json_decode( $response_body, true );
+        $all_lists = array();
+        do {
+            $response = $this->remote_request( $endpoint, $request );
+            if ( 400 <= (int) wp_remote_retrieve_response_code( $response ) ) {
+                wp_send_json_error();
+            }
+            $response_body = wp_remote_retrieve_body( $response );
+            if ( empty($response_body) ) {
+                wp_send_json_error();
+            }
+            $response_body = json_decode( $response_body, true );
+            
+            if ( !empty($response_body['entries']) ) {
+                $lists = wp_list_pluck( $response_body['entries'], 'name', 'id' );
+                $all_lists = $all_lists + $lists;
+            }
+            
+            
+            if ( isset( $response_body['next_collection_link'] ) ) {
+                $endpoint = $response_body['next_collection_link'];
+            } else {
+                $endpoint = '';
+            }
         
-        if ( !empty($response_body['entries']) ) {
-            $lists = wp_list_pluck( $response_body['entries'], 'name', 'id' );
-            wp_send_json_success( $lists );
+        } while ($endpoint);
+        
+        if ( $all_lists ) {
+            wp_send_json_success( $all_lists );
         } else {
             wp_send_json_error();
         }
@@ -531,7 +581,7 @@ function adfoin_aweber_save_integration()
     if ( $type == 'update_integration' ) {
         $id = esc_sql( trim( $params['edit_id'] ) );
         if ( $type != 'update_integration' && !empty($id) ) {
-            exit;
+            return;
         }
         $result = $wpdb->update( $integration_table, array(
             'title'         => $integration_title,
@@ -580,11 +630,10 @@ function adfoin_aweber_send_data( $record, $posted_data )
             "name"  => $first_name . " " . $last_name,
         );
         $aweber = ADFOIN_Aweber::get_instance();
-        $return = $aweber->create_contact( $properties, $account_id, $list_id );
-        adfoin_add_to_log(
-            $return,
-            '',
+        $return = $aweber->create_contact(
             $properties,
+            $account_id,
+            $list_id,
             $record
         );
     }

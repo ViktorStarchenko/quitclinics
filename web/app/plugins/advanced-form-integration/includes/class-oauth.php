@@ -7,6 +7,7 @@ class Advanced_Form_Integration_OAuth2 {
     protected $refresh_token          = '';
     protected $authorization_endpoint = 'https://example.com/authorization';
     protected $token_endpoint         = 'https://example.com/token';
+    protected $refresh_token_endpoint = '';
 
     public function get_title() {
 
@@ -155,9 +156,9 @@ class Advanced_Form_Integration_OAuth2 {
         $request = wp_parse_args( $request, [ ] );
 
         $request['headers'] = array_merge(
-
-            array( 'Authorization' => $this->get_http_authorization_header( 'bearer' ), ),
-            $request['headers']
+            $request['headers'],
+            array( 'Authorization' => $this->get_http_authorization_header( 'bearer' ), )
+            
         );
 
         $response = wp_remote_request( esc_url_raw( $url ), $request );

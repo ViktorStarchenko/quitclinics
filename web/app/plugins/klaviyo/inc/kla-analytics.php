@@ -15,10 +15,11 @@ class WPKlaviyoAnalytics {
             array( $this, 'insert_analytics' ),
             self::HIGHEST_FILTER_PRIORITY
         );
-        // Add js to identify user if commenter or logged-in
+        // Add js to identify user if commenter or logged-in. Priority 11 to add before Viewed Product.
         add_action(
             'wp_enqueue_scripts',
-            array( $this, 'identify_browser' )
+            array( $this, 'identify_browser' ),
+            11
         );
     }
 
@@ -73,12 +74,9 @@ class WPKlaviyoAnalytics {
      */
     function identify_browser() {
         global $current_user;
-        wp_reset_query();
-
-        $current_user = wp_get_current_user();
 
         $commenter = wp_get_current_commenter();
-        $commenter_email = $commenter['comment_author_email'] || '';
+        $commenter_email = ! empty( $commenter['comment_author_email'] ) ? $commenter['comment_author_email'] : '';
 
         wp_enqueue_script(
             'kl-identify-browser',
@@ -89,8 +87,8 @@ class WPKlaviyoAnalytics {
         );
 
         $kl_user = array(
-            'current_user_email'    => $current_user->user_email,
-            'commenter_email'       => $commenter_email
+            'current_user_email' => $current_user->user_email,
+            'commenter_email' => $commenter_email,
         );
 
         wp_localize_script( 'kl-identify-browser','klUser', $kl_user );

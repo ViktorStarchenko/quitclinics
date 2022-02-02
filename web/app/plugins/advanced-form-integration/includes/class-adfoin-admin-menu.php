@@ -23,11 +23,13 @@ class Advanced_Form_Integration_Admin_Menu {
         $hook1 = add_menu_page( esc_html__( 'Advanced Form Integration', 'advanced-form-integration' ), esc_html__( 'AFI', 'advanced-form-integration' ), 'manage_options', 'advanced-form-integration', array( $this, 'adfoin_routing' ), 'data:image/svg+xml;base64,' . base64_encode( '<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="20px" height="20px" viewBox="0 0 20 20" enable-background="new 0 0 20 20" xml:space="preserve">  <image id="image0" width="20" height="20" x="0" y="0" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAMAAAC6V+0/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAANlBMVEUAAACfpaqfpaqfpaqfpaqfpaqfpaqfpaqfpaqfpaqfpaqfpaqfpaqfpaqfpaqfpaqfpar////f8INVAAAAEHRSTlMAEFCAIECP72DPcK/fnzC//tkUDAAAAAFiS0dEEeK1PboAAAAHdElNRQfkBRcXIwYKjHTDAAAAiElEQVQY05XQSRLEIAgFUBxwtuH+p21M/CbbsNJXBfIl+ljOh+AdUWSOoKSrcqGgGrZV3dUe7HYdjTllncCf2bxOcbXcaAPHHs4HRTVhiwq0gwcmYFZlYHi1N2AH2hodKTKw6Omf53UalnANiF3HQX9FFNuiPjGp5Dt6dS+kmGwFsRFFpHz58j8aeAeztwD5dgAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMC0wNS0yM1QyMzozNTowNiswMzowMJ3oUI8AAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjAtMDUtMjNUMjM6MzU6MDYrMDM6MDDstegzAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAABJRU5ErkJggg==" /></svg>' ) );
         add_submenu_page( 'advanced-form-integration', esc_html__( 'Advanced Form Integration', 'advanced-form-integration' ), esc_html__( 'Integrations', 'advanced-form-integration' ), 'manage_options', 'advanced-form-integration', array( $this, 'adfoin_routing' ) );
         $hook2 = add_submenu_page( 'advanced-form-integration', esc_html__( 'Integrations', 'advanced-form-integration' ), esc_html__( 'Add New', 'advanced-form-integration' ), 'manage_options', 'advanced-form-integration-new', array( $this, 'adfoin_new_integration' ) );
-        add_submenu_page( 'advanced-form-integration', esc_html__( 'Settings', 'advanced-form-integration' ), esc_html__( 'Settings', 'advanced-form-integration'), 'manage_options', 'advanced-form-integration-settings', array( $this,'adfoin_settings') );
+        $hook3 = add_submenu_page( 'advanced-form-integration', esc_html__( 'Settings', 'advanced-form-integration' ), esc_html__( 'Settings', 'advanced-form-integration'), 'manage_options', 'advanced-form-integration-settings', array( $this,'adfoin_settings') );
         add_submenu_page( 'advanced-form-integration', esc_html__( 'Log', 'advanced-form-integration' ), esc_html__( 'Log', 'advanced-form-integration'), 'manage_options', 'advanced-form-integration-log', array( $this,'adfoin_log') );
+        add_submenu_page( 'advanced-form-integration', esc_html__( 'Get Help', 'advanced-form-integration' ), esc_html__( 'Get Help', 'advanced-form-integration'), 'manage_options', 'advanced-form-integration-help', array( $this,'adfoin_get_help') );
 
         add_action( 'admin_head-' . $hook1, array( $this, 'enqueue_assets' ) );
         add_action( 'admin_head-' . $hook2, array( $this, 'enqueue_assets' ) );
+        add_action( 'admin_head-' . $hook3, array( $this, 'enqueue_assets' ) );
     }
 
     public function enqueue_assets() {
@@ -144,8 +146,15 @@ class Advanced_Form_Integration_Admin_Menu {
     }
 
     /*
- * This function generates the list of connections
- */
+     * Get Help Submenu View
+     */
+    public function adfoin_get_help( $value = '' ) {
+        include ADVANCED_FORM_INTEGRATION_VIEWS . '/get_help.php';
+    }
+
+    /*
+    * This function generates the list of connections
+    */
     public function adfoin_log_list_page() {
         if ( isset( $_GET['status'] ) ) {
             $status = $_GET['status'];
@@ -202,7 +211,7 @@ class Advanced_Form_Integration_Admin_Menu {
         }else{
             $action_status = $wpdb->update( $relation_table,
                 array(
-                    'status' => true ,
+                    'status' => true,
                 ),
                 array( 'id'=> $id )
             );

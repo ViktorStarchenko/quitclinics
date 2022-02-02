@@ -238,7 +238,7 @@ function adfoin_twilio_save_integration() {
         $id = esc_sql( trim( $params['edit_id'] ) );
 
         if ( $type != 'update_integration' &&  !empty( $id ) ) {
-            exit;
+            return;
         }
 
         $result = $wpdb->update( $integration_table,
@@ -263,7 +263,7 @@ function adfoin_twilio_save_integration() {
 }
 
 /*
- * Handles sending data to Mailchimp API
+ * Handles sending data to Twilio API
  */
 function adfoin_twilio_send_data( $record, $posted_data ) {
 
@@ -271,7 +271,7 @@ function adfoin_twilio_send_data( $record, $posted_data ) {
     $auth_token  = get_option( 'adfoin_twilio_auth_token' ) ? get_option( 'adfoin_twilio_auth_token' ) : "";
 
     if(!$account_sid || !$auth_token ) {
-        exit;
+        return;
     }
 
     $record_data = json_decode( $record["data"], true );

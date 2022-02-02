@@ -152,7 +152,7 @@ function adfoin_clinchpad_save_integration() {
         $id = esc_sql( trim( $params['edit_id'] ) );
 
         if ( $type != 'update_integration' &&  !empty( $id ) ) {
-            exit;
+            return;
         }
 
         $result = $wpdb->update( $integration_table,
@@ -184,7 +184,7 @@ function adfoin_clinchpad_send_data( $record, $posted_data ) {
     $api_token = get_option( 'adfoin_clinchpad_api_token' ) ? get_option( 'adfoin_clinchpad_api_token' ) : "";
 
     if( !$api_token ) {
-        exit;
+        return;
     }
 
     $record_data = json_decode( $record["data"], true );

@@ -50,7 +50,7 @@ function adfoin_trello_settings_view( $current_tab ) {
                            class="regular-text"/>
                            <p class="description" id="code-description"><a
                                 href="<?php echo esc_url( $url ); ?>"
-                                target="_blank"><?php _e( 'Click here to get token', 'advanced-form-integration' ); ?></a></p>
+                                target="_blank" rel="noopener noreferrer"><?php _e( 'Click here to get token', 'advanced-form-integration' ); ?></a></p>
                 </td>
             </tr>
         </table>
@@ -261,7 +261,7 @@ function adfoin_trello_save_integration() {
         $id = esc_sql( trim( $params['edit_id'] ) );
 
         if ( $type != 'update_integration' &&  !empty( $id ) ) {
-            exit;
+            return;
         }
 
         $result = $wpdb->update( $integration_table,
@@ -286,7 +286,7 @@ function adfoin_trello_save_integration() {
 }
 
 /*
- * Handles sending data to Klaviyo API
+ * Handles sending data to Trello API
  */
 function adfoin_trello_send_data( $record, $posted_data ) {
 
@@ -294,7 +294,7 @@ function adfoin_trello_send_data( $record, $posted_data ) {
     $api_token = get_option( 'adfoin_trello_api_token' ) ? get_option( 'adfoin_trello_api_token' ) : '';
 
     if( !$api_key || !$api_token ) {
-        exit;
+        return;
     }
 
     $record_data    = json_decode( $record["data"], true );
