@@ -84,22 +84,7 @@ class DataStore extends ReportsDataStore implements DataStoreInterface {
 	 */
 	public static function init() {
 		add_action( 'edit_user_profile_update', array( __CLASS__, 'update_registered_customer' ) );
-		add_action( 'updated_user_meta', array( __CLASS__, 'update_registered_customer_via_last_active' ), 10, 3 );
 		add_action( 'woocommerce_analytics_delete_order_stats', array( __CLASS__, 'sync_on_order_delete' ), 15, 2 );
-	}
-
-	/**
-	 * Trigger a customer update if their "last active" meta value was changed.
-	 * Function expects to be hooked into the `updated_user_meta` action.
-	 *
-	 * @param int    $meta_id ID of updated metadata entry.
-	 * @param int    $user_id ID of the user being updated.
-	 * @param string $meta_key Meta key being updated.
-	 */
-	public static function update_registered_customer_via_last_active( $meta_id, $user_id, $meta_key ) {
-		if ( 'wc_last_active' === $meta_key ) {
-			self::update_registered_customer( $user_id );
-		}
 	}
 
 	/**
@@ -132,6 +117,7 @@ class DataStore extends ReportsDataStore implements DataStoreInterface {
 	 * Only updates customer if it is the customers last order.
 	 *
 	 * @param int $post_id of order.
+	 * @return true|-1
 	 */
 	public static function sync_order_customer( $post_id ) {
 		global $wpdb;
@@ -142,11 +128,10 @@ class DataStore extends ReportsDataStore implements DataStoreInterface {
 
 		$order       = wc_get_order( $post_id );
 		$customer_id = self::get_existing_customer_id_from_order( $order );
-		if ( ! $customer_id ) {
+		if ( false === $customer_id ) {
 			return -1;
 		}
-		$customer   = new \WC_Customer( $customer_id );
-		$last_order = $customer->get_last_order();
+		$last_order = self::get_last_order( $customer_id );
 
 		if ( ! $last_order || $order->get_id() !== $last_order->get_id() ) {
 			return -1;
@@ -624,6 +609,32 @@ class DataStore extends ReportsDataStore implements DataStoreInterface {
 		);
 
 		return $customer_id ? (int) $customer_id : false;
+	}
+
+	/**
+	 * Retrieve the last order made by a customer.
+	 *
+	 * @param int $customer_id Customer ID.
+	 * @return object WC_Order|false.
+	 */
+	public static function get_last_order( $customer_id ) {
+		global $wpdb;
+		$orders_table = $wpdb->prefix . 'wc_order_stats';
+
+		$last_order = $wpdb->get_var(
+			$wpdb->prepare(
+				// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+				"SELECT order_id, date_created_gmt FROM {$orders_table}
+				WHERE customer_id = %d
+				ORDER BY date_created_gmt DESC, order_id DESC LIMIT 1",
+				// phpcs:enable
+				$customer_id
+			)
+		);
+		if ( ! $last_order ) {
+			return false;
+		}
+		return wc_get_order( absint( $last_order ) );
 	}
 
 	/**

@@ -25,11 +25,25 @@ class WC_Admin_Addons {
 	public static function get_featured() {
 		$featured = get_transient( 'wc_addons_featured' );
 		if ( false === $featured ) {
-			$raw_featured = wp_safe_remote_get( 'https://d3t0oesq8995hv.cloudfront.net/add-ons/featured-v2.json', array( 'user-agent' => 'WooCommerce Addons Page' ) );
+			$headers = array();
+			$auth    = WC_Helper_Options::get( 'auth' );
+
+			if ( ! empty( $auth['access_token'] ) ) {
+				$headers['Authorization'] = 'Bearer ' . $auth['access_token'];
+			}
+
+			$raw_featured = wp_safe_remote_get(
+				'https://woocommerce.com/wp-json/wccom-extensions/1.0/featured',
+				array(
+					'headers'    => $headers,
+					'user-agent' => 'WooCommerce Addons Page',
+				)
+			);
+
 			if ( ! is_wp_error( $raw_featured ) ) {
 				$featured = json_decode( wp_remote_retrieve_body( $raw_featured ) );
 				if ( $featured ) {
-					set_transient( 'wc_addons_featured', $featured, WEEK_IN_SECONDS );
+					set_transient( 'wc_addons_featured', $featured, DAY_IN_SECONDS );
 				}
 			}
 		}
@@ -71,9 +85,19 @@ class WC_Admin_Addons {
 	 */
 	public static function get_extension_data( $category, $term, $country ) {
 		$parameters     = self::build_parameter_string( $category, $term, $country );
-		$raw_extensions = wp_remote_get(
-			'https://woocommerce.com/wp-json/wccom-extensions/1.0/search' . $parameters
+
+		$headers = array();
+		$auth    = WC_Helper_Options::get( 'auth' );
+
+		if ( ! empty( $auth['access_token'] ) ) {
+			$headers['Authorization'] = 'Bearer ' . $auth['access_token'];
+		}
+
+		$raw_extensions = wp_safe_remote_get(
+			'https://woocommerce.com/wp-json/wccom-extensions/1.0/search' . $parameters,
+			array( 'headers' => $headers )
 		);
+
 		if ( ! is_wp_error( $raw_extensions ) ) {
 			$addons = json_decode( wp_remote_retrieve_body( $raw_extensions ) )->products;
 		}
@@ -511,6 +535,73 @@ class WC_Admin_Addons {
 	}
 
 	/**
+	 * Handles the output of a full-width block.
+	 *
+	 * @param array $section Section data.
+	 */
+	public static function output_promotion_block( $section ) {
+		if (
+			! current_user_can( 'install_plugins' ) ||
+			! current_user_can( 'activate_plugins' )
+		) {
+			return;
+		}
+
+		$section_object = (object) $section;
+
+		if ( ! empty( $section_object->geowhitelist ) ) {
+			$section_object->geowhitelist = explode( ',', $section_object->geowhitelist );
+		}
+
+		if ( ! empty( $section_object->geoblacklist ) ) {
+			$section_object->geoblacklist = explode( ',', $section_object->geoblacklist );
+		}
+
+		if ( ! self::show_extension( $section_object ) ) {
+			return;
+		}
+
+		?>
+		<div class="addons-banner-block addons-promotion-block">
+			<img
+				class="addons-img"
+				src="<?php echo esc_url( $section['image'] ); ?>"
+				alt="<?php echo esc_attr( $section['image_alt'] ); ?>"
+			/>
+			<div class="addons-promotion-block-content">
+				<h1 class="addons-promotion-block-title"><?php echo esc_html( $section['title'] ); ?></h1>
+				<div class="addons-promotion-block-description">
+					<?php echo wp_kses_post( $section['description'] ); ?>
+				</div>
+				<div class="addons-promotion-block-buttons">
+					<?php
+
+					if ( $section['button_1'] ) {
+						self::output_button(
+							$section['button_1_href'],
+							$section['button_1'],
+							'addons-button-expandable addons-button-solid',
+							$section['plugin']
+						);
+					}
+
+					if ( $section['button_2'] ) {
+						self::output_button(
+							$section['button_2_href'],
+							$section['button_2'],
+							'addons-button-expandable addons-button-outline-purple',
+							$section['plugin']
+						);
+					}
+
+					?>
+				</div>
+			</div>
+		</div>
+		<?php
+	}
+
+	/**
 	 * Handles the outputting of featured sections
 	 *
 	 * @param array $sections Section data.
@@ -541,6 +632,9 @@ class WC_Admin_Addons {
 					break;
 				case 'wcpay_banner_block':
 					self::output_wcpay_banner_block( (array) $section );
+					break;
+				case 'promotion_block':
+					self::output_promotion_block( (array) $section );
 					break;
 			}
 		}
@@ -617,7 +711,7 @@ class WC_Admin_Addons {
 					self::install_woocommerce_services_addon();
 					break;
 				case 'woocommerce-payments':
-					self::install_woocommerce_payments_addon();
+					self::install_woocommerce_payments_addon( $section );
 					break;
 				default:
 					// Do nothing.
@@ -669,9 +763,11 @@ class WC_Admin_Addons {
 	/**
 	 * Install WooCommerce Payments from the Extensions screens.
 	 *
+	 * @param string $section Optional. Extenstions tab.
+	 *
 	 * @return void
 	 */
-	public static function install_woocommerce_payments_addon() {
+	public static function install_woocommerce_payments_addon( $section = '_featured' ) {
 		check_admin_referer( 'install-addon_woocommerce-payments' );
 
 		$wcpay_plugin_id = 'woocommerce-payments';
@@ -680,7 +776,9 @@ class WC_Admin_Addons {
 			'repo-slug' => 'woocommerce-payments',
 		);
 
-		WC_Install::background_installer( $services_plugin_id, $wcpay_plugin );
+		WC_Install::background_installer( $wcpay_plugin_id, $wcpay_plugin );
+
+		do_action( 'woocommerce_addon_installed', $wcpay_plugin_id, $section );
 
 		wp_safe_redirect( remove_query_arg( array( 'install-addon', '_wpnonce' ) ) );
 		exit;
