@@ -1,6 +1,6 @@
 <?php
 
-add_action( 'wpcf7_init', 'wpcf7_recaptcha_register_service', 10, 0 );
+add_action( 'wpcf7_init', 'wpcf7_recaptcha_register_service', 15, 0 );
 
 function wpcf7_recaptcha_register_service() {
 	$integration = WPCF7_Integration::get_instance();
@@ -14,7 +14,7 @@ function wpcf7_recaptcha_register_service() {
 	);
 }
 
-add_action( 'wp_enqueue_scripts', 'wpcf7_recaptcha_enqueue_scripts', 10, 0 );
+add_action( 'wp_enqueue_scripts', 'wpcf7_recaptcha_enqueue_scripts', 20, 0 );
 
 function wpcf7_recaptcha_enqueue_scripts() {
 	$service = WPCF7_RECAPTCHA::get_instance();
@@ -23,24 +23,50 @@ function wpcf7_recaptcha_enqueue_scripts() {
 		return;
 	}
 
+	$url = 'https://www.google.com/recaptcha/api.js';
+
+	if ( apply_filters( 'wpcf7_use_recaptcha_net', false ) ) {
+		$url = 'https://www.recaptcha.net/recaptcha/api.js';
+	}
+
 	wp_enqueue_script( 'google-recaptcha',
 		add_query_arg(
 			array(
 				'render' => $service->get_sitekey(),
 			),
-			'https://www.google.com/recaptcha/api.js'
+			$url
 		),
 		array(),
 		'3.0',
 		true
 	);
 
-	wp_enqueue_script( 'wpcf7-recaptcha',
-		wpcf7_plugin_url( 'modules/recaptcha/script.js' ),
-		array( 'google-recaptcha' ),
-		WPCF7_VERSION,
-		true
+	$assets = array();
+	$asset_file = wpcf7_plugin_path( 'modules/recaptcha/index.asset.php' );
+
+	if ( file_exists( $asset_file ) ) {
+		$assets = include( $asset_file );
+	}
+
+	$assets = wp_parse_args( $assets, array(
+		'src' => wpcf7_plugin_url( 'modules/recaptcha/index.js' ),
+		'dependencies' => array(
+			'google-recaptcha',
+			'wp-polyfill',
+		),
+		'version' => WPCF7_VERSION,
+		'in_footer' => true,
+	) );
+
+	wp_register_script(
+		'wpcf7-recaptcha',
+		$assets['src'],
+		$assets['dependencies'],
+		$assets['version'],
+		$assets['in_footer']
 	);
+
+	wp_enqueue_script( 'wpcf7-recaptcha' );
 
 	wp_localize_script( 'wpcf7-recaptcha',
 		'wpcf7_recaptcha',
@@ -414,13 +440,13 @@ class WPCF7_RECAPTCHA extends WPCF7_Service {
 	public function admin_notice( $message = '' ) {
 		if ( 'invalid' == $message ) {
 			echo sprintf(
-				'<div class="notice notice-error is-dismissible"><p><strong>%1$s</strong>: %2$s</p></div>',
+				'<div class="notice notice-error"><p><strong>%1$s</strong>: %2$s</p></div>',
 				esc_html( __( "Error", 'contact-form-7' ) ),
 				esc_html( __( "Invalid key values.", 'contact-form-7' ) ) );
 		}
 
 		if ( 'success' == $message ) {
-			echo sprintf( '<div class="notice notice-success is-dismissible"><p>%s</p></div>',
+			echo sprintf( '<div class="notice notice-success"><p>%s</p></div>',
 				esc_html( __( 'Settings saved.', 'contact-form-7' ) ) );
 		}
 	}
@@ -482,7 +508,7 @@ class WPCF7_RECAPTCHA extends WPCF7_Service {
 	<th scope="row"><label for="secret"><?php echo esc_html( __( 'Secret Key', 'contact-form-7' ) ); ?></label></th>
 	<td><?php
 		if ( $this->is_active() ) {
-			echo esc_html( wpcf7_mask_password( $secret ) );
+			echo esc_html( wpcf7_mask_password( $secret, 4, 4 ) );
 			echo sprintf(
 				'<input type="hidden" value="%1$s" id="secret" name="secret" />',
 				esc_attr( $secret )
