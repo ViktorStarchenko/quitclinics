@@ -6,7 +6,7 @@ add_action( 'wp_ajax_nopriv_cloudcheck_send_request_heydoc', 'cloudcheck_send_re
 
 function cloudcheck_send_request_heydoc() {
     create_questionnaire($_POST['data']);
-
+    
     $form_data = $_POST['data'];
     $form_data = json_encode($form_data);
 
@@ -14,7 +14,7 @@ function cloudcheck_send_request_heydoc() {
     $params = array(
         CURLOPT_RETURNTRANSFER => 1,
         CURLOPT_HTTPHEADER => array('Content-type: application/json'),
-        CURLOPT_URL => 'https://api.heydoc.co.uk/questionnaires/response/041f5aa4ca6fe55f87dddd5d3ef3915b63c0b4b7/',
+        CURLOPT_URL => 'https://api.heydoc.co.uk/questionnaires/response/9f76add10c13413c3517953682e891613c6163a6/',
         CURLOPT_PORT => 443,
         CURLOPT_SSL_VERIFYHOST => false,
         CURLOPT_VERBOSE => 1,
@@ -193,8 +193,11 @@ function create_questionnaire($data){
                 'field_6120f9a5eb1f7' => $user_email,
                 'field_6120f98beb1f6' => $user_first_name,
                 'field_6120fc2936e7d' => $user_last_name,
-
                 'field_612100901216d' => $submition_time,
+                'field_61f84525b56ee' => $_POST['data']['product_name'],
+                'field_61f84551b56ef' => $_POST['data']['product_id'],
+
+
                 'field_6120bd266d96d' => $first_name,
                 'field_6120bd4a76f0c' => $last_name,
                 'field_6120bd5176f0d' => $_POST['data']['dob'],
@@ -205,19 +208,36 @@ function create_questionnaire($data){
                 'field_6120bd8f76f12' => $_POST['data']['country'],
                 'field_6120bd9876f13' => $_POST['data']['phoneNumber'],
                 'field_6120bda776f14' => $_POST['data']['gender'],
-                'field_6120bdce76f15' => $_POST['data']['0iw4CyzoA1R1jxkRdnnk9'],
-                'field_6120bdd276f16' => $_POST['data']['TB3HclExciO9S0_uRTCLt'],
-                'field_6120bdda76f17' => $_POST['data']['emDxFmHm1LidKT_L89icr'],
-                'field_6120bde076f18' => $_POST['data']['ZYA6ioeD3WkrWO0PAD7lX'],
-                'field_6120bde976f19' => $_POST['data']['Pt2wLbSjQowlAxDhQqXc1'],
-                'field_6120bdf476f1a' => $_POST['data']['KSW2s9naDT7hcdyY85xoj'],
-                'field_6120bdfb76f1b' => $_POST['data']['9rorbO3lgeONaNXt3h4V2'],
 
-                'field_6120da2d801b9' => $_POST['data']['evn4c1CYWy_IXe_T~a7~N'],
-                'field_6120da57801ba' => $_POST['data']['tgwN3r0X7PYP_Y2GAzCki'],
+                'field_61e31933a03b9' => $_POST['data']['3hC7sLm3JSsfqiM0ulcX8'],
 
-                'field_6120daf6801bb' => $_POST['data']['zCQ_zzpbA6CN15X86UA0m'],
-                'field_6120db20801bc' => $_POST['data']['gXRgxbIbZgk~MiqKaDCZA'],
+//                Smoking History
+                'field_6120bdce76f15' => $_POST['data']['_43BE13FsOc866RqRYOQ4'],
+                'field_6120bdd276f16' => $_POST['data']['rRPAX~NegkGzMk1axpM4p'],
+                'field_6120bdda76f17' => $_POST['data']['BCy65jqX6Q1FJN1rePAZ4'],
+                'field_6120bde076f18' => $_POST['data']['nkgg3ZZPoWhDuMqRFuab5'],
+
+//                Vaping History
+                'field_61e312cad6511' => $_POST['data']['DWwVhzdpzYV_S6W_Pzf5V'],
+                'field_61e31326535cb' => $_POST['data']['~VAv~puUguY76Lr9hHok5'],
+                'field_61e314027dca4' => $_POST['data']['laot2_3JF6ZVIanoQCxaM'],
+                'field_61e3143bdd1a3' => $_POST['data']['l7pGmBv8777ub~PaQta0P'],
+                'field_61e31468c226a' => $_POST['data']['~NS42HF~cIVNIW8bohuFE'],
+
+//                Medical History
+                'field_6120bde976f19' => $_POST['data']['Qg7XDz8NOIM1oShkyViot'],
+                'field_6120bdf476f1a' => $_POST['data']['65oh_cXb82k9FFSQTpnCq'],
+                'field_6120daf6801bb' => $_POST['data']['6zudIdCy1XEoCX8Sw0NgK'],
+
+                //Final Questions
+                'field_61e3152bf6e3f' => $_POST['data']['edtL2L2EgXHeafjrROWeR'],
+                'field_61e31562f6e40' => $_POST['data']['JerSYpGMeTg~Z75luZ72Q'],
+                'field_6120bdfb76f1b' => $_POST['data']['t9SgLNeqhCd2TkecatA8s'],
+
+
+//                'field_6120da2d801b9' => $_POST['data']['evn4c1CYWy_IXe_T~a7~N'],
+//                'field_6120da57801ba' => $_POST['data']['tgwN3r0X7PYP_Y2GAzCki'],
+//                'field_6120db20801bc' => $_POST['data']['gXRgxbIbZgk~MiqKaDCZA'],
             );
             update_field( $field_key, $values, $insterted_questionnaire );
 
