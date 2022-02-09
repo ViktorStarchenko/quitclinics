@@ -714,9 +714,9 @@
             <div class="wrapper-1440 quesionnaire-nav__inner">
                 <div class="btn-block">
                     <!--                                <span class="quesionnaire-nav-prev-num"></span>-->
-                    <a class="quesionnaire-nav-prev btn-body btn-white bordered disabled" href="#">back</a>
+                    <a class="quesionnaire-nav-prev btn-body btn-white bordered disabled" href="#">Back</a>
                     <!--                                <span class="quesionnaire-nav-cur-num"></span>-->
-                    <a class="quesionnaire-nav-next btn-body btn-blue" href="#">NEXT</a>
+                    <a class="quesionnaire-nav-next btn-body btn-blue" href="#">Next</a>
                     <!--                                <span class="quesionnaire-nav-next-num"></span>-->
                 </div>
             </div>
