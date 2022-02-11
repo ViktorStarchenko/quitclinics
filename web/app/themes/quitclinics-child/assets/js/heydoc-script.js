@@ -211,6 +211,18 @@ function validateDob() {
         }
     })
 }
+
+// Validate DOB ForCurrentStep()
+function validateDobForCurrentStep() {
+    // Add dob
+    $('.form-input-dob[required]').each(function() {
+        if($(this).val() == '' && $(this).val().length <= 0) {
+            $(this).addClass('is-invalid')
+        } else {
+            $(this).removeClass('is-invalid')
+        }
+    })
+}
 // Validate Radio
 function validateRadio(data) {
     $('input[name="'+data+'"]').closest('.qc-form-group').removeClass('is-invalid')
@@ -227,7 +239,7 @@ function validateRadio(data) {
 }
 
 function validateText() {
-    $('.questionnaire-form').find('input[type="text"], input[type="email"], input[type="tel"], textarea').each(function() {
+    $('.questionnaire-form').find('input[type="text"][required], input[type="email"][required], input[type="tel"][required], textarea[required]').each(function() {
         // console.log($(this))
         $(this).closest('.qc-form-group').removeClass('is-invalid')
         // console.log($('input[type="checkbox"][name="'+data+'"]'))
@@ -245,7 +257,7 @@ function validateText() {
 
 // Validate text
 function validateTextForCurrentStep() {
-    $('.form-step.active.form-request-item').find('input[type="text"], input[type="email"], input[type="tel"], textarea').each(function() {
+    $('.form-step.active.form-request-item').find('input[type="text"][required], input[type="email"][required], input[type="tel"][required], textarea[required]').each(function() {
         $(this).closest('.qc-form-group').removeClass('is-invalid')
         // console.log($('input[type="checkbox"][name="'+data+'"]'))
         if($(this).val().length <=0) {
@@ -262,9 +274,9 @@ function validateTextForCurrentStep() {
 
 
 function validateCurrentStep() {
-    let validation = $('.form-step.active.form-request-item input')
+    let validation = $('.form-step.active.form-request-item input[required]')
     validateTextForCurrentStep()
-    validateDob()
+    validateDobForCurrentStep()
     $(validation).each(function() {
         // Validate radio
         if ($(this).is(':radio') || $(this).is(':checkbox')) {
@@ -416,7 +428,7 @@ $(".questionnaire-form").submit(function(event) {
                 } else if(xhr.responseText.status == 400) {
                     showAlert("error", "<strong>Some of the fields were not filled. Please fill in all fields or contact the site support.</strong>");
                 } else if (xhr.responseText.status == undefined || xhr.responseText.status == '') {
-                    // global_dob($data['dob']);
+                    global_dob($data['dob']);
                     setTimeout( 'location="/cart/?add-to-cart='+product_id+'";', 100 );
                 }
             }

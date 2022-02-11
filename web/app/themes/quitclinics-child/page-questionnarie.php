@@ -58,21 +58,21 @@
                                         <div class="d-flex">
                                             <label class="form-group-label bio">First name</label>
                                         </div>
-                                        <input class="form-control form-input2" data-testid="input" id="first" name="first" autocomplete="given-name" type="text" value="" placeholder="Your First Name">
+                                        <input class="form-control form-input2" data-testid="input" id="first" name="first" autocomplete="given-name" type="text" value="" placeholder="Your First Name" required>
                                     </div>
                                     <!--LAST NAME-->
                                     <div class="form-group text-group qc-form-group w100">
                                         <div class="d-flex">
                                             <label class="form-group-label bio">Last name</label>
                                         </div>
-                                        <input class="form-control form-input2" data-testid="input" id="last" name="last" autocomplete="family-name" type="text" value="" placeholder="Your Last Name">
+                                        <input class="form-control form-input2" data-testid="input" id="last" name="last" autocomplete="family-name" type="text" value="" placeholder="Your Last Name" required>
                                     </div>
                                     <!--EMAIL-->
                                     <div class="form-group text-group qc-form-group w100">
                                         <div class="d-flex">
                                             <label class="form-group-label bio">Email</label>
                                         </div>
-                                        <input class="form-control form-input2" data-testid="input" id="email" name="email" type="email" autocomplete="email" value="" placeholder="Email">
+                                        <input class="form-control form-input2" data-testid="input" id="email" name="email" type="email" autocomplete="email" value="" placeholder="Email" required>
                                     </div>
                                     <!--DOB-->
                                     <div class="form-group text-group qc-form-group w100">
@@ -80,9 +80,9 @@
                                             <label class="form-group-label bio">Date of birth</label>
                                         </div>
                                         <div class="dob-fields-wrap" >
-                                            <select class="form-control form-input2 form-input-dob" id="dobday"></select>
-                                            <select class="form-control form-input2 form-input-dob" id="dobmonth"></select>
-                                            <select class="form-control form-input2 form-input-dob" id="dobyear"></select>
+                                            <select class="form-control form-input2 form-input-dob" id="dobday" required></select>
+                                            <select class="form-control form-input2 form-input-dob" id="dobmonth" required></select>
+                                            <select class="form-control form-input2 form-input-dob" id="dobyear" required></select>
                                         </div>
 
 
@@ -93,7 +93,7 @@
                                             <label class="form-group-label bio">Gender</label>
                                         </div>
                                         <div class="form-check-inline form-check-group">
-                                            <select class="form-control form-input2"  name="gender">
+                                            <select class="form-control form-input2"  name="gender" required>
                                                 <option id="gender_male" selected value="male">Male</option>
                                                 <option id="gender_female" value="female">Female</option>
                                                 <option id="gender_other specific" value="other specific">Other</option>
@@ -103,21 +103,22 @@
 
                                     <div class="separator"></div>
 
+
                                     <!--ADRESS-->
                                     <div class="form-group text-group qc-form-group w100">
                                         <div class="d-flex"><label class="form-group-label bio">Street Address</label></div>
-                                        <input class="form-control form-input2" data-testid="input" id="address" name="address" aria-label="street address" placeholder="Street Address" autocomplete="street-address" type="text" value="">
+                                        <input class="form-control form-input2" data-testid="input" id="address" name="address" aria-label="street address" placeholder="Street Address" autocomplete="street-address" type="text" value="" required>
                                     </div>
                                     <!--CITY-->
                                     <div class="form-group text-group qc-form-group w49">
                                         <div class="d-flex"><label class="form-group-label bio">City/Town</label></div>
-                                        <input class="form-control form-input2" data-testid="input" name="city" id="city" aria-label="city or town" placeholder="City or Town" autocomplete="address-level2" type="text" value="">
+                                        <input class="form-control form-input2" data-testid="input" name="city" id="city" aria-label="city or town" placeholder="City or Town" autocomplete="address-level2" type="text" value="" required>
                                     </div>
 
                                     <!--POSTCODE-->
                                     <div class="form-group text-group qc-form-group w49">
                                         <div class="d-flex"><label class="form-group-label bio">Postcode</label></div>
-                                        <input class="form-control input__medium form-input2" data-testid="input" id="postcode" name="postcode" aria-label="postal code" placeholder="Postcode" autocomplete="postal-code" type="text" value="">
+                                        <input class="form-control input__medium form-input2" data-testid="input" id="postcode" name="postcode" aria-label="postal code" placeholder="Postcode" autocomplete="postal-code" type="text" value="" required>
                                     </div>
                                     <!--COUNTRY-->
                                     <div class="form-group text-group qc-form-group w100">
@@ -132,7 +133,7 @@
                                         <div class="d-flex">
                                             <label class="form-group-label bio">Mobile number</label>
                                         </div>
-                                        <input class="form-control form-input2" data-testid="input" name="phoneNumber" id="phoneNumber" type="tel" autocomplete="tel" value="" placeholder="Phone number">
+                                        <input class="form-control form-input2" data-testid="input" name="phoneNumber" id="phoneNumber" type="tel" autocomplete="tel" value="" placeholder="Phone number" required>
                                     </div>
                                 </div>
 
@@ -189,11 +190,11 @@
                                         <div class="d-flex"><label class="form-group-label ">Which best describes you?</label></div>
                                         <div class="form-check-group">
                                             <div class="form-check">
-                                                <input class="form-radio-input" type="radio" name="3hC7sLm3JSsfqiM0ulcX8" id="3hC7sLm3JSsfqiM0ulcX8_I&#39;ve never smoked" tabindex="-1" value="I&#39;ve never smoked">
+                                                <input class="form-radio-input" type="radio" name="3hC7sLm3JSsfqiM0ulcX8" id="3hC7sLm3JSsfqiM0ulcX8_I&#39;ve never smoked" tabindex="-1" value="I&#39;ve never smoked" required>
                                                 <span class="custom-radio-input"></span>
                                                 <label class="form-check-label" for="3hC7sLm3JSsfqiM0ulcX8_I&#39;ve never smoked">I've never smoked</label>  </div>
                                             <div class="form-check">
-                                                <input class="form-radio-input" type="radio" name="3hC7sLm3JSsfqiM0ulcX8" id="3hC7sLm3JSsfqiM0ulcX8_Current or ex-smoker" tabindex="-1" value="Current or ex-smoker">
+                                                <input class="form-radio-input" type="radio" name="3hC7sLm3JSsfqiM0ulcX8" id="3hC7sLm3JSsfqiM0ulcX8_Current or ex-smoker" tabindex="-1" value="Current or ex-smoker" required>
                                                 <span class="custom-radio-input"></span>
                                                 <label class="form-check-label" for="3hC7sLm3JSsfqiM0ulcX8_Current or ex-smoker">Current or ex-smoker</label></div>
                                         </div>
@@ -240,23 +241,23 @@
                                         <div class="d-flex"><label class="form-group-label">When you were smoking at your heaviest, how many cigarettes did you smoke per day?</label></div>
                                         <div class="form-check-group">
                                             <div class="form-check">
-                                                <input class="form-radio-input" type="radio" name="_43BE13FsOc866RqRYOQ4" id="_43BE13FsOc866RqRYOQ4_Fewer than 5" tabindex="-1" value="Fewer than 5">
+                                                <input class="form-radio-input" type="radio" name="_43BE13FsOc866RqRYOQ4" id="_43BE13FsOc866RqRYOQ4_Fewer than 5" tabindex="-1" value="Fewer than 5" required>
                                                 <span class="custom-radio-input"></span>
                                                 <label class="form-check-label" for="_43BE13FsOc866RqRYOQ4_Fewer than 5">Fewer than 5</label></div>
                                             <div class="form-check">
-                                                <input class="form-radio-input" type="radio" name="_43BE13FsOc866RqRYOQ4" id="_43BE13FsOc866RqRYOQ4_5-10" tabindex="-1" value="5-10">
+                                                <input class="form-radio-input" type="radio" name="_43BE13FsOc866RqRYOQ4" id="_43BE13FsOc866RqRYOQ4_5-10" tabindex="-1" value="5-10" required>
                                                 <span class="custom-radio-input"></span>
                                                 <label class="form-check-label" for="_43BE13FsOc866RqRYOQ4_5-10">5-10</label></div>
                                             <div class="form-check">
-                                                <input class="form-radio-input" type="radio" name="_43BE13FsOc866RqRYOQ4" id="_43BE13FsOc866RqRYOQ4_11-20" tabindex="-1" value="11-20">
+                                                <input class="form-radio-input" type="radio" name="_43BE13FsOc866RqRYOQ4" id="_43BE13FsOc866RqRYOQ4_11-20" tabindex="-1" value="11-20" required>
                                                 <span class="custom-radio-input"></span>
                                                 <label class="form-check-label" for="_43BE13FsOc866RqRYOQ4_11-20">11-20</label></div>
                                             <div class="form-check">
-                                                <input class="form-radio-input" type="radio" name="_43BE13FsOc866RqRYOQ4" id="_43BE13FsOc866RqRYOQ4_20-40" tabindex="-1" value="20-40">
+                                                <input class="form-radio-input" type="radio" name="_43BE13FsOc866RqRYOQ4" id="_43BE13FsOc866RqRYOQ4_20-40" tabindex="-1" value="20-40" required>
                                                 <span class="custom-radio-input"></span>
                                                 <label class="form-check-label" for="_43BE13FsOc866RqRYOQ4_20-40">20-40</label></div>
                                             <div class="form-check">
-                                                <input class="form-radio-input" type="radio" name="_43BE13FsOc866RqRYOQ4" id="_43BE13FsOc866RqRYOQ4_40+" tabindex="-1" value="40+">
+                                                <input class="form-radio-input" type="radio" name="_43BE13FsOc866RqRYOQ4" id="_43BE13FsOc866RqRYOQ4_40+" tabindex="-1" value="40+" required>
                                                 <span class="custom-radio-input"></span>
                                                 <label class="form-check-label" for="_43BE13FsOc866RqRYOQ4_40+">40+</label></div>
 
@@ -269,26 +270,26 @@
                                         <div class="d-flex"><label class="form-group-label">How many years have you smoked in total?</label></div>
                                         <div class="form-check-group">
                                             <div class="form-check">
-                                                <input class="form-radio-input" type="radio" name="rRPAX~NegkGzMk1axpM4p" id="rRPAX~NegkGzMk1axpM4p_5 or fewer" tabindex="-1" value="5 or fewer">
+                                                <input class="form-radio-input" type="radio" name="rRPAX~NegkGzMk1axpM4p" id="rRPAX~NegkGzMk1axpM4p_5 or fewer" tabindex="-1" value="5 or fewer" required>
                                                 <span class="custom-radio-input"></span>
                                                 <label class="form-check-label" for="rRPAX~NegkGzMk1axpM4p_5 or fewer">5 or fewer</label></div>
                                             <div class="form-check">
-                                                <input class="form-radio-input" type="radio" name="rRPAX~NegkGzMk1axpM4p" id="rRPAX~NegkGzMk1axpM4p_5-10" tabindex="-1" value="5-10">
+                                                <input class="form-radio-input" type="radio" name="rRPAX~NegkGzMk1axpM4p" id="rRPAX~NegkGzMk1axpM4p_5-10" tabindex="-1" value="5-10" required>
                                                 <span class="custom-radio-input"></span>
                                                 <label class="form-check-label" for="rRPAX~NegkGzMk1axpM4p_5-10">5-10</label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-radio-input" type="radio" name="rRPAX~NegkGzMk1axpM4p" id="rRPAX~NegkGzMk1axpM4p_10-20" tabindex="-1" value="20-30">
+                                                <input class="form-radio-input" type="radio" name="rRPAX~NegkGzMk1axpM4p" id="rRPAX~NegkGzMk1axpM4p_10-20" tabindex="-1" value="20-30" required>
                                                 <span class="custom-radio-input"></span>
                                                 <label class="form-check-label" for="rRPAX~NegkGzMk1axpM4p_10-20">10-20</label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-radio-input" type="radio" name="rRPAX~NegkGzMk1axpM4p" id="rRPAX~NegkGzMk1axpM4p_20-30" tabindex="-1" value="20-30">
+                                                <input class="form-radio-input" type="radio" name="rRPAX~NegkGzMk1axpM4p" id="rRPAX~NegkGzMk1axpM4p_20-30" tabindex="-1" value="20-30" required>
                                                 <span class="custom-radio-input"></span>
                                                 <label class="form-check-label" for="rRPAX~NegkGzMk1axpM4p_20-30">20-30</label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-radio-input" type="radio" name="rRPAX~NegkGzMk1axpM4p" id="rRPAX~NegkGzMk1axpM4p_30+" tabindex="-1" value="30+">
+                                                <input class="form-radio-input" type="radio" name="rRPAX~NegkGzMk1axpM4p" id="rRPAX~NegkGzMk1axpM4p_30+" tabindex="-1" value="30+" required>
                                                 <span class="custom-radio-input"></span>
                                                 <label class="form-check-label" for="rRPAX~NegkGzMk1axpM4p_30+">30+</label>
                                             </div>
@@ -302,42 +303,42 @@
                                         <div class="d-flex"><label class="form-group-label">What method(s) have you previously tried to assist you in quitting? (please tick all that apply)</label></div>
                                         <div class="form-check-group">
                                             <div class="form-check">
-                                                <input class="form-check-input" name="BCy65jqX6Q1FJN1rePAZ4" type="checkbox" data-testid="checkbox" id="BCy65jqX6Q1FJN1rePAZ4_Cold-Turkey" tabindex="-1" value="Cold-Turkey">
+                                                <input class="form-check-input" name="BCy65jqX6Q1FJN1rePAZ4" type="checkbox" data-testid="checkbox" id="BCy65jqX6Q1FJN1rePAZ4_Cold-Turkey" tabindex="-1" value="Cold-Turkey" required>
                                                 <span class="custom-check-input"></span>
                                                 <div class="d-flex"><label class="form-check-label" for="BCy65jqX6Q1FJN1rePAZ4_Cold-Turkey">Cold-Turkey</label></div>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" name="BCy65jqX6Q1FJN1rePAZ4" type="checkbox" data-testid="checkbox" id="BCy65jqX6Q1FJN1rePAZ4_Nicotine Replacement Gum" tabindex="-1" value="Nicotine Replacement Gum">
+                                                <input class="form-check-input" name="BCy65jqX6Q1FJN1rePAZ4" type="checkbox" data-testid="checkbox" id="BCy65jqX6Q1FJN1rePAZ4_Nicotine Replacement Gum" tabindex="-1" value="Nicotine Replacement Gum" required>
                                                 <span class="custom-check-input"></span>
                                                 <div class="d-flex"><label class="form-check-label" for="BCy65jqX6Q1FJN1rePAZ4_Nicotine Replacement Gum">Nicotine Replacement Gum</label></div>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" name="BCy65jqX6Q1FJN1rePAZ4" type="checkbox" data-testid="checkbox" id="BCy65jqX6Q1FJN1rePAZ4_Nicotine Replacement Patches" tabindex="-1" value="Nicotine Replacement Patches">
+                                                <input class="form-check-input" name="BCy65jqX6Q1FJN1rePAZ4" type="checkbox" data-testid="checkbox" id="BCy65jqX6Q1FJN1rePAZ4_Nicotine Replacement Patches" tabindex="-1" value="Nicotine Replacement Patches" required>
                                                 <span class="custom-check-input"></span>
                                                 <div class="d-flex"><label class="form-check-label" for="BCy65jqX6Q1FJN1rePAZ4_Nicotine Replacement Patches">Nicotine Replacement Patches</label></div>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" name="BCy65jqX6Q1FJN1rePAZ4" type="checkbox" data-testid="checkbox" id="BCy65jqX6Q1FJN1rePAZ4_Nicotine Replacement Lozenges/Sprays" tabindex="-1" value="Nicotine Replacement Lozenges/Sprays">
+                                                <input class="form-check-input" name="BCy65jqX6Q1FJN1rePAZ4" type="checkbox" data-testid="checkbox" id="BCy65jqX6Q1FJN1rePAZ4_Nicotine Replacement Lozenges/Sprays" tabindex="-1" value="Nicotine Replacement Lozenges/Sprays" required>
                                                 <span class="custom-check-input"></span>
                                                 <div class="d-flex"><label class="form-check-label" for="BCy65jqX6Q1FJN1rePAZ4_Nicotine Replacement Lozenges/Sprays">Nicotine Replacement Lozenges/Sprays</label></div>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" name="BCy65jqX6Q1FJN1rePAZ4" type="checkbox" data-testid="checkbox" id="BCy65jqX6Q1FJN1rePAZ4_Counselling/Quitline" tabindex="-1" value="Counselling/Quitline">
+                                                <input class="form-check-input" name="BCy65jqX6Q1FJN1rePAZ4" type="checkbox" data-testid="checkbox" id="BCy65jqX6Q1FJN1rePAZ4_Counselling/Quitline" tabindex="-1" value="Counselling/Quitline" required>
                                                 <span class="custom-check-input"></span>
                                                 <div class="d-flex"><label class="form-check-label" for="BCy65jqX6Q1FJN1rePAZ4_Counselling/Quitline">Counselling/Quitline</label></div>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" name="BCy65jqX6Q1FJN1rePAZ4" type="checkbox" data-testid="checkbox" id="BCy65jqX6Q1FJN1rePAZ4_Hypnotherapy" tabindex="-1" value="Hypnotherapy">
+                                                <input class="form-check-input" name="BCy65jqX6Q1FJN1rePAZ4" type="checkbox" data-testid="checkbox" id="BCy65jqX6Q1FJN1rePAZ4_Hypnotherapy" tabindex="-1" value="Hypnotherapy" required>
                                                 <span class="custom-check-input"></span>
                                                 <div class="d-flex"><label class="form-check-label" for="BCy65jqX6Q1FJN1rePAZ4_Hypnotherapy">Hypnotherapy</label></div>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" name="BCy65jqX6Q1FJN1rePAZ4" type="checkbox" data-testid="checkbox" id="BCy65jqX6Q1FJN1rePAZ4_Varenicline (Champix)" tabindex="-1" value="Varenicline (Champix)">
+                                                <input class="form-check-input" name="BCy65jqX6Q1FJN1rePAZ4" type="checkbox" data-testid="checkbox" id="BCy65jqX6Q1FJN1rePAZ4_Varenicline (Champix)" tabindex="-1" value="Varenicline (Champix)" required>
                                                 <span class="custom-check-input"></span>
                                                 <div class="d-flex"><label class="form-check-label" for="BCy65jqX6Q1FJN1rePAZ4_Varenicline (Champix)">Varenicline (Champix)</label></div>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" name="BCy65jqX6Q1FJN1rePAZ4" type="checkbox" data-testid="checkbox" id="Cy65jqX6Q1FJN1rePAZ4_Buproprion (Zyban)" tabindex="-1" value="Buproprion (Zyban)">
+                                                <input class="form-check-input" name="BCy65jqX6Q1FJN1rePAZ4" type="checkbox" data-testid="checkbox" id="Cy65jqX6Q1FJN1rePAZ4_Buproprion (Zyban)" tabindex="-1" value="Buproprion (Zyban)" required>
                                                 <span class="custom-check-input"></span>
                                                 <div class="d-flex"><label class="form-check-label" for="Cy65jqX6Q1FJN1rePAZ4_Buproprion (Zyban)">Buproprion (Zyban)</label></div>
                                             </div>
@@ -352,28 +353,28 @@
                                         <div class="d-flex"><label class="form-group-label">How long ago was your last cigarette?</label></div>
                                         <div class="form-check-group">
                                             <div class="form-check">
-                                                <input class="form-radio-input" type="radio" name="nkgg3ZZPoWhDuMqRFuab5" id="nkgg3ZZPoWhDuMqRFuab5_Today" tabindex="-1" value="Today">
+                                                <input class="form-radio-input" type="radio" name="nkgg3ZZPoWhDuMqRFuab5" id="nkgg3ZZPoWhDuMqRFuab5_Today" tabindex="-1" value="Today" required>
                                                 <span class="custom-radio-input"></span>
                                                 <label class="form-check-label" for="nkgg3ZZPoWhDuMqRFuab5_Today">Today</label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-radio-input" type="radio" name="nkgg3ZZPoWhDuMqRFuab5" id="nkgg3ZZPoWhDuMqRFuab5_Within the past week" tabindex="-1" value="Within the past week">
+                                                <input class="form-radio-input" type="radio" name="nkgg3ZZPoWhDuMqRFuab5" id="nkgg3ZZPoWhDuMqRFuab5_Within the past week" tabindex="-1" value="Within the past week" required>
                                                 <span class="custom-radio-input"></span>
                                                 <label class="form-check-label" for="nkgg3ZZPoWhDuMqRFuab5_Within the past week">Within the past week</label></div>
                                             <div class="form-check">
-                                                <input class="form-radio-input" type="radio" name="nkgg3ZZPoWhDuMqRFuab5" id="nkgg3ZZPoWhDuMqRFuab5_Within the past month" tabindex="-1" value="Within the past month">
+                                                <input class="form-radio-input" type="radio" name="nkgg3ZZPoWhDuMqRFuab5" id="nkgg3ZZPoWhDuMqRFuab5_Within the past month" tabindex="-1" value="Within the past month" required>
                                                 <span class="custom-radio-input"></span>
                                                 <label class="form-check-label" for="nkgg3ZZPoWhDuMqRFuab5_Within the past month">Within the past month</label></div>
                                             <div class="form-check">
-                                                <input class="form-radio-input" type="radio" name="nkgg3ZZPoWhDuMqRFuab5" id="nkgg3ZZPoWhDuMqRFuab5_1-6 months ago" tabindex="-1" value="1-6 months ago">
+                                                <input class="form-radio-input" type="radio" name="nkgg3ZZPoWhDuMqRFuab5" id="nkgg3ZZPoWhDuMqRFuab5_1-6 months ago" tabindex="-1" value="1-6 months ago" required>
                                                 <span class="custom-radio-input"></span>
                                                 <label class="form-check-label" for="nkgg3ZZPoWhDuMqRFuab5_1-6 months ago">1-6 months ago</label></div>
                                             <div class="form-check">
-                                                <input class="form-radio-input" type="radio" name="nkgg3ZZPoWhDuMqRFuab5" id="nkgg3ZZPoWhDuMqRFuab5_6-12 months ago" tabindex="-1" value="6-12 months ago">
+                                                <input class="form-radio-input" type="radio" name="nkgg3ZZPoWhDuMqRFuab5" id="nkgg3ZZPoWhDuMqRFuab5_6-12 months ago" tabindex="-1" value="6-12 months ago" required>
                                                 <span class="custom-radio-input"></span>
                                                 <label class="form-check-label" for="nkgg3ZZPoWhDuMqRFuab5_6-12 months ago">6-12 months ago</label></div>
                                             <div class="form-check">
-                                                <input class="form-radio-input" type="radio" name="nkgg3ZZPoWhDuMqRFuab5" id="nkgg3ZZPoWhDuMqRFuab5_Over one year ago" tabindex="-1" value="Over one year ago">
+                                                <input class="form-radio-input" type="radio" name="nkgg3ZZPoWhDuMqRFuab5" id="nkgg3ZZPoWhDuMqRFuab5_Over one year ago" tabindex="-1" value="Over one year ago" required>
                                                 <span class="custom-radio-input"></span>
                                                 <label class="form-check-label" for="nkgg3ZZPoWhDuMqRFuab5_Over one year ago">Over one year ago</label></div>
                                         </div>
@@ -392,13 +393,13 @@
                                         </div>
                                         <div class="form-check-group">
                                             <div class="form-check">
-                                                <input class="form-radio-input" type="radio" name="DWwVhzdpzYV_S6W_Pzf5V" id="DWwVhzdpzYV_S6W_Pzf5V_Yes" tabindex="-1" value="Yes">
+                                                <input class="form-radio-input" type="radio" name="DWwVhzdpzYV_S6W_Pzf5V" id="DWwVhzdpzYV_S6W_Pzf5V_Yes" tabindex="-1" value="Yes" required>
                                                 <span class="custom-radio-input"></span>
                                                 <label class="form-check-label" for="DWwVhzdpzYV_S6W_Pzf5V_Yes">Yes</label></div>
 
 
                                             <div class="form-check">
-                                                <input class="form-radio-input" type="radio" name="DWwVhzdpzYV_S6W_Pzf5V" id="DWwVhzdpzYV_S6W_Pzf5V_No" tabindex="-1" value="No">
+                                                <input class="form-radio-input" type="radio" name="DWwVhzdpzYV_S6W_Pzf5V" id="DWwVhzdpzYV_S6W_Pzf5V_No" tabindex="-1" value="No" required>
                                                 <span class="custom-radio-input"></span>
                                                 <label class="form-check-label" for="DWwVhzdpzYV_S6W_Pzf5V_No">No</label></div>
                                         </div>
@@ -427,20 +428,20 @@
                                         <div class="d-flex"><label class="form-group-label">Which vaping method has worked best for you?</label></div>
                                         <div class="form-check-group">
                                             <div class="form-check">
-                                                <input class="form-radio-input" type="radio" name="~VAv~puUguY76Lr9hHok5" id="~VAv~puUguY76Lr9hHok5_Pods" tabindex="-1" value="Pods">
+                                                <input class="form-radio-input" type="radio" name="~VAv~puUguY76Lr9hHok5" id="~VAv~puUguY76Lr9hHok5_Pods" tabindex="-1" value="Pods" required>
                                                 <span class="custom-radio-input"></span>
                                                 <label class="form-check-label" for="~VAv~puUguY76Lr9hHok5_Pods">Pods</label></div>
 
                                             <div class="form-check">
-                                                <input class="form-radio-input" type="radio" name="~VAv~puUguY76Lr9hHok5" id="~VAv~puUguY76Lr9hHok5_E-liquid" tabindex="-1" value="E-liquid">
+                                                <input class="form-radio-input" type="radio" name="~VAv~puUguY76Lr9hHok5" id="~VAv~puUguY76Lr9hHok5_E-liquid" tabindex="-1" value="E-liquid" required>
                                                 <span class="custom-radio-input"></span>
                                                 <label class="form-check-label" for="~VAv~puUguY76Lr9hHok5_E-liquid">E-liquid</label></div>
                                             <div class="form-check">
-                                                <input class="form-radio-input" type="radio" name="~VAv~puUguY76Lr9hHok5" id="~VAv~puUguY76Lr9hHok5_Disposable devices" tabindex="-1" value="Disposable devices">
+                                                <input class="form-radio-input" type="radio" name="~VAv~puUguY76Lr9hHok5" id="~VAv~puUguY76Lr9hHok5_Disposable devices" tabindex="-1" value="Disposable devices" required>
                                                 <span class="custom-radio-input"></span>
                                                 <label class="form-check-label" for="~VAv~puUguY76Lr9hHok5_Disposable devices">Disposable devices</label></div>
                                             <div class="form-check">
-                                                <input class="form-radio-input" type="radio" name="~VAv~puUguY76Lr9hHok5" id="~VAv~puUguY76Lr9hHok5_Other" tabindex="-1" value="Other">
+                                                <input class="form-radio-input" type="radio" name="~VAv~puUguY76Lr9hHok5" id="~VAv~puUguY76Lr9hHok5_Other" tabindex="-1" value="Other" required>
                                                 <span class="custom-radio-input"></span>
                                                 <label class="form-check-label" for="~VAv~puUguY76Lr9hHok5_Other">Other</label></div>
 
@@ -454,7 +455,7 @@
                                         <div class="d-flex">
                                             <label class="form-group-label">What is the minimum strength that has been effective to avoid smoking?</label>
                                         </div>
-                                        <input class="form-control form-input2" name="laot2_3JF6ZVIanoQCxaM" data-testid="input" id="laot2_3JF6ZVIanoQCxaM" type="text" value="" placeholder="Please fill">
+                                        <input class="form-control form-input2" name="laot2_3JF6ZVIanoQCxaM" data-testid="input" id="laot2_3JF6ZVIanoQCxaM" type="text" value="" placeholder="Please fill" required>
                                     </div>
 
                                     <div class="separator"></div>
@@ -464,7 +465,7 @@
                                         <div class="d-flex">
                                             <label class="form-group-label">How many mL’s of liquid do you estimate that you use per day?</label>
                                         </div>
-                                        <input class="form-control form-input2" name="l7pGmBv8777ub~PaQta0P" data-testid="input" id="l7pGmBv8777ub~PaQta0P" type="text" value="" placeholder="Please fill">
+                                        <input class="form-control form-input2" name="l7pGmBv8777ub~PaQta0P" data-testid="input" id="l7pGmBv8777ub~PaQta0P" type="text" value="" placeholder="Please fill" required>
                                     </div>
 
                                     <div class="separator"></div>
@@ -474,7 +475,7 @@
                                         <div class="d-flex">
                                             <label class="form-group-label">Is there anything else you would like to add about your vaping?</label>
                                         </div>
-                                        <textarea class="form-control form-input2" name="~NS42HF~cIVNIW8bohuFE" data-testid="input" id="~NS42HF~cIVNIW8bohuFE" type="text" value="" placeholder="Please fill"></textarea>
+                                        <textarea class="form-control form-input2" name="~NS42HF~cIVNIW8bohuFE" data-testid="input" id="~NS42HF~cIVNIW8bohuFE" type="text" value="" placeholder="Please fill" required></textarea>
                                     </div>
 
                                 </div>
@@ -498,7 +499,7 @@
                                         <div class="d-flex">
                                             <label class="form-group-label">Please list below any significant medical illnesses, such as diabetes, cancer, asthma, COPD/emphysema or psychiatric disorders.</label>
                                         </div>
-                                        <textarea class="form-control form-input2" name="Qg7XDz8NOIM1oShkyViot" data-testid="input" id="~Qg7XDz8NOIM1oShkyViot" type="text" value="" placeholder="Please fill"></textarea>
+                                        <textarea class="form-control form-input2" name="Qg7XDz8NOIM1oShkyViot" data-testid="input" id="~Qg7XDz8NOIM1oShkyViot" type="text" value="" placeholder="Please fill" required></textarea>
                                     </div>
 
                                     <div class="separator"></div>
@@ -508,12 +509,12 @@
                                         <div class="d-flex"><label class="form-group-label">Have you had a stroke, heart attack, irregular heartbeat, uncontrolled hypertension or angina in the past month?</label></div>
                                         <div class="form-check-group">
                                             <div class="form-check">
-                                                <input class="form-radio-input" type="radio" name="65oh_cXb82k9FFSQTpnCq" id="65oh_cXb82k9FFSQTpnCq_Yes" tabindex="-1" value="Yes">
+                                                <input class="form-radio-input" type="radio" name="65oh_cXb82k9FFSQTpnCq" id="65oh_cXb82k9FFSQTpnCq_Yes" tabindex="-1" value="Yes" required>
                                                 <span class="custom-radio-input"></span>
                                                 <label class="form-check-label" for="65oh_cXb82k9FFSQTpnCq_Yes">Yes</label></div>
 
                                             <div class="form-check">
-                                                <input class="form-radio-input" type="radio" name="65oh_cXb82k9FFSQTpnCq" id="65oh_cXb82k9FFSQTpnCq_No" tabindex="-1" value="No">
+                                                <input class="form-radio-input" type="radio" name="65oh_cXb82k9FFSQTpnCq" id="65oh_cXb82k9FFSQTpnCq_No" tabindex="-1" value="No" required>
                                                 <span class="custom-radio-input"></span>
                                                 <label class="form-check-label" for="65oh_cXb82k9FFSQTpnCq_No">No</label></div>
                                         </div>
@@ -526,12 +527,12 @@
                                         <div class="d-flex"><label class="form-group-label">Are you breastfeeding, pregnant, or planning to become pregnant within the next 12 months?</label></div>
                                         <div class="form-check-group">
                                             <div class="form-check">
-                                                <input class="form-radio-input" type="radio" name="6zudIdCy1XEoCX8Sw0NgK" id="6zudIdCy1XEoCX8Sw0NgK_Yes" tabindex="-1" value="Yes">
+                                                <input class="form-radio-input" type="radio" name="6zudIdCy1XEoCX8Sw0NgK" id="6zudIdCy1XEoCX8Sw0NgK_Yes" tabindex="-1" value="Yes" required>
                                                 <span class="custom-radio-input"></span>
                                                 <label class="form-check-label" for="6zudIdCy1XEoCX8Sw0NgK_Yes">Yes</label></div>
 
                                             <div class="form-check">
-                                                <input class="form-radio-input" type="radio" name="6zudIdCy1XEoCX8Sw0NgK" id="6zudIdCy1XEoCX8Sw0NgK_No" tabindex="-1" value="No">
+                                                <input class="form-radio-input" type="radio" name="6zudIdCy1XEoCX8Sw0NgK" id="6zudIdCy1XEoCX8Sw0NgK_No" tabindex="-1" value="No" required>
                                                 <span class="custom-radio-input"></span>
                                                 <label class="form-check-label" for="6zudIdCy1XEoCX8Sw0NgK_No">No</label></div>
                                         </div>
@@ -567,7 +568,7 @@
                                         <div class="d-flex"><label class="form-group-label">Complete abstinence from smoking and vaping is the safest option for your health. Nicotine is addictive, and the long-term risks of vaping are unknown. Currently no nicotine vaping products have been approved by the TGA, and the safety of these products has not yet been thoroughly assessed. Quit Clinics, or its doctors, cannot guarantee the safety of any vaping product. In order to minimise risk of harms, only short-term use of e-cigarettes is recommended, and dual use (vaping plus smoking) needs to be avoided.</label></div>
                                         <div class="form-check-group">
                                             <div class="form-check">
-                                                <input class="form-radio-input" type="radio" name="t9SgLNeqhCd2TkecatA8s" id="t9SgLNeqhCd2TkecatA8s_I confirm that I have read and understand the above safety information" tabindex="-1" value="I confirm that I have read and understand the above safety information">
+                                                <input class="form-radio-input" type="radio" name="t9SgLNeqhCd2TkecatA8s" id="t9SgLNeqhCd2TkecatA8s_I confirm that I have read and understand the above safety information" tabindex="-1" value="I confirm that I have read and understand the above safety information" required>
                                                 <span class="custom-radio-input"></span>
                                                 <label class="form-check-label" for="t9SgLNeqhCd2TkecatA8s_I confirm that I have read and understand the above safety information">I confirm that I have read and understand the above safety information</label>
                                             </div>
@@ -753,12 +754,10 @@
 
     <?php wp_enqueue_script( 'heydoc-js', get_theme_file_uri( '/assets/js/heydoc-script.js' ), array('jq-351'), '1', true ); ?>
 
+
     <?php get_template_part('template-parts/page/layout', 'page-content'); ?>
 </main>
 <?php //get_sidebar(); ?>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-<script>
 
-</script>
 <?php get_footer(); ?>
 
