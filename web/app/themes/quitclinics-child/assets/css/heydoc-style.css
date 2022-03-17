@@ -327,6 +327,43 @@ body.page-template-page-questionnarie {
 .slick-track {
     width: 100%;
 }
+
+
+/*Medical Renewal*/
+.account-page-heading {
+    margin-bottom: 20px;
+}
+.account-page-description {
+    margin-bottom: 8px;
+}
+.span-icon {
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    border: 1px solid #8C8C8C;
+    position: relative;
+    background-image: url(/app/uploads/2020/12/icon-control-plus.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    display: inline-block;
+    margin-bottom: -2px;
+    margin-right: 5px;
+}
+.span-icon:before {
+    /*content: '+';*/
+    font-size: 13px;
+    position: absolute;
+    left: 0;
+    top: 0;
+
+}
+.questionnaire-form.renewal .qc-form-group label {
+    margin-bottom: 10px;
+}
+.questionnaire-form.renewal .qc-form-group {
+    margin-bottom: 20px;
+}
 @media (max-width: 767px) {
     .questionnarie-section {
         padding: 32px 0;

@@ -3,10 +3,10 @@
 add_action('wp_ajax_cloudcheck_send_request_heydoc', 'cloudcheck_send_request_heydoc');
 add_action( 'wp_ajax_nopriv_cloudcheck_send_request_heydoc', 'cloudcheck_send_request_heydoc' ); // For anonymous users
 
-
 function cloudcheck_send_request_heydoc() {
     create_questionnaire($_POST['data']);
-    
+    save_medical_history($_POST['data']);
+
     $form_data = $_POST['data'];
     $form_data = json_encode($form_data);
 
@@ -39,6 +39,7 @@ function cloudcheck_send_request_heydoc() {
     wp_die();
 
 }
+
 
 
 
@@ -117,6 +118,28 @@ add_action('wp_ajax_cloudcheck_dob_verification', 'cloudcheck_dob_verification')
 add_action( 'wp_ajax_nopriv_cloudcheck_dob_verification', 'cloudcheck_dob_verification' ); // For anonymous users
 
 
+
+/***
+ *** Save Medical History
+ ***/
+
+function save_medical_history($data) {
+
+    $user_id = get_current_user_id();
+    $submition_time = date("F j, Y, g:i a");
+    update_user_meta( $user_id, 'last_history_update', $submition_time );
+    update_user_meta( $user_id, 'first', $data['first'] );
+    update_user_meta( $user_id, 'last', $data['last'] );
+    update_user_meta( $user_id, 'additional_dob', $data['dob'] );
+    update_user_meta( $user_id, 'last_cigarette', $data['nkgg3ZZPoWhDuMqRFuab5'] );
+//    update_user_meta( $user_id, 'vaping_product', $data['Jobx7PHVwKL_yumEdi7Jl'] );
+    update_user_meta( $user_id, 'heart_attack', $data['65oh_cXb82k9FFSQTpnCq'] );
+    update_user_meta( $user_id, 'are_you_pregnant', $data['6zudIdCy1XEoCX8Sw0NgK'] );
+    update_user_meta( $user_id, 'special_requirements', $data['JerSYpGMeTg~Z75luZ72Q'] );
+    update_user_meta( $user_id, 'emaile_documents', $data['edtL2L2EgXHeafjrROWeR'] );
+    update_user_meta( $user_id, 'confirm_safety_information', $data['t9SgLNeqhCd2TkecatA8s'] );
+
+}
 
 
 /*
@@ -278,4 +301,25 @@ function questionnaire_set_to_draft() {
         $post = array( 'ID' => $slide->ID, 'post_status' => 'draft' );
         wp_update_post($post);
     }
+}
+
+
+/*** Save medical history fields after register new user if questionnaire was submitted ***/
+
+/***  ***/
+
+add_action('wp_ajax_save_initial_user_medical_profile', 'save_initial_user_medical_profile');
+add_action( 'wp_ajax_nopriv_save_initial_user_medical_profile', 'save_initial_user_medical_profile' ); // For anonymous users
+function save_initial_user_medical_profile() {
+
+    var_dump($_POST['data']);
+    $user_id = get_current_user_id();
+    $data = $_POST['data'];
+    update_user_meta( $user_id, 'last_cigarette', $data['hvNck0WCKPsBb73XEzIF3'] );
+    update_user_meta( $user_id, 'vaping_product', $data['Jobx7PHVwKL_yumEdi7Jl'] );
+    update_user_meta( $user_id, 'heart_attack', $data['qceAKDJfEDuBQj7QD1gFF'] );
+    update_user_meta( $user_id, 'are_you_pregnant', $data['3N7MEwRQQ8DyRyhUeWluZ3'] );
+    update_user_meta( $user_id, 'special_requirements', $data['vk1adCeUqE8VkWvf5Qqm6'] );
+    update_user_meta( $user_id, 'emaile_documents', $data['B90LYTslk__msuLzLkQ31'] );
+    update_user_meta( $user_id, 'confirm_safety_information', $data['gbHG9mDZV7bRmXggwJyYI4'] );
 }

@@ -475,7 +475,7 @@
                                         <div class="d-flex">
                                             <label class="form-group-label">Is there anything else you would like to add about your vaping?</label>
                                         </div>
-                                        <textarea class="form-control form-input2" name="~NS42HF~cIVNIW8bohuFE" data-testid="input" id="~NS42HF~cIVNIW8bohuFE" type="text" value="" placeholder="Please fill" required></textarea>
+                                        <textarea class="form-control form-input2" name="~NS42HF~cIVNIW8bohuFE" data-testid="input" id="~NS42HF~cIVNIW8bohuFE" type="text" value="" placeholder="Please fill" ></textarea>
                                     </div>
 
                                 </div>
@@ -499,7 +499,7 @@
                                         <div class="d-flex">
                                             <label class="form-group-label">Please list below any significant medical illnesses, such as diabetes, cancer, asthma, COPD/emphysema or psychiatric disorders.</label>
                                         </div>
-                                        <textarea class="form-control form-input2" name="Qg7XDz8NOIM1oShkyViot" data-testid="input" id="~Qg7XDz8NOIM1oShkyViot" type="text" value="" placeholder="Please fill" required></textarea>
+                                        <textarea class="form-control form-input2" name="Qg7XDz8NOIM1oShkyViot" data-testid="input" id="~Qg7XDz8NOIM1oShkyViot" type="text" value="" placeholder="Please fill" ></textarea>
                                     </div>
 
                                     <div class="separator"></div>

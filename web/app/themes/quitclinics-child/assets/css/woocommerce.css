@@ -556,6 +556,15 @@ table.shop_table tr.mobile-visible{
     display: inline-block;
 }
 
+nav.woocommerce-MyAccount-navigation ul {
+    display: flex;
+    flex-direction: column;
+}
+.woocommerce-MyAccount-navigation-link.woocommerce-MyAccount-navigation-link--customer-logout {
+    order: 10;
+}
+
+
 /*My Account orders*/
 
 .woocommerce-orders-table .subscription-next-payment {

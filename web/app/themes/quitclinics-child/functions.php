@@ -70,6 +70,9 @@ include 'inc/woocommerce-lib.php';
 include 'inc/heydoc.php';
 include 'inc/cloudcheck-global-verification.php';
 include 'inc/seo.php';
+include 'inc/medical-history-funcs.php';
+include 'inc/user-medical-profile-fields.php';
+include 'inc/heydoc-renewal.php';
 
 
 function get_excerpt($limit){
@@ -185,15 +188,10 @@ function add_async_attribute($tag, $handle)
 add_action('rest_api_init', 'api_init');
 
 
-function api_init() {
-    register_rest_route('wpjm-jobadder/', '/feed', array(
-        'methods' => 'POST',
-        'callback' => 'process_feed',
-    ));
-}
-
 
 function script_comment_reply(){
     wp_deregister_script( 'comment-reply');
 }
 add_action('init','script_comment_reply');
+
+
