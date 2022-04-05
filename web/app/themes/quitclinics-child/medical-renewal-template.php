@@ -44,7 +44,7 @@ $user_id = get_current_user_id();
 <!--        </div>-->
 
         <!--DOB-->
-        <div class="form-group text-group qc-form-group w100">
+        <div class="form-group text-group qc-form-group w49">
             <div class="d-flex">
                 <label class="form-group-label bio">Date of birth</label>
             </div>
@@ -112,7 +112,7 @@ $user_id = get_current_user_id();
 <!--            What vaping product/s are you currently using? (Please include brand, nicotine strength and how many mLs/pods used per day)-->
             <div class="form-group qc-form-group w100 form-request-item">
                 <div class="d-flex">
-                    <label class="bio">What vaping product/s are you currently using? (Please include brand, nicotine strength and how many mLs/pods used per day)
+                    <label class="">What vaping product/s are you currently using? (Please include brand, nicotine strength and how many mLs/pods used per day)
                     </label>
                 </div>
                 <input class="form-control form-input2" data-testid="input" id="Jobx7PHVwKL_yumEdi7Jl" name="Jobx7PHVwKL_yumEdi7Jl" autocomplete="family-name" type="text" value="<?php  echo get_user_meta($user_id, 'vaping_product', true); ?>" placeholder="Please Fill">
@@ -120,7 +120,7 @@ $user_id = get_current_user_id();
 
 
             <div class="qc-form-group w100">
-                <h4 class="subtitle">Medical</h4>
+                <h4 class="subtitle">Medical History</h4>
             </div>
 
             <!--Have you had a stroke, heart attack, irregular heartbeat, uncontrolled hypertension or angina in the past month?-->
@@ -173,7 +173,7 @@ $user_id = get_current_user_id();
             <!--Do you have any special requirements or requests? Is there anything else you would like your doctor to know?-->
             <div class="form-group qc-form-group w100 form-request-item">
                 <div class="d-flex">
-                    <label class="bio">Do you have any special requirements or requests? Is there anything else you would like your doctor to know?
+                    <label class="">Do you have any special requirements or requests? Is there anything else you would like your doctor to know?
                     </label>
                 </div>
                 <input class="form-control form-input2" data-testid="input" id="vk1adCeUqE8VkWvf5Qqm6" name="vk1adCeUqE8VkWvf5Qqm6" autocomplete="family-name" type="text" value="<?php  echo get_user_meta($user_id, 'special_requirements', true); ?>" placeholder="Please Fill">
@@ -181,7 +181,7 @@ $user_id = get_current_user_id();
             <!--Your documents will be securely emailed to you, and no one else, unless you request otherwise. If you would like us to also forward your prescription to a pharmacy, supplier or friend/carer, please enter their email address.-->
             <div class="form-group qc-form-group w100 form-request-item">
                 <div class="d-flex">
-                    <label class="bio">Your documents will be securely emailed to you, and no one else, unless you request otherwise. If you would like us to also forward your prescription to a pharmacy, supplier or friend/carer, please enter their email address.
+                    <label class="">Your documents will be securely emailed to you, and no one else, unless you request otherwise. If you would like us to also forward your prescription to a pharmacy, supplier or friend/carer, please enter their email address.
                     </label>
                 </div>
                 <input class="form-control form-input2" data-testid="input" id="B90LYTslk__msuLzLkQ31" name="B90LYTslk__msuLzLkQ31" autocomplete="family-name" type="text" value="<?php  echo get_user_meta($user_id, 'emaile_documents', true); ?>" placeholder="Please Fill">

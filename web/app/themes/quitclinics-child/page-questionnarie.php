@@ -613,6 +613,7 @@
                                                 <div class="treatment-selection__btn-group">
                                                     <button class="btn-body btn-blue questionnarie-submit" type="button" data-product-name="<?php echo $product->post_title; ?>" data-product-id="<?php echo $product->ID; ?>">Get started</button>
 
+                                                    <?php if (get_field ('enable_modal_section', $product->ID) == true) { ?>
                                                     <div class="popup_item_wrapper" data-popup="">
                                                         <div href="" class="popup_button treatment-selection_more_info">
                                                             More information
@@ -670,13 +671,15 @@
                                                         </div>
 
                                                     </div>
-
+                                                    <?php } ?>
                                                 </div>
                                             </div>
                                         <?php endforeach ?>
                                         <?php wp_reset_postdata(); ?>
                                     <?php endif ?>
                                 </div>
+
+
 
                                 <div class="qc-form-group w100 text-center">
                                     <?php if (get_field('what_to_expect_title')) :?>
@@ -686,6 +689,8 @@
                                 <div class="tiles__list expect-description what-to-expect-slider">
                                     <?php if ($products): ?>
                                         <?php foreach ($products as $product) : ?>
+
+                                    <?php if (get_field('enable_what_to_expect', $product->ID) == true) : ?>
                                             <div class="tiles__item expect-description__item">
                                                 <div class="expect-description__img">
                                                     <?php if (get_field('subscription_small_image', $product->ID)) : ?>
@@ -697,11 +702,15 @@
                                                     <div class="treatment-selection__desc text-center"><?php echo get_field('subscription_short_description', $product->ID) ?></div>
                                                 </div>
                                             </div>
+                                    <?php endif ?>
                                         <?php endforeach ?>
                                         <?php wp_reset_postdata(); ?>
                                     <?php endif ?>
 
                                 </div>
+
+
+
                             </div>
 
 
