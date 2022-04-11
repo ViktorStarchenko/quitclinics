@@ -1,0 +1,93 @@
+#cloudcheck_section label {
+    display: none;
+}
+#cloudcheck_section label.label-show {
+    display: block;
+    font-weight: bold;
+    line-height: 1;
+    color: var(--color-blue);
+    margin-bottom: 9px;
+    font-size: 23px!important;
+    letter-spacing: 0.15px;
+}
+#cloudcheck_section input,
+#cloudcheck_section select {
+    width: 100%;
+    height: 53px;
+    padding: 15px 17px;
+    border: solid 1px #8c8c8c;
+    background-color: #ffffff;
+    line-height: normal;
+}
+#cloudcheck_section select.form-input-dob {
+    max-width: 30.33%;
+    margin: 0;
+}
+
+#cloudcheck_section h5 {
+    margin-bottom: 16px;
+}
+
+#cloudcheck_section .form-group {
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+#cloudcheck_section .form-group.hidden {
+    display: none;
+}
+#success .alert.alert-danger {
+    border-radius: 2px;
+    border: solid 1px #ed7c7c;
+    background-color: rgba(237, 124, 124, 0.3);
+    color: #ed7c7c;
+}
+#success .alert.alert-success {
+    border-radius: 2px;
+    border: solid 1px #fb8d48;
+    background-color: rgba(251, 141, 72, 0.3);
+    color: #c16e3a;
+}
+#success .alert {
+    position: relative;
+    padding: 20px;
+}
+#success .close {
+    position: absolute;
+    right: 3px;
+    top: 3px;
+    background: none;
+    width: 20px;
+    border: unset;
+    font-size: 20px;
+    color: #fff;
+    cursor: pointer;
+}
+#success .alert.alert-success .close {
+    color: #c16e3a;
+}
+#success .alert.alert-danger .close {
+    color: #ed7c7c;
+}
+
+.cloudcheck {
+    max-width: 560px;
+}
+
+.settings_page_cloudcheck-int .cloudcheck {
+    margin-top: 40px;
+}
+.settings_page_cloudcheck-int .cloudcheck h5 {
+    font-weight: 600;
+    font-size: 16px;
+}
+.settings_page_cloudcheck-int #cloudcheck_section input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+}
+@media screen and (max-width: 767px) {
+    #cloudcheck_section label.label-show {
+        font-size: 18px!important;
+    }
+}

@@ -1,0 +1,11 @@
+
+.wckl_content form input[type=email],
+.wckl_content form input[type=number],
+.wckl_content form input[type=password],
+.wckl_content form input[type=search],
+.wckl_content form input[type=tel],
+.wckl_content form input[type=text],
+.wckl_content form textarea {
+    width: 100%;
+    max-width: 320px;
+}
