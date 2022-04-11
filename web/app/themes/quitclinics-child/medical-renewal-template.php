@@ -61,7 +61,7 @@ $user_id = get_current_user_id();
 
 
         <div class="qc-form-group w100">
-            <h4 class="subtitle">Smoking</h4>
+            <h4 class="subtitle">Smoking History</h4>
         </div>
 
         <div class="form-inner hidden-fields">
@@ -107,7 +107,7 @@ $user_id = get_current_user_id();
 
 
             <div class="qc-form-group w100">
-                <h4 class="subtitle">Vaping</h4>
+                <h4 class="subtitle">Vaping History</h4>
             </div>
 <!--            What vaping product/s are you currently using? (Please include brand, nicotine strength and how many mLs/pods used per day)-->
             <div class="form-group qc-form-group w100 form-request-item">
