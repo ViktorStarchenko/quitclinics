@@ -194,3 +194,57 @@ function save_medical_history_renewal($data) {
     update_user_meta( $user_id, 'confirm_safety_information', $data['gbHG9mDZV7bRmXggwJyYI4'] );
 
 }
+
+
+
+add_action('woocommerce_thankyou', 'save_medical_history_renewal_after_order_created', 10, 1);
+
+function save_medical_history_renewal_after_order_created($order_id) {
+
+    $order = wc_get_order( $order_id );
+
+    $form_data = array(
+        'first' => get_user_meta($order->customer_id, 'first', true),
+        'last' => get_user_meta($order->customer_id, 'last', true),
+        'dob' => get_user_meta($order->customer_id, 'additional_dob', true),
+        'hvNck0WCKPsBb73XEzIF3' => get_user_meta($order->customer_id, 'last_cigarette', true),
+        'Jobx7PHVwKL_yumEdi7Jl' => get_user_meta($order->customer_id, 'vaping_product', true),
+        'qceAKDJfEDuBQj7QD1gFF' => get_user_meta($order->customer_id, 'heart_attack', true),
+        '3N7MEwRQQ8DyRyhUeWluZ3' => get_user_meta($order->customer_id, 'are_you_pregnant', true),
+        'vk1adCeUqE8VkWvf5Qqm6' => get_user_meta($order->customer_id, 'special_requirements', true),
+        'B90LYTslk__msuLzLkQ31' => get_user_meta($order->customer_id, 'emaile_documents', true),
+        'gbHG9mDZV7bRmXggwJyYI4' => get_user_meta($order->customer_id, 'confirm_safety_information', true)
+    );
+
+
+    $form_data = json_encode($form_data);
+
+    $curl = curl_init();
+    $params = array(
+        CURLOPT_RETURNTRANSFER => 1,
+        CURLOPT_HTTPHEADER => array('Content-type: application/json'),
+        CURLOPT_URL => 'https://api.heydoc.co.uk/questionnaires/response/8ecd2c0a3bb5bffa429b3df41d2caba640fdf9e3/',
+        CURLOPT_PORT => 443,
+        CURLOPT_SSL_VERIFYHOST => false,
+        CURLOPT_VERBOSE => 1,
+        CURLOPT_POSTFIELDS => $form_data,
+    );
+    curl_setopt_array($curl, $params);
+    $result = null;
+    try {
+        $result = curl_exec($curl);
+        echo $result;
+        if (!$result) {
+            $errno = curl_errno($curl);
+            $error = curl_error($curl);
+            error_log($error);
+            echo $error;
+        }
+        curl_close($curl);
+    } catch (HttpException $ex) {
+        error_log($ex);
+        echo $ex;
+    }
+    var_dump($ex);
+
+}
