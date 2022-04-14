@@ -151,14 +151,14 @@ $user_id = get_current_user_id();
                 </div>
                 <div class="form-check-group">
                     <div class="form-check">
-                        <input class="form-radio-input" type="radio" name="3N7MEwRQQ8DyRyhUeWluZ3" id="3N7MEwRQQ8DyRyhUeWluZ3_Yes" tabindex="-1" value="Yes" <?php  echo (get_user_meta($user_id, 'are_you_pregnant', true) == 'Yes' ? 'checked' : ''); ?>>
+                        <input class="form-radio-input" type="radio" name="3N7MEwRQQ8DyRyhUeWluZ" id="3N7MEwRQQ8DyRyhUeWluZ_Yes" tabindex="-1" value="Yes" <?php  echo (get_user_meta($user_id, 'are_you_pregnant', true) == 'Yes' ? 'checked' : ''); ?>>
                         <span class="custom-radio-input"></span>
-                        <label class="form-check-label" for="3N7MEwRQQ8DyRyhUeWluZ3_Yes">Yes</label>
+                        <label class="form-check-label" for="3N7MEwRQQ8DyRyhUeWluZ_Yes">Yes</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-radio-input" type="radio" name="3N7MEwRQQ8DyRyhUeWluZ3" id="3N7MEwRQQ8DyRyhUeWluZ3_No" tabindex="-1" value="No" <?php  echo (get_user_meta($user_id, 'are_you_pregnant', true) == 'No' ? 'checked' : ''); ?>>
+                        <input class="form-radio-input" type="radio" name="3N7MEwRQQ8DyRyhUeWluZ" id="3N7MEwRQQ8DyRyhUeWluZ_No" tabindex="-1" value="No" <?php  echo (get_user_meta($user_id, 'are_you_pregnant', true) == 'No' ? 'checked' : ''); ?>>
                         <span class="custom-radio-input"></span>
-                        <label class="form-check-label" for="3N7MEwRQQ8DyRyhUeWluZ3_No">No</label>
+                        <label class="form-check-label" for="3N7MEwRQQ8DyRyhUeWluZ_No">No</label>
                     </div>
                 </div>
             </div>
@@ -196,7 +196,7 @@ $user_id = get_current_user_id();
                 <div class="d-flex"><label class="">Complete abstinence from smoking and vaping is the safest option for your health. Nicotine is addictive, and the long-term risks of vaping are unknown. Currently no nicotine vaping products have been approved by the TGA, and the safety of these products has not yet been thoroughly assessed. In order to minimise risk of harm, only short-term use of e-cigarettes is recommended, and dual use (vaping plus smoking) needs to be avoided.</label></div>
                 <div class="form-check-group">
                     <div class="form-check">
-                        <input class="form-radio-input" type="radio" name="gbHG9mDZV7bRmXggwJyYI4" id="gbHG9mDZV7bRmXggwJyYI_I confirm that I have read and understand the above safety information" tabindex="-1" value="I confirm that I have read and understand the above safety information">
+                        <input class="form-radio-input" type="radio" name="gbHG9mDZV7bRmXggwJyYI" id="gbHG9mDZV7bRmXggwJyYI_I confirm that I have read and understand the above safety information" tabindex="-1" value="I confirm that I have read and understand the above safety information">
                         <span class="custom-radio-input"></span>
                         <label class="form-check-label" for="gbHG9mDZV7bRmXggwJyYI_I confirm that I have read and understand the above safety information">I confirm that I have read and understand the above safety information</label>
                     </div>

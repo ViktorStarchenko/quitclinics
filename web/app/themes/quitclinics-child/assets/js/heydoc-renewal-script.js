@@ -178,7 +178,7 @@ $(".questionnaire-form").submit(function(event) {
 
 
     // Validate radio
-    let data_arr = [ 'gbHG9mDZV7bRmXggwJyYI4'];
+    let data_arr = [ 'gbHG9mDZV7bRmXggwJyYI'];
 
     for(i=0; i<data_arr.length; i++) {
         validateRadio(data_arr[i])

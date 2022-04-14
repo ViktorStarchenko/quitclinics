@@ -318,8 +318,8 @@ function save_initial_user_medical_profile() {
     update_user_meta( $user_id, 'last_cigarette', $data['hvNck0WCKPsBb73XEzIF3'] );
     update_user_meta( $user_id, 'vaping_product', $data['Jobx7PHVwKL_yumEdi7Jl'] );
     update_user_meta( $user_id, 'heart_attack', $data['qceAKDJfEDuBQj7QD1gFF'] );
-    update_user_meta( $user_id, 'are_you_pregnant', $data['3N7MEwRQQ8DyRyhUeWluZ3'] );
+    update_user_meta( $user_id, 'are_you_pregnant', $data['3N7MEwRQQ8DyRyhUeWluZ'] );
     update_user_meta( $user_id, 'special_requirements', $data['vk1adCeUqE8VkWvf5Qqm6'] );
     update_user_meta( $user_id, 'emaile_documents', $data['B90LYTslk__msuLzLkQ31'] );
-    update_user_meta( $user_id, 'confirm_safety_information', $data['gbHG9mDZV7bRmXggwJyYI4'] );
+    update_user_meta( $user_id, 'confirm_safety_information', $data['gbHG9mDZV7bRmXggwJyYI'] );
 }
