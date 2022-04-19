@@ -2,17 +2,17 @@
 ////////////////////////// Nav menu
 
 function openSubmenuOnClick() {
-    // $('.has-child').on('click', function(){
-    //     console.log($(this))
+    // jQuery('.has-child').on('click', function(){
+    //     console.log(jQuery(this))
     //     this.classList.toggle('active')
     // })
-    $('.dropdown-arrow').on('click', function(){
-        console.log($(this).parent('.has-child'))
-        let parent = $(this).parent('.has-child')[0]
-        if ($(parent).hasClass('active')) {
-            $('.has-child').removeClass('active')
+    jQuery('.dropdown-arrow').on('click', function(){
+        console.log(jQuery(this).parent('.has-child'))
+        let parent = jQuery(this).parent('.has-child')[0]
+        if (jQuery(parent).hasClass('active')) {
+            jQuery('.has-child').removeClass('active')
         } else {
-            $('.has-child').removeClass('active')
+            jQuery('.has-child').removeClass('active')
             parent.classList.toggle('active')
         }
 
@@ -23,34 +23,34 @@ function openSubmenuOnClick() {
 }
 
 function headerFixed() {
-    let header = $(".header_fixed").offset().top;
-    let header_height = $(".header_fixed").height();
+    let header = jQuery(".header_fixed").offset().top;
+    let header_height = jQuery(".header_fixed").height();
     let sticky = header.offsetTop;
 
     // Add the sticky class to the header when you reach its scroll position. Remove "sticky" when you leave the scroll position
     if (window.pageYOffset > 0) {
-        $(".header_fixed").addClass("fixed");
-        $("body").css( "padding-top",  header_height + "px" )
+        jQuery(".header_fixed").addClass("fixed");
+        jQuery("body").css( "padding-top",  header_height + "px" )
     } else {
-        $(".header_fixed").removeClass("fixed");
-        $("main").removeClass("header-padding");
-        $("body").css( "padding-top", "0" )
+        jQuery(".header_fixed").removeClass("fixed");
+        jQuery("main").removeClass("header-padding");
+        jQuery("body").css( "padding-top", "0" )
     }
 }
 
 function setLogoWidth(logo) {
-    if ($(logo).attr('data-width-desk').length > 0 || $(logo).attr('data-width-mob').length > 0) {
-        let logo_width_desk = $(logo).attr('data-width-desk');
-        let logo_width_mob = $(logo).attr('data-width-mob');
+    if (jQuery(logo).attr('data-width-desk').length > 0 || jQuery(logo).attr('data-width-mob').length > 0) {
+        let logo_width_desk = jQuery(logo).attr('data-width-desk');
+        let logo_width_mob = jQuery(logo).attr('data-width-mob');
         console.log(logo_width_desk)
         if(window.innerWidth <= 767){
             console.log(logo_width_mob)
-            if ($(logo).attr('data-width-mob').length > 0) {
-                $(logo).css('max-width', logo_width_mob + 'px')
+            if (jQuery(logo).attr('data-width-mob').length > 0) {
+                jQuery(logo).css('max-width', logo_width_mob + 'px')
             }
         } else {
-            if ($(logo).attr('data-width-desk')) {
-                $(logo).css('max-width', logo_width_desk + 'px')
+            if (jQuery(logo).attr('data-width-desk')) {
+                jQuery(logo).css('max-width', logo_width_desk + 'px')
             }
         }
     }
@@ -58,11 +58,11 @@ function setLogoWidth(logo) {
 // setLogoWidth('header .menu-logo')
 // setLogoWidth('.footer .menu-logo')
 
-$(document).ready(function(){
+jQuery(document).ready(function(){
     headerFixed();
-    $('header a[href^="#"]').addClass('crane')
+    jQuery('header a[href^="#"]').addClass('crane')
     // Add CRANE class
-    // let menu_links = $('header a');
+    // let menu_links = jQuery('header a');
     // for (i=0; i<menu_links.length; i++ ) {
     //     let link = menu_links[i];
     //     // console.log(link.href)
@@ -70,16 +70,16 @@ $(document).ready(function(){
     //         menu_links[i].classList.add('crane')
     //     }
     // }
-    $("body").on("click",'.crane', function (event) {
-        // console.log($('header a[href^="#"]'));
+    jQuery("body").on("click",'.crane', function (event) {
+        // console.log(jQuery('header a[href^="#"]'));
         //отменяем стандартную обработку нажатия по ссылке
         event.preventDefault();
         //забираем идентификатор бока с атрибута href
-        var id  = $(this).attr('href'),
+        var id  = jQuery(this).attr('href'),
             //узнаем высоту от начала страницы до блока на который ссылается якорь
-            top = $(id).offset().top;
+            top = jQuery(id).offset().top;
         //анимируем переход на расстояние - top за 1500 мс
-        $('body,html').animate({scrollTop: top-100}, 1500);
+        jQuery('body,html').animate({scrollTop: top-100}, 1500);
     });
 })
 window.onload = function () {
@@ -89,37 +89,37 @@ window.onload = function () {
 
     //Change button text on mobile
     if(window.innerWidth <= 767){
-        let mob_text = $('.nav-menu-btn').attr('data-mob-text');
-        $('.nav-menu-btn').html(mob_text);
+        let mob_text = jQuery('.nav-menu-btn').attr('data-mob-text');
+        jQuery('.nav-menu-btn').html(mob_text);
 
         openSubmenuOnClick();
     } else {
-        
+
     }
 };
 
 
 ////////////////////////// Adaptive WIDTH/HEIGHT for elements
 function elAdaptiveWidthHeight(element) {
-    let elem_llection = $(element)
+    let elem_llection = jQuery(element)
 
     for(i=0; i<elem_llection.length; i++) {
         let elem = elem_llection[i];
         console.log(elem)
-        if ($(elem).attr('data-width-desk').length > 0 || $(elem).attr('data-width-mob').length > 0) {
-            let elem_width_desk = $(elem).attr('data-width-desk');
-            let elem_width_mob = $(elem).attr('data-width-mob');
+        if (jQuery(elem).attr('data-width-desk').length > 0 || jQuery(elem).attr('data-width-mob').length > 0) {
+            let elem_width_desk = jQuery(elem).attr('data-width-desk');
+            let elem_width_mob = jQuery(elem).attr('data-width-mob');
             console.log(elem_width_desk)
             if(window.innerWidth <= 767){
                 console.log(elem_width_mob)
-                if ($(elem).attr('data-width-mob').length > 0) {
-                    $(elem).css('width', elem_width_mob + 'px')
-                    $(elem).css('height', elem_width_mob + 'px')
+                if (jQuery(elem).attr('data-width-mob').length > 0) {
+                    jQuery(elem).css('width', elem_width_mob + 'px')
+                    jQuery(elem).css('height', elem_width_mob + 'px')
                 }
             } else {
-                if ($(elem).attr('data-width-desk')) {
-                    $(elem).css('width', elem_width_desk + 'px')
-                    $(elem).css('height', elem_width_desk + 'px')
+                if (jQuery(elem).attr('data-width-desk')) {
+                    jQuery(elem).css('width', elem_width_desk + 'px')
+                    jQuery(elem).css('height', elem_width_desk + 'px')
                 }
             }
         }
@@ -129,7 +129,9 @@ function elAdaptiveWidthHeight(element) {
 elAdaptiveWidthHeight('.adaptive-width')
 
 ////////////////////////// ACCORDION
+
 var acc = document.getElementsByClassName("accordion__btn");
+console.log(acc)
 var i;
 
 for (i = 0; i < acc.length; i++) {
@@ -145,62 +147,64 @@ for (i = 0; i < acc.length; i++) {
     });
 }
 
-
-
 // SHOW ALERT
 function showAlert(type, text) {
     if (type == 'error') {
-        $('#success').html("<div class='alert alert-danger'>");
-        $('#success > .alert-danger').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>");
-        $('#success > .alert-danger').append(text);
-        $('#success > .alert-danger').append('</div>');
-        if($('.is-invalid').length > 0) {
-            var is_invalid = $('.is-invalid')[0]
-            $('html, body').animate({scrollTop:$(is_invalid).position().top - 85}, 500);
+        jQuery('#success').html("<div class='alert alert-danger'>");
+        jQuery('#success > .alert-danger').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>");
+        jQuery('#success > .alert-danger').append(text);showAlert
+        jQuery('#success > .alert-danger').append('</div>');
+        if(jQuery('.is-invalid').length > 0) {
+            var is_invalid = jQuery('.is-invalid')[0]
+            jQuery('html, body').animate({scrollTop:jQuery(is_invalid).position().top - 85}, 500);
         }
 
     } else if (type == 'warning') {
-        $('#success').html("<div class='alert alert-warning'>");
-        $('#success > .alert-warning').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>");
-        $('#success > .alert-warning').append(text);
-        $('#success > .alert-warning').append('</div>');
+        jQuery('#success').html("<div class='alert alert-warning'>");
+        jQuery('#success > .alert-warning').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>");
+        jQuery('#success > .alert-warning').append(text);
+        jQuery('#success > .alert-warning').append('</div>');
     } else {
-        $('#success').html("<div class='alert alert-success'>");
-        $('#success > .alert-success').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>");
-        $('#success > .alert-success').append(text);
-        $('#success > .alert-success').append('</div>');
+        jQuery('#success').html("<div class='alert alert-success'>");
+        jQuery('#success > .alert-success').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>");
+        jQuery('#success > .alert-success').append(text);
+        jQuery('#success > .alert-success').append('</div>');
     }
     setTimeout(closeAlert, 100)
 } //showAlert
 
 // Close Alert
 function closeAlert(){
-    $('#success .close').on('click', function(){
-        $('#success .alert').remove();
-        $(".btnSubmit").attr("disabled", false);
+    jQuery('#success .close').on('click', function(){
+        jQuery('#success .alert').remove();
+        jQuery(".btnSubmit").attr("disabled", false);
     })
 }// Close Alert
 
-$("input#au_citizenshipbydescent").change(function (event) {
-    var au_citizenshipbydescent = $("input#au_citizenshipbydescent").is(":checked");
+function hideAlert() {
+    jQuery('#success > .alert').remove();
+}
+
+jQuery("input#au_citizenshipbydescent").change(function (event) {
+    var au_citizenshipbydescent = jQuery("input#au_citizenshipbydescent").is(":checked");
     if(this.checked) {
-        $("#div_au_citizenshipstocknumber").hide();
+        jQuery("#div_au_citizenshipstocknumber").hide();
     } else {
-        $("#div_au_citizenshipstocknumber").show();
+        jQuery("#div_au_citizenshipstocknumber").show();
     }
 });
 
 
 
 // Cloucheck tabs
-$(document).ready(function(){
-    $(".cloudcheck-regions-list li").on('click', function(){
-        var cloudcheck_region = $(this).attr('data-region')
-        var ckeckbox_list =  $('.ckeckbox-dropdown-list');
-        $('.cloudcheck-regions-list li').removeClass('show')
-        $(this).addClass('show')
-        $('.cloudcheck-region-box').removeClass('show')
-        $('.cloudcheck-region-box[data-region='+ cloudcheck_region +']').addClass('show')
+jQuery(document).ready(function(){
+    jQuery(".cloudcheck-regions-list li").on('click', function(){
+        var cloudcheck_region = jQuery(this).attr('data-region')
+        var ckeckbox_list =  jQuery('.ckeckbox-dropdown-list');
+        jQuery('.cloudcheck-regions-list li').removeClass('show')
+        jQuery(this).addClass('show')
+        jQuery('.cloudcheck-region-box').removeClass('show')
+        jQuery('.cloudcheck-region-box[data-region='+ cloudcheck_region +']').addClass('show')
 
     })
 })
@@ -208,8 +212,8 @@ $(document).ready(function(){
 
 // REMOVE STRIPE PAYMENT BUY NOW BUTTON
 function buyNowDisable(){
-    if ($('#wc-stripe-payment-request-wrapper').length) {
-        $('#wc-stripe-payment-request-wrapper button').detach();
+    if (jQuery('#wc-stripe-payment-request-wrapper').length) {
+        jQuery('#wc-stripe-payment-request-wrapper button').detach();
     }
 }
 setTimeout(buyNowDisable, 100)
@@ -219,22 +223,22 @@ setTimeout(buyNowDisable, 100)
 
 // CHANGE POSTCODE BILLING FIELD BACKGROUND
 function billingFieldsBg(data) {
-    $( "#" + data ).addClass('change-bg empty')
-    $( "#" + data ).change(function() {
-        console.log($(this).val().length)
-        if($(this).length && $(this).val().length) {
-            $(this).removeClass("empty");
+    jQuery( "#" + data ).addClass('change-bg empty')
+    jQuery( "#" + data ).change(function() {
+        console.log(jQuery(this).val().length)
+        if(jQuery(this).length && jQuery(this).val().length) {
+            jQuery(this).removeClass("empty");
         } else {
-            $(this).addClass("empty");
+            jQuery(this).addClass("empty");
         }
     });
 }
-$(document).ready(function() {
+jQuery(document).ready(function() {
     let data_arr = ['billing_postcode'];
     for(i=0; i<=data_arr.length; i++) {
         billingFieldsBg(data_arr[i])
     }
-    $( "#billing_postcode" ).prop('placeholder', 'Postcode')
+    jQuery( "#billing_postcode" ).prop('placeholder', 'Postcode')
 })
 
 
@@ -245,29 +249,29 @@ function autocompleteBillingsFieldsByHeydocValues(){
     var data = sessionStorage['data'];
     if ( data ) {
         var values = JSON.parse(data);
-        $('#billing_first_name').val(values.first)
-        $('#billing_last_name').val(values.last)
-        $('#billing_country option[value="'+ values.country +'"]').prop('selected', true);
-        $('#billing_address_1').val(values.address)
-        $('#billing_postcode').val(values.postcode)
-        $('#billing_phone').val(values.phoneNumber)
-        $('#billing_email').val(values.email)
+        jQuery('#billing_first_name').val(values.first)
+        jQuery('#billing_last_name').val(values.last)
+        jQuery('#billing_country option[value="'+ values.country +'"]').prop('selected', true);
+        jQuery('#billing_address_1').val(values.address)
+        jQuery('#billing_postcode').val(values.postcode)
+        jQuery('#billing_phone').val(values.phoneNumber)
+        jQuery('#billing_email').val(values.email)
     }
 }// Autocomplete billings fields by Heydoc values
 autocompleteBillingsFieldsByHeydocValues()
 
 
 // // AUTOCOMPLETE CLOUDCHECK NAME FIELDS
-// if($('.name').length > 0 && $('#billing_first_name').length > 0 ) {
-//     $('input.name').val($('input#billing_first_name').val())
-//     $('input#billing_first_name').change(function(){
-//         $('input.name').val($('input#billing_first_name').val())
+// if(jQuery('.name').length > 0 && jQuery('#billing_first_name').length > 0 ) {
+//     jQuery('input.name').val(jQuery('input#billing_first_name').val())
+//     jQuery('input#billing_first_name').change(function(){
+//         jQuery('input.name').val(jQuery('input#billing_first_name').val())
 //     })
 // }
-// if($('.surname').length > 0 && $('#billing_last_name').length > 0 ) {
-//     $('input.surname').val($('input#billing_last_name').val())
-//     $('input#billing_last_name').change(function(){
-//         $('input.surname').val($('input#billing_last_name').val())
+// if(jQuery('.surname').length > 0 && jQuery('#billing_last_name').length > 0 ) {
+//     jQuery('input.surname').val(jQuery('input#billing_last_name').val())
+//     jQuery('input#billing_last_name').change(function(){
+//         jQuery('input.surname').val(jQuery('input#billing_last_name').val())
 //     })
 // }// AUTOCOMPLETE CLOUDCHECK NAME FIELDS
 
@@ -275,23 +279,23 @@ autocompleteBillingsFieldsByHeydocValues()
 // Add login/register forms labels
 jQuery(document).ready(function(){
     var data = sessionStorage['data'];
-    if($('.woocommerce-form-login #username' ).length > 0) {
+    if(jQuery('.woocommerce-form-login #username' ).length > 0) {
         jQuery('#username').attr('placeholder', 'User Email');
     }
-    if($('.woocommerce-form-login #password' ).length > 0) {
+    if(jQuery('.woocommerce-form-login #password' ).length > 0) {
         jQuery('#password').attr('placeholder', 'User Password');
     }
-    if($('.woocommerce-form-register #reg_email' ).length > 0) {
+    if(jQuery('.woocommerce-form-register #reg_email' ).length > 0) {
         jQuery('#reg_email').attr('placeholder', 'User Email');
         if ( data ) {
             var values = JSON.parse(data);
             jQuery('#reg_email').val(values.email);
         }
     }
-    if($('.woocommerce-form-register #reg_password' ).length > 0) {
+    if(jQuery('.woocommerce-form-register #reg_password' ).length > 0) {
         jQuery('#reg_password').attr('placeholder', 'User Password');
     }
-    if($('.woocommerce-form-register #reg_username' ).length > 0) {
+    if(jQuery('.woocommerce-form-register #reg_username' ).length > 0) {
         jQuery('#reg_username').attr('placeholder', 'Username');
     }
 });// Add login/register forms labels
@@ -300,20 +304,20 @@ jQuery(document).ready(function(){
 
 // init modal
 function showModal(data = 'defaul data'){
-    var button = $('.init-modal')[0]
-    // $('.alert-heading').text('Something went wrong')
-    // $('.alert-text').text(data)
+    var button = jQuery('.init-modal')[0]
+    // jQuery('.alert-heading').text('Something went wrong')
+    // jQuery('.alert-text').text(data)
 
-    $('.try-again').on('click', function(){
-        $('#success .alert').remove();
-        $('#fancybox-close').click()
+    jQuery('.try-again').on('click', function(){
+        jQuery('#success .alert').remove();
+        jQuery('#fancybox-close').click()
     })
-    $('.open-chat').on('click', function(){
-        $('#success .alert').remove();
-        $('#fancybox-close').click()
+    jQuery('.open-chat').on('click', function(){
+        jQuery('#success .alert').remove();
+        jQuery('#fancybox-close').click()
         openChat()
     })
-    $(button).click()
+    jQuery(button).click()
     console.log(data)
 }// init modal
 
@@ -321,40 +325,96 @@ function openChat(){
     var iframe = document.getElementById("launcher");
     var elmnt = iframe.contentWindow.document.getElementsByTagName("button")[0];
     // elmnt.style.display = "none";
-    var tt = $(elmnt)[0]
-    $(tt).click()
+    var tt = jQuery(elmnt)[0]
+    jQuery(tt).click()
 }
 
 // Related blog articles slider
-$(document).ready(function() {
-    if ($(window).width() < 760) {
-        $('.post-slider-init').slick({
+jQuery(document).ready(function() {
+    if (jQuery(window).width() < 760) {
+        jQuery('.post-slider-init').slick({
             infinite: false,
             slidesToShow: 1,
             slidesToScroll: 1
         });
     } else {
-        $('.post-slider-init').slick({
+        jQuery('.post-slider-init').slick({
             infinite: false,
             slidesToShow: 3,
             slidesToScroll: 1
         });
     }
 });
-$( window ).resize(function() {
-    if ($(window).width() < 760) {
-        $('.post-slider-init').slick("unslick");
-        $('.post-slider-init').slick({
+jQuery( window ).resize(function() {
+    if (jQuery(window).width() < 760) {
+        jQuery('.post-slider-init').slick("unslick");
+        jQuery('.post-slider-init').slick({
             infinite: false,
             slidesToShow: 1,
             slidesToScroll: 1
         });
     } else {
-        $('.post-slider-init').slick("unslick");
-        $('.post-slider-init').slick({
+        jQuery('.post-slider-init').slick("unslick");
+        jQuery('.post-slider-init').slick({
             infinite: false,
             slidesToShow: 3,
             slidesToScroll: 1
         });
     }
+});
+
+
+
+// Bordered form/checkbox radio styles
+jQuery('.bordered input[type="radio"]').on('change', function(){
+    console.log(jQuery(this).closest('.form-group').find('.form-check'))
+    jQuery(this).closest('.form-step').find('.form-check').removeClass('checked')
+    jQuery(this).closest('.form-check').addClass('checked')
+})
+
+jQuery(function(){
+    jQuery('.bordered input[type="checkbox"]').click(function() {
+        if(jQuery(this).is(':checked'))
+            jQuery(this).closest('.form-check').addClass('checked')
+        else
+            jQuery(this).closest('.form-check').removeClass('checked')
+    });
+});
+
+
+/////////////////////////////////////////////  Alignment heigh of similar blocks
+function normalizeHeigh(data) {
+    let data_height = jQuery('[data-height=' +  data + ']')
+
+    let data_allHeight = [];
+    data_height.each(function(elem){
+        // console.log(jQuery(this).height())
+        data_allHeight.push(parseInt(jQuery(this).height()));
+    })
+    slider1_maxHeight = Math.max.apply(Math, data_allHeight);
+    jQuery('[data-height=' +  data + ']').height(slider1_maxHeight)
+    // console.log(data_height);
+}
+
+jQuery(document).ready(function() {
+    let data_arr = [];
+
+    for(i=0; i<=data_arr.length; i++) {
+        normalizeHeigh(data_arr[i])
+    }
+})
+
+
+//////////////////////////////// Popup
+
+jQuery('.popup_button').on('click', function () {
+    console.log(this)
+    // jQuery("#popup-main-wrapper").empty();
+    // jQuery(this).siblings(".item_popup_wrapper").clone().appendTo( "#popup-main-wrapper" );
+    jQuery(this).siblings(".popup-main-wrapper").addClass('popup_opened');
+});
+
+jQuery(document).on('click', '#popup_close_button', function () {
+    jQuery(".popup-main-wrapper").removeClass('popup_opened');
+
 });

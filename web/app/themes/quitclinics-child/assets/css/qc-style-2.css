@@ -299,6 +299,8 @@
     line-height: 1;
 }
 img.breadcrumbs-separator {
+    width: 16px;
+    height: 15px;
     margin-top: 3px;
     margin-bottom: -4px;	
 }

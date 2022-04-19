@@ -14,6 +14,7 @@
 @import "messages-style.css";
 @import "modal-style.css";
 @import "page-404-style.css";
+@import "popup-style.css";
 
 
 /************************ FONTS **************************/
@@ -75,6 +76,8 @@
     --wrapper-1360: 1360px;
     --wrapper-904: 904px;
     --wrapper-1024: 1024px;
+    --wrapper-1440: 1440px;
+    --wrapper-522: 522px;
 }
 @media screen and (max-width: 1400px) {
     :root {
@@ -275,6 +278,11 @@ h6, .title-h6 {
 }
 
 /*************************** WRAPPING STYLES **************************/
+.wrapper-1440 {
+    width: 100%;
+    max-width: var(--wrapper-1440);
+    margin: auto;
+}
 .wrapper-1240 {
     width: 100%;
     max-width: var(--wrapper-1240);
@@ -294,6 +302,11 @@ h6, .title-h6 {
 .wrapper-904 {
     width: 100%;
     max-width: var(--wrapper-904);
+    margin: auto;
+}
+.wrapper-522 {
+    width: 100%;
+    max-width: var(--wrapper-522);
     margin: auto;
 }
 @media screen and (max-width: 1360px) {
@@ -392,6 +405,9 @@ input[type="submit"].btn-lt-blue:hover {
     background-color: #fff;
     color: var(--color-blue)
 }
+.btn-white.bordered {
+    box-shadow: inset 0 0 0 1px var(--color-blue);
+}
 .btn-white:hover,
 input[type="submit"].btn-white:hover {
     background-color: var(--color-blue);
@@ -435,7 +451,12 @@ input[type="submit"].btn-white:hover {
     background-size: contain;
 }
 /******************************* FORM STYLES ***********************/
-
+.separator {
+    height: 1px;
+    background-color: #dddddd;
+    width: 100%;
+    margin: 20px 0;
+}
 .form-inner {
     width: 100%;
     display: flex;
@@ -538,11 +559,16 @@ textarea.form-input {
     color: var(--color-grey);
     padding: 15px 17px;
     border-radius: 2px;
-    border: solid 1px var(--color-dk-grey2);
+    border: 1px solid #8C8C8C;
     background-color: #fff;
+    border-radius: 3px!important;
+
 }
-.qc-form-group.form-request-item.is-invalid .form-input2,
-.qc-form-group.form-request-item.is-invalid .form-check,
+textarea.form-input2 {
+    height: 125px;
+}
+.qc-form-group.is-invalid .form-input2,
+.qc-form-group.is-invalid .form-check,
 .form-input-dob.is-invalid {
     border: none;
     border-bottom: 2px solid #e0182d;
@@ -562,13 +588,26 @@ select:focus {
     outline: none;
 }
 .form-input-dob {
-    max-width: 120px;
+    /*max-width: 120px;*/
     width: 30.30%;
     margin-right: 15px;
+}
+.dob-fields-wrap {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.dob-fields-wrap .form-input-dob {
+    width: unset;
+    flex: 1;
+    margin-right: 0;
+    max-width: 32%;
 }
 .form-check {
     position: relative;
     padding-left: 25px;
+}
+.form-check:not(:last-child) {
     margin-bottom: 8px;
 }
 .form-check label {
@@ -588,6 +627,7 @@ select:focus {
     left: 0;
     top: 0;
     border: 1px solid var(--color-dk-grey2);
+
     background-color: #fff;
     width: 16px;
     height: 16px;
@@ -633,6 +673,7 @@ select:focus {
 .country-select.inside input, .country-select.inside input[type=text] {
     border: unset;
 }
+
 @media screen and (max-width: 767px) {
     .qc-form-group.w49 {
         width: 100%;
@@ -786,12 +827,12 @@ nav ul {
 }
 .nav-wrap li span.dropdown-arrow:before {
     content: "";
-        position: absolute;
-        height: 0;
-        width: 0;
-        border: 8px solid transparent;
-        top: 50% ;
-        right:5px;
+    position: absolute;
+    height: 0;
+    width: 0;
+    border: 8px solid transparent;
+    top: 50% ;
+    right:5px;
     border-top-color: #fff;
 }
 .nav-wrap li.active span.dropdown-arrow:before {

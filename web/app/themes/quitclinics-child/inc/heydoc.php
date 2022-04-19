@@ -3,9 +3,11 @@
 add_action('wp_ajax_cloudcheck_send_request_heydoc', 'cloudcheck_send_request_heydoc');
 add_action( 'wp_ajax_nopriv_cloudcheck_send_request_heydoc', 'cloudcheck_send_request_heydoc' ); // For anonymous users
 
-
 function cloudcheck_send_request_heydoc() {
     create_questionnaire($_POST['data']);
+    save_medical_history($_POST['data']);
+
+    send_admin_about_pregnant_email_initial($_POST['data']);
 
     $form_data = $_POST['data'];
     $form_data = json_encode($form_data);
@@ -14,7 +16,7 @@ function cloudcheck_send_request_heydoc() {
     $params = array(
         CURLOPT_RETURNTRANSFER => 1,
         CURLOPT_HTTPHEADER => array('Content-type: application/json'),
-        CURLOPT_URL => 'https://api.heydoc.co.uk/questionnaires/response/041f5aa4ca6fe55f87dddd5d3ef3915b63c0b4b7/',
+        CURLOPT_URL => 'https://api.heydoc.co.uk/questionnaires/response/9f76add10c13413c3517953682e891613c6163a6/',
         CURLOPT_PORT => 443,
         CURLOPT_SSL_VERIFYHOST => false,
         CURLOPT_VERBOSE => 1,
@@ -39,6 +41,7 @@ function cloudcheck_send_request_heydoc() {
     wp_die();
 
 }
+
 
 
 
@@ -118,6 +121,28 @@ add_action( 'wp_ajax_nopriv_cloudcheck_dob_verification', 'cloudcheck_dob_verifi
 
 
 
+/***
+ *** Save Medical History
+ ***/
+
+function save_medical_history($data) {
+
+    $user_id = get_current_user_id();
+    $submition_time = date("F j, Y, g:i a");
+    update_user_meta( $user_id, 'last_history_update', $submition_time );
+    update_user_meta( $user_id, 'first', $data['first'] );
+    update_user_meta( $user_id, 'last', $data['last'] );
+    update_user_meta( $user_id, 'additional_dob', $data['dob'] );
+    update_user_meta( $user_id, 'last_cigarette', $data['nkgg3ZZPoWhDuMqRFuab5'] );
+//    update_user_meta( $user_id, 'vaping_product', $data['Jobx7PHVwKL_yumEdi7Jl'] );
+    update_user_meta( $user_id, 'heart_attack', $data['65oh_cXb82k9FFSQTpnCq'] );
+    update_user_meta( $user_id, 'are_you_pregnant', $data['6zudIdCy1XEoCX8Sw0NgK'] );
+    update_user_meta( $user_id, 'special_requirements', $data['JerSYpGMeTg~Z75luZ72Q'] );
+    update_user_meta( $user_id, 'emaile_documents', $data['edtL2L2EgXHeafjrROWeR'] );
+    update_user_meta( $user_id, 'confirm_safety_information', $data['t9SgLNeqhCd2TkecatA8s'] );
+
+}
+
 
 /*
  *
@@ -193,8 +218,11 @@ function create_questionnaire($data){
                 'field_6120f9a5eb1f7' => $user_email,
                 'field_6120f98beb1f6' => $user_first_name,
                 'field_6120fc2936e7d' => $user_last_name,
-
                 'field_612100901216d' => $submition_time,
+                'field_61f84525b56ee' => $_POST['data']['product_name'],
+                'field_61f84551b56ef' => $_POST['data']['product_id'],
+
+
                 'field_6120bd266d96d' => $first_name,
                 'field_6120bd4a76f0c' => $last_name,
                 'field_6120bd5176f0d' => $_POST['data']['dob'],
@@ -205,19 +233,36 @@ function create_questionnaire($data){
                 'field_6120bd8f76f12' => $_POST['data']['country'],
                 'field_6120bd9876f13' => $_POST['data']['phoneNumber'],
                 'field_6120bda776f14' => $_POST['data']['gender'],
-                'field_6120bdce76f15' => $_POST['data']['0iw4CyzoA1R1jxkRdnnk9'],
-                'field_6120bdd276f16' => $_POST['data']['TB3HclExciO9S0_uRTCLt'],
-                'field_6120bdda76f17' => $_POST['data']['emDxFmHm1LidKT_L89icr'],
-                'field_6120bde076f18' => $_POST['data']['ZYA6ioeD3WkrWO0PAD7lX'],
-                'field_6120bde976f19' => $_POST['data']['Pt2wLbSjQowlAxDhQqXc1'],
-                'field_6120bdf476f1a' => $_POST['data']['KSW2s9naDT7hcdyY85xoj'],
-                'field_6120bdfb76f1b' => $_POST['data']['9rorbO3lgeONaNXt3h4V2'],
 
-                'field_6120da2d801b9' => $_POST['data']['evn4c1CYWy_IXe_T~a7~N'],
-                'field_6120da57801ba' => $_POST['data']['tgwN3r0X7PYP_Y2GAzCki'],
+                'field_61e31933a03b9' => $_POST['data']['3hC7sLm3JSsfqiM0ulcX8'],
 
-                'field_6120daf6801bb' => $_POST['data']['zCQ_zzpbA6CN15X86UA0m'],
-                'field_6120db20801bc' => $_POST['data']['gXRgxbIbZgk~MiqKaDCZA'],
+//                Smoking History
+                'field_6120bdce76f15' => $_POST['data']['_43BE13FsOc866RqRYOQ4'],
+                'field_6120bdd276f16' => $_POST['data']['rRPAX~NegkGzMk1axpM4p'],
+                'field_6120bdda76f17' => $_POST['data']['BCy65jqX6Q1FJN1rePAZ4'],
+                'field_6120bde076f18' => $_POST['data']['nkgg3ZZPoWhDuMqRFuab5'],
+
+//                Vaping History
+                'field_61e312cad6511' => $_POST['data']['DWwVhzdpzYV_S6W_Pzf5V'],
+                'field_61e31326535cb' => $_POST['data']['~VAv~puUguY76Lr9hHok5'],
+                'field_61e314027dca4' => $_POST['data']['laot2_3JF6ZVIanoQCxaM'],
+                'field_61e3143bdd1a3' => $_POST['data']['l7pGmBv8777ub~PaQta0P'],
+                'field_61e31468c226a' => $_POST['data']['~NS42HF~cIVNIW8bohuFE'],
+
+//                Medical History
+                'field_6120bde976f19' => $_POST['data']['Qg7XDz8NOIM1oShkyViot'],
+                'field_6120bdf476f1a' => $_POST['data']['65oh_cXb82k9FFSQTpnCq'],
+                'field_6120daf6801bb' => $_POST['data']['6zudIdCy1XEoCX8Sw0NgK'],
+
+                //Final Questions
+                'field_61e3152bf6e3f' => $_POST['data']['edtL2L2EgXHeafjrROWeR'],
+                'field_61e31562f6e40' => $_POST['data']['JerSYpGMeTg~Z75luZ72Q'],
+                'field_6120bdfb76f1b' => $_POST['data']['t9SgLNeqhCd2TkecatA8s'],
+
+
+//                'field_6120da2d801b9' => $_POST['data']['evn4c1CYWy_IXe_T~a7~N'],
+//                'field_6120da57801ba' => $_POST['data']['tgwN3r0X7PYP_Y2GAzCki'],
+//                'field_6120db20801bc' => $_POST['data']['gXRgxbIbZgk~MiqKaDCZA'],
             );
             update_field( $field_key, $values, $insterted_questionnaire );
 
@@ -258,4 +303,66 @@ function questionnaire_set_to_draft() {
         $post = array( 'ID' => $slide->ID, 'post_status' => 'draft' );
         wp_update_post($post);
     }
+}
+
+
+/*** Save medical history fields after register new user if questionnaire was submitted ***/
+
+/***  ***/
+
+add_action('wp_ajax_save_initial_user_medical_profile', 'save_initial_user_medical_profile');
+add_action( 'wp_ajax_nopriv_save_initial_user_medical_profile', 'save_initial_user_medical_profile' ); // For anonymous users
+function save_initial_user_medical_profile() {
+
+    var_dump($_POST['data']);
+    $user_id = get_current_user_id();
+    $data = $_POST['data'];
+    update_user_meta( $user_id, 'last_cigarette', $data['hvNck0WCKPsBb73XEzIF3'] );
+    update_user_meta( $user_id, 'vaping_product', $data['Jobx7PHVwKL_yumEdi7Jl'] );
+    update_user_meta( $user_id, 'heart_attack', $data['qceAKDJfEDuBQj7QD1gFF'] );
+    update_user_meta( $user_id, 'are_you_pregnant', $data['3N7MEwRQQ8DyRyhUeWluZ'] );
+    update_user_meta( $user_id, 'special_requirements', $data['vk1adCeUqE8VkWvf5Qqm6'] );
+    update_user_meta( $user_id, 'emaile_documents', $data['B90LYTslk__msuLzLkQ31'] );
+    update_user_meta( $user_id, 'confirm_safety_information', $data['gbHG9mDZV7bRmXggwJyYI'] );
+}
+
+function send_admin_about_pregnant_email_initial($data){
+    $date = date('Y-m-d H:i:s');
+//    $date = date_timestamp_get($date);
+    $first = $data['first'];
+    $last = $data['last'];
+    $are_you_pregnant_renewal = $data['3N7MEwRQQ8DyRyhUeWluZ'];
+    $are_you_pregnant_initial = $data['6zudIdCy1XEoCX8Sw0NgK'];
+    $args = array(
+        'date' => $date,
+        'first' => $first,
+        'last' => $last,
+        'are_you_pregnant_renewal' => '-',
+        'are_you_pregnant_initial' => '-',
+        'date' => $date
+    );
+
+    if ($are_you_pregnant_renewal == 'Yes') {
+        $args['are_you_pregnant_renewal'] = $are_you_pregnant_renewal;
+
+    }if ($are_you_pregnant_initial == 'Yes') {
+        $args['are_you_pregnant_initial'] = $are_you_pregnant_initial;
+    }
+
+    $admin_email = get_option('admin_email');
+    if ($are_you_pregnant_renewal == 'Yes' or $are_you_pregnant_initial == 'Yes') {
+
+        $recipient = '';
+        $recipient = get_field('email_recipient', 1204);
+        $to = explode( ',', $recipient );
+        array_push($recipient, $admin_email);
+
+        $subject = 'User ' . $first . ' ' . $last . '  checked "Are you pregnant, or do you plan to become pregnant in the next 12 months" checkboxes';
+        $headers = array('Content-Type: text/html; charset=UTF-8');
+
+        $message = get_notice_pregnant_email_template ($args);
+
+        wp_mail($to, $subject, $message, $headers );
+    }
+
 }

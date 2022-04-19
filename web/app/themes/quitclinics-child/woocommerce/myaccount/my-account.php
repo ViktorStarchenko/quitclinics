@@ -104,6 +104,9 @@ do_action( 'woocommerce_account_navigation' ); ?>
     </div>
     <?php if (get_field('expiration_text', 'option')['buttons_group']['buttons_alignment']) : ?>
         <style>
+            .account__order-expiration-time {
+                display: none;
+            }
             .account__order-expiration-time .btn-block {
                 justify-content: <?php echo get_field('expiration_text', 'option')['buttons_group']['buttons_alignment']; ?>;
             }
