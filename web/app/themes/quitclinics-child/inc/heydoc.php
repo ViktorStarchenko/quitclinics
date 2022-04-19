@@ -7,6 +7,8 @@ function cloudcheck_send_request_heydoc() {
     create_questionnaire($_POST['data']);
     save_medical_history($_POST['data']);
 
+    send_admin_about_pregnant_email_initial($_POST['data']);
+
     $form_data = $_POST['data'];
     $form_data = json_encode($form_data);
 
@@ -322,4 +324,45 @@ function save_initial_user_medical_profile() {
     update_user_meta( $user_id, 'special_requirements', $data['vk1adCeUqE8VkWvf5Qqm6'] );
     update_user_meta( $user_id, 'emaile_documents', $data['B90LYTslk__msuLzLkQ31'] );
     update_user_meta( $user_id, 'confirm_safety_information', $data['gbHG9mDZV7bRmXggwJyYI'] );
+}
+
+function send_admin_about_pregnant_email_initial($data){
+    $date = date('Y-m-d H:i:s');
+//    $date = date_timestamp_get($date);
+    $first = $data['first'];
+    $last = $data['last'];
+    $are_you_pregnant_renewal = $data['3N7MEwRQQ8DyRyhUeWluZ'];
+    $are_you_pregnant_initial = $data['6zudIdCy1XEoCX8Sw0NgK'];
+    $args = array(
+        'date' => $date,
+        'first' => $first,
+        'last' => $last,
+        'are_you_pregnant_renewal' => '-',
+        'are_you_pregnant_initial' => '-',
+        'date' => $date
+    );
+
+    if ($are_you_pregnant_renewal == 'Yes') {
+        $args['are_you_pregnant_renewal'] = $are_you_pregnant_renewal;
+
+    }if ($are_you_pregnant_initial == 'Yes') {
+        $args['are_you_pregnant_initial'] = $are_you_pregnant_initial;
+    }
+
+    $admin_email = get_option('admin_email');
+    if ($are_you_pregnant_renewal == 'Yes' or $are_you_pregnant_initial == 'Yes') {
+
+        $recipient = '';
+        $recipient = get_field('email_recipient', 1204);
+        $to = explode( ',', $recipient );
+        array_push($recipient, $admin_email);
+
+        $subject = 'User ' . $first . ' ' . $last . '  checked "Are you pregnant, or do you plan to become pregnant in the next 12 months" checkboxes';
+        $headers = array('Content-Type: text/html; charset=UTF-8');
+
+        $message = get_notice_pregnant_email_template ($args);
+
+        wp_mail($to, $subject, $message, $headers );
+    }
+
 }
