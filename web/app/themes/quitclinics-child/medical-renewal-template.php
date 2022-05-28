@@ -5,8 +5,9 @@ $user_id = get_current_user_id();
 
 <div class="account-page-header">
     <div class="account-page-heading title-h4">Medical and Smoking History Questionnaire</div>
-    <p class="account-page-description">If you are not vaping and would like to cancel your prescription you can so <a href="/my-account/subscriptions/">here</a></p>
-    <p class="account-page-description">If you still require prescription please complete below:</p>
+    <p class="account-page-description">If you require a new prescription, please complete the below form.</p>
+    <p class="account-page-description">If you would like to cancel your prescription you can do so <a href="/my-account/subscriptions/">here</a></p>
+
     <div class="separator"></div>
     <p class="account-page-description"><span class="span-icon"></span>Your profile was updated on <?php  echo get_user_meta($user_id, 'last_history_update', true); ?></p>
 </div>
