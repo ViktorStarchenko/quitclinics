@@ -71,9 +71,9 @@ include 'inc/heydoc.php';
 include 'inc/cloudcheck-global-verification.php';
 include 'inc/seo.php';
 include 'inc/notice_pregnant_email_template.php';
-//include 'inc/medical-history-funcs.php';
-//include 'inc/user-medical-profile-fields.php';
-//include 'inc/heydoc-renewal.php';
+include 'inc/medical-history-funcs.php';
+include 'inc/user-medical-profile-fields.php';
+include 'inc/heydoc-renewal.php';
 
 
 function get_excerpt($limit){
