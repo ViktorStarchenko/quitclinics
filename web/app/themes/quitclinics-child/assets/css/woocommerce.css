@@ -345,7 +345,8 @@
 }
 .woocommerce form .form-row input.input-text,
 .woocommerce form .form-row textarea,
-.select2-container--default .select2-selection--single .select2-selection__rendered {
+.select2-container--default .select2-selection--single .select2-selection__rendered,
+.woocommerce form .form-row select {
     padding: 15px 17px;
     border: solid 1px #8c8c8c;
     background-color: #ffffff;

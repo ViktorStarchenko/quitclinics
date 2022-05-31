@@ -284,3 +284,73 @@ add_filter('woocommerce_single_product_image_thumbnail_html','wc_remove_link_on_
 function wc_remove_link_on_thumbnails( $html ) {
     return strip_tags( $html,'<img>' );
 }
+
+
+/**
+ *
+ * Edit address fields
+ *
+ */
+add_filter( 'woocommerce_billing_fields', 'qc_edit_billing_fields' );
+
+function qc_edit_billing_fields( $fields ) {
+
+    $fields['billing_city'] = array(
+        'label'     => __('City', 'woocommerce'),
+        'required'  => true,
+        'class'     => array('form-row-wide'),
+        'clear'     => true,
+        'placeholder' => 'City'
+    );
+    $fields['billing_email'] = array(
+        'label'     => __('Email address', 'woocommerce'),
+        'required'  => true,
+        'class'     => array('form-row-wide'),
+        'clear'     => true,
+        'placeholder' => 'Email address'
+    );
+    $fields['billing_postcode'] = array(
+        'label'     => __('Postcode', 'woocommerce'),
+        'required'  => true,
+        'class'     => array('form-row-wide'),
+        'clear'     => true,
+        'placeholder' => 'Postcode'
+    );
+    $fields['billing_phone'] = array(
+        'label'     => __('Phone', 'woocommerce'),
+        'required'  => true,
+        'class'     => array('form-row-wide'),
+        'clear'     => true,
+        'placeholder' => 'Phone'
+    );
+//    unset($fields['dob']);
+    unset($fields['billing_dob']);
+    unset($fields['billing_company']);
+
+
+    return $fields;
+
+}
+
+add_filter( 'woocommerce_shipping_fields', 'qc_edit_shipping_fields' );
+
+function qc_edit_shipping_fields( $fields ) {
+
+//        var_dump($fields);
+//        unset($fields['shipping_first_name']);
+    $fields['shipping_first_name']['placeholder'] = 'First name';
+    $fields['shipping_last_name']['placeholder'] = 'last_name';
+    $fields['shipping_city']['placeholder'] = 'City';
+    $fields['shipping_postcode']['placeholder'] = 'Postcode';
+    unset($fields['shipping_company']);
+
+    return $fields;
+
+}
+
+add_filter( 'woocommerce_checkout_fields' , 'remove_company_name' );
+
+function remove_company_name( $fields ) {
+    unset($fields['billing']['billing_company']);
+    return $fields;
+}
