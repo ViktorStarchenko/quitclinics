@@ -333,13 +333,18 @@ function send_admin_about_pregnant_email_initial($data){
     $last = $data['last'];
     $are_you_pregnant_renewal = $data['3N7MEwRQQ8DyRyhUeWluZ'];
     $are_you_pregnant_initial = $data['6zudIdCy1XEoCX8Sw0NgK'];
+    $has_heart_attack_renewal = $data['qceAKDJfEDuBQj7QD1gFF'];
+    $has_heart_attack_initial = $data['65oh_cXb82k9FFSQTpnCq'];
+
     $args = array(
         'date' => $date,
         'first' => $first,
         'last' => $last,
         'are_you_pregnant_renewal' => '-',
         'are_you_pregnant_initial' => '-',
-        'date' => $date
+        'date' => $date,
+        'has_heart_attack_renewal' => '-',
+        'has_heart_attack_initial' => '-'
     );
 
     if ($are_you_pregnant_renewal == 'Yes') {
@@ -348,16 +353,22 @@ function send_admin_about_pregnant_email_initial($data){
     }if ($are_you_pregnant_initial == 'Yes') {
         $args['are_you_pregnant_initial'] = $are_you_pregnant_initial;
     }
+    if ($has_heart_attack_renewal == 'Yes') {
+        $args['has_heart_attack_renewal'] = $has_heart_attack_renewal;
+
+    }if ($has_heart_attack_initial == 'Yes') {
+        $args['has_heart_attack_initial'] = $has_heart_attack_initial;
+    }
 
     $admin_email = get_option('admin_email');
-    if ($are_you_pregnant_renewal == 'Yes' or $are_you_pregnant_initial == 'Yes') {
+    if ($are_you_pregnant_renewal == 'Yes' or $are_you_pregnant_initial == 'Yes' or $has_heart_attack_initial == 'Yes' or $has_heart_attack_renewal == 'Yes') {
 
         $recipient = '';
         $recipient = get_field('email_recipient', 1204);
         $to = explode( ',', $recipient );
         array_push($recipient, $admin_email);
 
-        $subject = 'User ' . $first . ' ' . $last . '  checked "Are you pregnant, or do you plan to become pregnant in the next 12 months" checkboxes';
+        $subject = 'User ' . $first . ' ' . $last . '  checked "Are you pregnant... , or Has heart attack..." checkboxes';
         $headers = array('Content-Type: text/html; charset=UTF-8');
 
         $message = get_notice_pregnant_email_template ($args);
