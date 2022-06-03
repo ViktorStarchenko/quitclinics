@@ -338,11 +338,21 @@ function send_admin_about_pregnant_email_initial($data){
     $has_heart_attack_renewal = $data['qceAKDJfEDuBQj7QD1gFF'];
     $has_heart_attack_initial = $data['65oh_cXb82k9FFSQTpnCq'];
 
+    $current_user = wp_get_current_user();
+    $user_url = '';
+    $user_url_text = '';
+    if (is_user_logged_in()) {
+        $user_url = get_site_url() . '/wp-admin/user-edit.php?user_id='.$current_user->ID.'&wp_http_referer=%2Fwp%2Fwp-admin%2Fusers.php';
+        $user_url_text = 'User profile';
+    }
+
     $args = array(
         'date' => $date,
         'first' => $first,
         'last' => $last,
         'email' => $email,
+        'user_url' => $user_url,
+        'user_url_text' => $user_url_text,
         'are_you_pregnant_renewal' => '-',
         'are_you_pregnant_initial' => '-',
         'date' => $date,
