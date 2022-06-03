@@ -259,11 +259,13 @@ function send_admin_about_pregnant_email_renewal($data){
     $are_you_pregnant_initial = $data['6zudIdCy1XEoCX8Sw0NgK'];
     $has_heart_attack_renewal = $data['qceAKDJfEDuBQj7QD1gFF'];
     $has_heart_attack_initial = $data['65oh_cXb82k9FFSQTpnCq'];
-
+    $current_user = wp_get_current_user();
+    $user_email = get_user_meta($current_user->ID, 'questionnaire_email', true);
     $args = array(
         'date' => $date,
         'first' => $first,
         'last' => $last,
+        'email' => $user_email,
         'are_you_pregnant_renewal' => '-',
         'are_you_pregnant_initial' => '-',
         'date' => $date,

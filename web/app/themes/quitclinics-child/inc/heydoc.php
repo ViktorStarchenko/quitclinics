@@ -132,6 +132,7 @@ function save_medical_history($data) {
     update_user_meta( $user_id, 'last_history_update', $submition_time );
     update_user_meta( $user_id, 'first', $data['first'] );
     update_user_meta( $user_id, 'last', $data['last'] );
+    update_user_meta( $user_id, 'questionnaire_email', $data['email'] );
     update_user_meta( $user_id, 'additional_dob', $data['dob'] );
     update_user_meta( $user_id, 'last_cigarette', $data['nkgg3ZZPoWhDuMqRFuab5'] );
 //    update_user_meta( $user_id, 'vaping_product', $data['Jobx7PHVwKL_yumEdi7Jl'] );
@@ -331,6 +332,7 @@ function send_admin_about_pregnant_email_initial($data){
 //    $date = date_timestamp_get($date);
     $first = $data['first'];
     $last = $data['last'];
+    $email = $data['email'];
     $are_you_pregnant_renewal = $data['3N7MEwRQQ8DyRyhUeWluZ'];
     $are_you_pregnant_initial = $data['6zudIdCy1XEoCX8Sw0NgK'];
     $has_heart_attack_renewal = $data['qceAKDJfEDuBQj7QD1gFF'];
@@ -340,6 +342,7 @@ function send_admin_about_pregnant_email_initial($data){
         'date' => $date,
         'first' => $first,
         'last' => $last,
+        'email' => $email,
         'are_you_pregnant_renewal' => '-',
         'are_you_pregnant_initial' => '-',
         'date' => $date,

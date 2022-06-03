@@ -31,6 +31,15 @@ function user_medical_profile_fileds( $user ) {
             </td>
         </tr>
         <tr>
+            <th>Questionnaire Email:</th>
+            <td>
+                <p><label for="">
+                        <input id="questionnaire_email" name="questionnaire_email" type="text" value="<?php echo get_user_meta($user->ID, 'questionnaire_email', true) ?>" disabled/>
+                    </label></p>
+
+            </td>
+        </tr>
+        <tr>
             <th>Day of Birth</th>
 
             <td>
