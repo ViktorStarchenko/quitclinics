@@ -75,6 +75,8 @@ include 'inc/medical-history-funcs.php';
 include 'inc/user-medical-profile-fields.php';
 include 'inc/heydoc-renewal.php';
 
+include 'inc/custom-wc-bulk-2.php';
+
 
 function get_excerpt($limit){
     $excerpt = get_the_content();
@@ -196,3 +198,6 @@ function script_comment_reply(){
 add_action('init','script_comment_reply');
 
 
+//add_action( 'woocommerce_email', 'unhook_those_pesky_emails' );
+//
+//function unhook_those_pesky_emails( $email_class ) { remove_action( 'woocommerce_order_status_completed_notification', array( $email_class->emails['WC_Email_Customer_Completed_Order'], 'trigger' ) ); }
