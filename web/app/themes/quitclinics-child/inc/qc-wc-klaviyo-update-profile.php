@@ -32,6 +32,8 @@ function qc_klaviyo_update_profile($subscription) {
 
     $next_payment = $subscription->get_date('next_payment');
     $subsctiption_start = $subscription->get_date('start');
+
+    $start_date = $customer_orders[0]->get_date_created();
     $payment_date =  date( 'Y-m-d H:i:s', strtotime($start_date) );
 
     $sub_obj = wcs_get_subscriptions_for_order( $customer_orders[0]->get_id() );
@@ -74,6 +76,8 @@ function qc_klaviyo_update_profile($subscription) {
 
 
     // Get profile ID
+    function get_klaviyo_profile_id() {
+    }
 
     $curl = curl_init();
 
