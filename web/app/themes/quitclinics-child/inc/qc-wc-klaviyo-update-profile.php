@@ -58,7 +58,7 @@ function qc_klaviyo_update_profile($subscription) {
         'postcode' => $billing_postcode,
         'payment_method' => $payment_method,
 
-        'subscription_status' => 'completed',
+        'subscription_status' => 'active',
         'subcription_next_payment' => $next_payment,
         'order_created' => $payment_date,
         'subscription_start' => $subsctiption_start
