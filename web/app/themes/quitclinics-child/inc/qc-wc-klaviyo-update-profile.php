@@ -1,6 +1,7 @@
 <?php
 add_action( 'woocommerce_subscription_status_active', 'qc_klaviyo_update_profile', 10, 1 );
 function qc_klaviyo_update_profile($subscription) {
+
     if ( ! $subscription )
         return;
 
@@ -76,9 +77,6 @@ function qc_klaviyo_update_profile($subscription) {
 
 
     // Get profile ID
-    function get_klaviyo_profile_id() {
-    }
-
     $curl = curl_init();
 
     curl_setopt_array($curl, array(
@@ -99,10 +97,8 @@ function qc_klaviyo_update_profile($subscription) {
     $profile = curl_exec($curl);
 
     curl_close($curl);
-    return $profile;
 
     $profile = json_decode($profile);
-
 
     // Update klaviyo profile
     $curl = curl_init();
@@ -128,6 +124,5 @@ function qc_klaviyo_update_profile($subscription) {
 
     curl_close($curl);
     echo $response;
-
 
 }
