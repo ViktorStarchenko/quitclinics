@@ -16,6 +16,8 @@ function qc_klaviyo_update_profile($subscription) {
         ] );
     }
 
+    $user = get_user_by( 'id', $subscription->get_user_id() );
+
 //    Customers data
     $billing_email  = $customer_orders[0]->get_billing_email();
     $payment_method  = $customer_orders[0]->get_payment_method();
@@ -46,7 +48,7 @@ function qc_klaviyo_update_profile($subscription) {
         'subscription_id' => $sub_id,
         'subscription_url' => $sub_url,
 
-        'email' => $billing_email,
+        'subscription_email' => $billing_email,
         'first_name' => $billing_first_name,
         'last_name' => $billing_last_name,
         'company' => $billing_company,
@@ -61,7 +63,9 @@ function qc_klaviyo_update_profile($subscription) {
         'subscription_status' => 'active',
         'subcription_next_payment' => $next_payment,
         'order_created' => $payment_date,
-        'subscription_start' => $subsctiption_start
+        'subscription_start' => $subsctiption_start,
+        'user_email' => $user->user_email
+
     );
 
     $profiles['profiles'][] = $single;
