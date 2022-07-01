@@ -89,7 +89,8 @@ include 'inc/medical-history-funcs.php';
 include 'inc/user-medical-profile-fields.php';
 include 'inc/heydoc-renewal.php';
 
-//include 'inc/custom-wc-bulk.php';
+include 'inc/custom-wc-bulk.php';
+
 if (get_field('klaviyo_settings', 'option')['adjust_renewal_date']) {
     include 'inc/qc-wcs-set-correct-newal-date.php';
 }
