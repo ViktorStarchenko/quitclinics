@@ -28,7 +28,6 @@ function qc_bulk_process_custom_status( $redirect, $doaction, $object_ids ) {
         foreach ( $object_ids as $order_id ) {
             $subscription = new WC_Subscription( $order_id );
 
-
             //    Get orders
             $customer_orders = [];
             foreach ( wc_get_is_paid_statuses() as $paid_status ) {
@@ -84,7 +83,7 @@ function qc_bulk_process_custom_status( $redirect, $doaction, $object_ids ) {
                 'postcode' => $billing_postcode,
                 'payment_method' => $payment_method,
 
-                'subscription_status' => 'completed',
+                'subscription_status' => $subscription->get_status(),
                 'subcription_next_payment' => $next_payment,
                 'order_created' => $payment_date,
                 'subscription_start' => $subsctiption_start,
