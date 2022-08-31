@@ -364,6 +364,25 @@ function cloudcheck_shortcodes_init()
     add_shortcode('cloudcheck_au_driving_license', 'cloudcheck_au_driving_license_shortcode');
 
 
+
+    /** Shortcode that shows fields for verification by Australian driving license:
+     *  state of issue, driving license number
+     */
+    function cloudcheck_au_driving_license_cardnumber_shortcode($atts = [], $content = null)
+    {
+        $driving = '<h5>Drivers Licence Card Number</h5>
+            <div class="row control-group">
+                <div class="form-group col-xs-12 floating-label-form-group controls ml-3">
+                    <label>Drivers Licence Card Number</label>
+                    <input id="au_driverlicensecardNumber" class="form-control" type="text" pattern="[A-Za-z0-9]*" title="License version can contain contain only letters and digits" placeholder="Drivers Licence Card Number" />
+                </div>
+               
+            </div>';
+
+        return $driving;
+    }
+    add_shortcode('cloudcheck_au_driving_license_cardnumber', 'cloudcheck_au_driving_license_cardnumber_shortcode');
+
     /** Shortcode that shows fields for verification by Australian Visa:
      *  Country of Issue, Passport Number
      */
