@@ -62,6 +62,7 @@
         var au_visacountryofissue = $("input#au_visacountryofissue").val();
         var au_visapassportnumber = $("input#au_visapassportnumber").val();
         var au_immicardnumber = $("input#au_immicardnumber").val();
+        var au_driverlicensecardnumber = $("input#au_driverlicensecardNumber").val();
 
 
         //prepare json data
@@ -105,9 +106,9 @@
             data.details.visa = { 'passportnumber' : au_visapassportnumber,
                 'countryofissue' : au_visacountryofissue };
         };
-        if ( au_driverlicensenumber ) {
+        if ( au_driverlicensenumber && au_driverlicensecardnumber) {
             data.details.australiandriverslicence = { 'number' : au_driverlicensenumber,
-                'state' : au_driverlicensestate };
+                'state' : au_driverlicensestate , 'cardNumber': au_driverlicensecardnumber };
         };
         if ( au_citizenshipacquisitiondate ) {
             if ( au_citizenshipbydescent == true ) {
