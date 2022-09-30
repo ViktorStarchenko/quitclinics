@@ -30,6 +30,45 @@
             <?php endwhile; endif; ?>
         </div>
         <?php   } ?>
+        <?php if( have_rows('post_header') ):
+        while ( have_rows('post_header') ) : the_row(); ?>
+        <?php if (get_sub_field('enable') == true) {?>
+                <?php
+                $bg_color = get_sub_field('post_header_background');
+                $heading_block = get_sub_field('post_header_content_heading');
+                $text_block = get_sub_field('post_header_content_editor');
+                $bg_image = get_sub_field('image')['url'];?>
+                <section class="post-banner-section" style="background-color: <?php echo $bg_color ?> ">
+                    <div class="post-banner-wrapper">
+
+                        <div class="post-banner-content-block post-banner-block">
+                            <div class="post-banner-content-wrapper">
+                                <div class="post-banner-content">
+                                    <?php if ($heading_block) : ?>
+                                        <h1> <?php echo $heading_block ?></h1>
+                                    <?php endif ?>
+                                    <?php if ($text_block) : ?>
+                                        <?php echo $text_block ?>
+                                    <?php endif ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="post-banner-image post-banner-block" style="background-image: url(<?php echo $bg_image;?>); "></div>
+
+                    </div>
+                </section>
+            <?php } ?>
+        <?php endwhile; endif; ?>
+        <?php if (get_the_content()) {?>
+            <section class="post-content-section single-blog">
+                <div class="row wrapper-1240 post-content-wrapper">
+                    <?php if ( have_posts() ) : while ( have_posts() ) : the_post();?>
+                        <?php the_content(); ?>
+                    <?php endwhile; endif; ?>
+                </div>
+            </section>
+        <?php } ?>
+
         <?php get_template_part('template-parts/page/layout', 'page-content'); ?>
     </main>
 <?php //get_sidebar(); ?>
