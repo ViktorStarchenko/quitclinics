@@ -1,29 +1,39 @@
 <?php get_header(); ?>
 <main id="content">
-	<section class="post-banner-section">
-		<div class="post-banner-wrapper">
-			<?php 
-				if( have_rows('post_header') ):
-    			while ( have_rows('post_header') ) : the_row();
-        		$bg_color = get_sub_field('post_header_background');
-        		$heading_block = get_sub_field('post_header_content_heading');
-        		$text_block = get_sub_field('post_header_content_editor');?>
-			<div class="post-banner-content-block post-banner-block" style="background-color: <?php echo $bg_color ?> ">
-				<div class="post-banner-content-wrapper">
-					<div class="post-banner-content">
-                        <?php if ($heading_block) : ?>
-                        <h1> <?php echo $heading_block ?></h1>
-                        <?php endif ?>
-                        <?php if ($text_block) : ?>
-						<?php echo $text_block ?>
-                        <?php endif ?>
-					</div>					
-				</div>
-			</div>			
-			<div class="post-banner-image post-banner-block" style="background-image: url(<?php echo get_the_post_thumbnail_url();?>); "></div>
-			<?php endwhile; endif; ?>
-		</div>
-	</section>
+    <?php if( have_rows('post_header') ):
+        while ( have_rows('post_header') ) : the_row(); ?>
+            <?php if (get_sub_field('enable') == true) {?>
+                <?php
+                $bg_color = get_sub_field('post_header_background');
+                $heading_block = get_sub_field('post_header_content_heading');
+                $text_block = get_sub_field('post_header_content_editor');
+                if (get_sub_field('image')) {
+                    $bg_image = get_sub_field('image')['url'];
+                } else {
+                    $bg_image = get_the_post_thumbnail_url();
+                }
+                ?>
+                <section class="post-banner-section" style="background-color: <?php echo $bg_color ?> ">
+                    <div class="post-banner-wrapper">
+
+                        <div class="post-banner-content-block post-banner-block">
+                            <div class="post-banner-content-wrapper">
+                                <div class="post-banner-content">
+                                    <?php if ($heading_block) : ?>
+                                        <h1> <?php echo $heading_block ?></h1>
+                                    <?php endif ?>
+                                    <?php if ($text_block) : ?>
+                                        <?php echo $text_block ?>
+                                    <?php endif ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="post-banner-image post-banner-block" style="background-image: url(<?php echo $bg_image;?>); "></div>
+
+                    </div>
+                </section>
+            <?php } ?>
+        <?php endwhile; endif; ?>
 	<section class="post-content-section">
 		<div class="row wrapper-1240 post-content-wrapper">
 			<?php if ( have_posts() ) : while ( have_posts() ) : the_post();?>

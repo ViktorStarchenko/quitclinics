@@ -229,6 +229,10 @@
 	max-height: 700px;
 	margin: 50px 0;
 }
+.post-content-wrapper .wp-block-columns .wp-block-embed iframe {
+    max-height: 300px;
+    margin: 0;
+}
 .post-content-wrapper ul {
 	line-height: 2;
 	font-size: 13px;
@@ -499,6 +503,9 @@ p.post-slider-excerpt {
 	text-align: center;
 }
 .post-content-wrapper .wp-block-embed iframe {
+    max-height: 240px;
+}
+.post-content-wrapper .wp-block-columns .wp-block-embed iframe {
     max-height: 240px;
 }
 .lm-templ-content-wrapper {
