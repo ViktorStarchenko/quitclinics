@@ -59,12 +59,16 @@
                 </section>
             <?php } ?>
         <?php endwhile; endif; ?>
+
         <?php if (get_the_content()) {?>
             <section class="post-content-section single-blog">
                 <div class="row wrapper-1240 post-content-wrapper">
+                <?php if( !is_cart() && !is_checkout() && !is_account_page()  && !is_wc_endpoint_url()) {?>
                     <?php if ( have_posts() ) : while ( have_posts() ) : the_post();?>
                         <?php the_content(); ?>
                     <?php endwhile; endif; ?>
+
+                <?php }?>
                 </div>
             </section>
         <?php } ?>
