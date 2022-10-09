@@ -54,7 +54,9 @@ if ( ! function_exists( 'suffice_child_enqueue_child_styles' ) ) {
 //        wp_enqueue_script( 'bootstrap', get_theme_file_uri( '/assets/js/bootstrap.min.js' ), array(), '1', true );
 
         //main custom scripts
-        wp_enqueue_script( 'jq-351', get_theme_file_uri( '/assets/js/jquery-3.5.1.min.js' ), array(), '1', true );
+        if (!is_checkout()) {
+            wp_enqueue_script( 'jq-351', get_theme_file_uri( '/assets/js/jquery-3.5.1.min.js' ), array(), '1', true );
+        }
         wp_enqueue_script( 'country-select', get_theme_file_uri( '/assets/js/country-select/build/js/countrySelect.min.js' ), array(), '1', true );
         wp_enqueue_script( 'dobpicker', get_theme_file_uri( '/assets/js/dobpicker.js' ), array(), '1', true );
 
