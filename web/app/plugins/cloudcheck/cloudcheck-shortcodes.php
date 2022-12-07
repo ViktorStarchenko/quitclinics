@@ -371,7 +371,8 @@ function cloudcheck_shortcodes_init()
     function cloudcheck_au_driving_license_cardnumber_shortcode($atts = [], $content = null)
     {
         $driving = '<h5>Drivers Licence Card Number</h5>
-            <div class="row control-group">
+            <div class="row control-group qc-form-group">
+            <label class="bio" style="display: block;">Drivers Licence Card numbers are only required for VIC and QLD Drivers Licences. If your licence does not have a Card Number, please leave this field blank. </label>
                 <div class="form-group col-xs-12 floating-label-form-group controls ml-3">
                     <label>Drivers Licence Card Number</label>
                     <input id="au_driverlicensecardNumber" class="form-control" type="text" pattern="[A-Za-z0-9]*" title="License version can contain contain only letters and digits" placeholder="Drivers Licence Card Number" />
