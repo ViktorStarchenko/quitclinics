@@ -20,7 +20,7 @@ function cloudcheck_shortcodes_init()
                                 <input class="form-check-input" name="is_agreed" type="checkbox" data-testid="checkbox" id="is_agreed" tabindex="-1" value="is_agreed" required>
                                 <span class="custom-check-input"></span>
                                 <div class="d-flex">
-                                <label class="form-check-label bio" for="is_agreed" style="display:inline-block">I confirm I am the legal owner of the ID submitted and consent to my ID information only being shared with authorised third parties so that Quit Clinics can confirm my identity and date of birth. All medical information provided is strictly confidential, and will not be shared with any third party without my express written consent.</label>
+                                <label class="form-check-label bio" for="is_agreed" style="display:inline-block">I confirm I am the legal owner of the ID submitted and consent to my ID information only being shared with authorised third parties so that Quit Clinics can confirm my identity and date of birth. All medical information provided is strictly confidential, and will not be shared with any third party without my express written consent﹡.</label>
                                 </div>
                             </div>
                         </div>
@@ -51,7 +51,7 @@ function cloudcheck_shortcodes_init()
 							<label>Given Name</label>
                             <input id="name" class="form-control name" required type="text" placeholder="Given Name" />
                         </div>
-                        <div class="form-group hidden col-xs-12 floating-label-form-group controls ml-3">
+                        <div class="form-group col-xs-12 floating-label-form-group controls ml-3">
 							<label>Middle Name</label>
                             <input id="middlename" class="form-control middlename"  type="text" placeholder="Middle Name"/>
                         </div>
@@ -62,7 +62,7 @@ function cloudcheck_shortcodes_init()
                     </div>
                     <div class="row control-group">
                         <div class="form-group hidden col-xs-12 floating-label-form-group controls mx-3">
-							<label class="label-show">Date of birth</label>
+							<label class="label-show">Date of birth﹡</label>
                             <input id="dateofbirth" class="form-control dateofbirth date-mask"  type="text" placeholder="Date of birth"  />
                         </div>
                     </div>
@@ -100,7 +100,7 @@ function cloudcheck_shortcodes_init()
      */
     function cloudcheck_mrz_shortcode($atts = [], $content = null)
     {
-        $mrz = '<h5>MRZ</h5>
+        $mrz = '<h5>MRZ﹡</h5>
 <p>Please upload a copy of your passport for verification</p>
                    <div class="row control-group">
                           <div class="form-group col-xs-12 floating-label-form-group controls ml-3">
@@ -119,10 +119,10 @@ function cloudcheck_shortcodes_init()
      */
     function cloudcheck_nz_dob_shortcode($atts = [], $content = null)
     {
-        $nz_dob = '<h5>Date of Birth</h5>
+        $nz_dob = '<h5>Date of Birth﹡</h5>
                    <div class="row control-group">
                           <div class="form-group col-xs-12 floating-label-form-group controls ml-3">
-							  <label>Date of birth</label>
+							  <label>Date of birth﹡</label>
                               <select class="form-control form-input2 form-input-dob dobday" id="nz_dobday"></select>
                               <select class="form-control form-input2 form-input-dob dobmonth" id="nz_dobmonth"></select>
                               <select class="form-control form-input2 form-input-dob dobyear" id="nz_dobyear"></select>
@@ -139,10 +139,10 @@ function cloudcheck_shortcodes_init()
      */
     function cloudcheck_au_dob_shortcode($atts = [], $content = null)
     {
-        $au_dob = '<h5>Date of Birth</h5>
+        $au_dob = '<h5>Date of Birth﹡</h5>
                    <div class="row control-group">
                           <div class="form-group col-xs-12 floating-label-form-group controls ml-3">
-							  <label>Date of birth</label>
+							  <label>Date of birth﹡</label>
                               <select class="form-control form-input2 form-input-dob dobday" id="au_dobday"></select>
                               <select class="form-control form-input2 form-input-dob dobmonth" id="au_dobmonth"></select>
                               <select class="form-control form-input2 form-input-dob dobyear" id="au_dobyear"></select>
@@ -210,11 +210,11 @@ function cloudcheck_shortcodes_init()
             <div class="row control-group">
                 <div class="form-group col-xs-12 floating-label-form-group controls ml-3">
                     <label>Driver License Number</label>
-                    <input id="nz_driverlicensenumber" class="form-control" type="text" pattern="^[A-Za-z]{2}[0-9]{6}$" title="License number can contain exactly 2 letters and 6 digits" placeholder="Driver license number" />
+                    <input id="nz_driverlicensenumber" class="form-control" required type="text" pattern="^[A-Za-z]{2}[0-9]{6}$" title="License number can contain exactly 2 letters and 6 digits" placeholder="Driver license number" />
                 </div>
                 <div class="form-group col-xs-12 floating-label-form-group controls mx-3">
                     <label>Driver License Version</label>
-                    <input id="nz_driverlicenseversion" class="form-control" type="text" pattern="^[0-9]{3}$" title="License version can contain exactly 3 digits" placeholder="Driver license version" />
+                    <input id="nz_driverlicenseversion" class="form-control" required type="text" pattern="^[0-9]{3}$" title="License version can contain exactly 3 digits" placeholder="Driver license version" />
                 </div>
             </div>';
 
@@ -342,11 +342,11 @@ function cloudcheck_shortcodes_init()
             <div class="row control-group">
                 <div class="form-group col-xs-12 floating-label-form-group controls ml-3">
                     <label>Driver License Number</label>
-                    <input id="au_driverlicensenumber" class="form-control" type="text" pattern="[A-Za-z0-9]*" title="License version can contain contain only letters and digits" placeholder="Driver license number" />
+                    <input id="au_driverlicensenumber" class="form-control" required type="text" pattern="[A-Za-z0-9]*" title="License version can contain contain only letters and digits" placeholder="Driver license number" />
                 </div>
                 <div class="form-group col-xs-12 floating-label-form-group controls mx-3">
                     <label>Driver License State of Issue</label>
-                    <select id="au_driverlicensestate" class="form-control" placeholder="Driver license state of issue" >
+                    <select id="au_driverlicensestate" class="form-control" required placeholder="Driver license state of issue" >
     					<option value="ACT">ACT</option>
     					<option value="NSW">NSW</option>
     					<option value="NT">NT</option>
@@ -372,10 +372,10 @@ function cloudcheck_shortcodes_init()
     {
         $driving = '<h5>Drivers Licence Card Number</h5>
             <div class="row control-group qc-form-group">
-            <label class="bio" style="display: block;">Drivers Licence Card numbers are only required for VIC and QLD Drivers Licences. If your licence does not have a Card Number, please leave this field blank. </label>
+            <label class="bio" style="display: block;">Please enter your Drivers Licence Card Number as per your Drivers Licence card. Please do not leave this field blank.</label>
                 <div class="form-group col-xs-12 floating-label-form-group controls ml-3">
                     <label>Drivers Licence Card Number</label>
-                    <input id="au_driverlicensecardNumber" class="form-control" type="text" pattern="[A-Za-z0-9]*" title="License version can contain contain only letters and digits" placeholder="Drivers Licence Card Number" />
+                    <input id="au_driverlicensecardNumber" class="form-control" required type="text" pattern="[A-Za-z0-9]*" title="License version can contain contain only letters and digits" placeholder="Drivers Licence Card Number" />
                 </div>
                
             </div>';

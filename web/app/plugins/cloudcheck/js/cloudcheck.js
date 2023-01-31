@@ -2,6 +2,12 @@
 
 (function($) {
     console.log('1')
+    let required_inputs = jQuery('#cloudcheckForm input[required]')
+    // console.log(required_inputs)
+    required_inputs.each(function(e) {
+        let new_placeholder = jQuery(this).attr('placeholder') + '﹡';
+        console.log(jQuery(this).attr('placeholder', new_placeholder))
+    })
     $(".cloudcheckForm").submit(function(event) {
         console.log($(this))
         closeAlert()
@@ -108,7 +114,7 @@
         };
         if ( au_driverlicensenumber && au_driverlicensecardnumber) {
             data.details.australiandriverslicence = { 'number' : au_driverlicensenumber,
-                'state' : au_driverlicensestate , 'cardNumber': au_driverlicensecardnumber };
+                'state' : au_driverlicensestate , 'cardNumber': au_driverlicensecardnumber};
         };
         if ( au_citizenshipacquisitiondate ) {
             if ( au_citizenshipbydescent == true ) {
@@ -529,6 +535,8 @@
     // $('.dateofbirth').datepicker({
     //     format: 'yyyy-mm-dd'
     // });
+
 }) ( jQuery );
+
 
 
