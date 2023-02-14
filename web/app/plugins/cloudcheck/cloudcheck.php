@@ -98,7 +98,7 @@ if (!class_exists('WP_Cloudcheck_Int')) {
 //        swiper slider scripts
 
             if( is_page( array( 'checkout' ))) {
-                wp_enqueue_script( 'cloudcheck-jquery', plugin_dir_url(__FILE__).'js/jquery-3.5.1.min.js' , array(), '1', true );
+//                wp_enqueue_script( 'cloudcheck-jquery', plugin_dir_url(__FILE__).'js/jquery-3.5.1.min.js' , array(), '1', true );
                 wp_enqueue_script( 'datepicker', plugin_dir_url(__FILE__).'/js/datepicker.min.js' , array('jquery'), '1', true );
                 wp_enqueue_script( 'dobpicker', plugin_dir_url(__FILE__).'/js/dobpicker.js' , array('jquery'), '1', true );
                 wp_enqueue_script( 'cloudcheck', plugin_dir_url(__FILE__).'/js/cloudcheck.js' , array('jquery'), '1', true );
@@ -129,7 +129,7 @@ if (!class_exists('WP_Cloudcheck_Int')) {
 //            $new_file = new CURLFile($filepath );
 
 
-            ## Транслитирация кирилических символов
+            ## Transliteration of Cyrillic characters
             function cyrillic_translit( $title ){
                 $iso9_table = array(
                     'А' => 'A', 'Б' => 'B', 'В' => 'V', 'Г' => 'G', 'Ѓ' => 'G',
@@ -165,22 +165,22 @@ if (!class_exists('WP_Cloudcheck_Int')) {
             $error_image = !in_array($detectedType, $allowedTypes);
 
             if (!$error_image) {
-                // ВАЖНО! тут должны быть все проверки безопасности передавемых файлов и вывести ошибки если нужно
+                // IMPORTANT! there should be all security checks for transferred files and display errors if necessary
 
 //                $uploaddir = ABSPATH . 'wp-content/uploads/cloud'; //
                 $uploaddir = WP_CONTENT_DIR . '/uploads/cloud'; //
 //
 
-                // cоздадим папку если её нет
+                // create folder if it doesn't exist
                 if( ! is_dir( $uploaddir ) ) mkdir( $uploaddir, 0777 );
-                $files      = $_FILES; // полученные файлы
+                $files      = $_FILES; // received files
 
 
 
 
 
 
-                // переместим файлы из временной директории в указанную
+                // move the files from the temporary directory to the specified
 //            $file_name = cyrillic_translit(  $files['file']['name']);
 //
                 $file_name = cyrillic_translit($files['file']['name']);

@@ -154,6 +154,23 @@ function cloudcheck_shortcodes_init()
     }
     add_shortcode('cloudcheck_au_dob', 'cloudcheck_au_dob_shortcode');
 
+    function cloudcheck_passport_dob_shortcode($atts = [], $content = null)
+    {
+        $au_dob = '<h5>Date of Birth﹡</h5>
+                   <div class="row control-group">
+                          <div class="form-group col-xs-12 floating-label-form-group controls ml-3">
+							  <label>Date of birth﹡</label>
+                              <select class="form-control form-input2 form-input-dob dobday" id="passport_dobday"></select>
+                              <select class="form-control form-input2 form-input-dob dobmonth" id="passport_dobmonth"></select>
+                              <select class="form-control form-input2 form-input-dob dobyear" id="passport_dobyear"></select>
+                          </div>
+                          
+                       
+                    </div>';
+        return $au_dob;
+    }
+    add_shortcode('cloudcheck_passport_dob', 'cloudcheck_passport_dob_shortcode');
+
 
     /** Shortcode that shows email fields:
      *  Client email, Agent email, Administrator email
@@ -372,7 +389,69 @@ function cloudcheck_shortcodes_init()
     {
         $driving = '<h5>Drivers Licence Card Number</h5>
             <div class="row control-group qc-form-group">
-            <label class="bio" style="display: block;">Please enter your Drivers Licence Card Number as per your Drivers Licence card. Please do not leave this field blank.</label>
+            <div class="popup_item_wrapper" data-popup="">
+                <label class="popup_button driver-license-verification bio text-underline" style="display: block;">
+                    Where can I find my Card Number?
+                </label>
+
+                <div class="popup-main-wrapper" id="popup-main-wrapper">
+                    <div class="item_popup_wrapper">
+                        <div class="popup_overlay"></div>
+                        <div class="popup_content_wrapper">
+                            <div class="item_popup_content_inner">
+                                <div id="popup_close_button"></div>
+                                <div class="item_popup_body">
+                                   <div class="custom-table__wrapper">
+                                        <div class="custom-table__heading">
+                                            <div class="custom-table__row">
+                                                <div class="custom-table__col perc-20" data-height="heading">State</div>
+                                                <div class="custom-table__col" data-height="heading">Licence Card Number Location</div>
+                                            </div>
+                                        </div>
+                                        <div class="custom-table__body">
+                                            <div class="custom-table__row">
+                                                <div class="custom-table__col perc-20" data-height="vic">VIC</div>
+                                                <div class="custom-table__col" data-height="vic">The card number is on the back of the card on the right-hand side, under the enlarged number/on top of reverse strip.</div>
+                                            </div>
+                                            <div class="custom-table__row">
+                                                <div class="custom-table__col perc-20" data-height="tas">TAS</div>
+                                                <div class="custom-table__col" data-height="tas">The card number is on the back in the top right hand corner.</div>
+                                            </div>
+                                            <div class="custom-table__row">
+                                                <div class="custom-table__col perc-20" data-height="nsw">NSW</div>
+                                                <div class="custom-table__col" data-height="nsw">The card number is on the front in the top right hand corner above the photo.</div>
+                                            </div>
+                                            <div class="custom-table__row">
+                                                <div class="custom-table__col perc-20" data-height="qld">QLD</div>
+                                                <div class="custom-table__col" data-height="qld">For a licence issued after 12 June 2019 the card number is on the front down at the bottom in the middle.
+For a licence issued before 12 June 2019 the card number is on the back in the bottom right hand corner.</div>
+                                            </div>
+                                            <div class="custom-table__row">
+                                                <div class="custom-table__col perc-20" data-height="sa">SA</div>
+                                                <div class="custom-table__col" data-height="sa">The card number is located on the back in the top right hand corner.</div>
+                                            </div>
+                                            <div class="custom-table__row">
+                                                <div class="custom-table__col perc-20" data-height="wa">WA</div>
+                                                <div class="custom-table__col" data-height="wa">The card number is located on the back in the middle and to the right.</div>
+                                            </div>
+                                            <div class="custom-table__row">
+                                                <div class="custom-table__col perc-20" data-height="act">ACT</div>
+                                                <div class="custom-table__col" data-height="act">The card number is on the front, parallel to photograph.</div>
+                                            </div>
+                                            <div class="custom-table__row">
+                                                <div class="custom-table__col perc-20" data-height="nt">NT</div>
+                                                <div class="custom-table__col" data-height="nt">For a licence issued after 1 November 2020 the card number is on the back at the bottom in the middle.
+For a licence issued before 1 November 2020 the card number is on the back in the bottom left hand corner.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
                 <div class="form-group col-xs-12 floating-label-form-group controls ml-3">
                     <label>Drivers Licence Card Number</label>
                     <input id="au_driverlicensecardNumber" class="form-control" required type="text" pattern="[A-Za-z0-9]*" title="License version can contain contain only letters and digits" placeholder="Drivers Licence Card Number" />

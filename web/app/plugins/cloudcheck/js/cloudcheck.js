@@ -8,31 +8,30 @@
         let new_placeholder = jQuery(this).attr('placeholder') + '﹡';
         console.log(jQuery(this).attr('placeholder', new_placeholder))
     })
-    $(".cloudcheckForm").submit(function(event) {
-        console.log($(this))
+
+    jQuery(".cloudcheckForm").submit(function(event) {
+        console.log(jQuery(this))
         closeAlert()
 
-
-
         // Prevent spam click and default submit behaviour
-        // $(".btnSubmit").attr("disabled", true);
+        // jQuery(".btnSubmit").attr("disabled", true);
         event.preventDefault();
 
         // get basic info from FORM
-        var name = $(this).find("input.name").val();
-        var surname = $(this).find("input.surname").val();
-        var middlename = $(this).find("input.middlename").val();
-        var dateofbirth = $(this).find("input.dateofbirth").val();
-        var city = $(this).find("input.city").val();
-        var suburb = $(this).find("input.suburb").val();
-        var streetnumber = $(this).find("input.streetnumber").val();
-        var street = $(this).find("input.street").val();
-        var postcode = $(this).find("input.postcode").val();
+        var name = jQuery(this).find("input.name").val();
+        var surname = jQuery(this).find("input.surname").val();
+        var middlename = jQuery(this).find("input.middlename").val();
+        var dateofbirth = jQuery(this).find("input.dateofbirth").val();
+        var city = jQuery(this).find("input.city").val();
+        var suburb = jQuery(this).find("input.suburb").val();
+        var streetnumber = jQuery(this).find("input.streetnumber").val();
+        var street = jQuery(this).find("input.street").val();
+        var postcode = jQuery(this).find("input.postcode").val();
 
         // get dob from FORM
-        var dobmonth = $(this).find('select.dobmonth').val();
-        var dobyear = $(this).find('select.dobyear').val();
-        var dobday = $(this).find('select.dobday').val();
+        var dobmonth = jQuery(this).find('select.dobmonth').val();
+        var dobyear = jQuery(this).find('select.dobyear').val();
+        var dobday = jQuery(this).find('select.dobday').val();
         // Add dob
         if(dobyear && dobmonth && dobday){
             if (dobyear != '' && dobyear.length != 0 && dobmonth != '' && dobmonth.length != 0 && dobday != '' && dobday.length != 0) {
@@ -42,33 +41,33 @@
 
 
         //get emails from FORM for sending resulted PDF
-        var clientemail = $("input#clientemail").val();
-        var agentemail = $("input#agentemail").val();
-        var adminemail = $("input#adminemail").val();
+        var clientemail = jQuery("input#clientemail").val();
+        var agentemail = jQuery("input#agentemail").val();
+        var adminemail = jQuery("input#adminemail").val();
         var emailList = [clientemail, agentemail, adminemail];
 
         //get NZ specific fields from FORM
-        var nz_passportnumber = $("input#nz_passportnumber").val();
-        var nz_passportexpiry = $("input#nz_passportexpiry").val();
-        var nz_driverlicensenumber = $("input#nz_driverlicensenumber").val();
-        var nz_driverlicenseversion = $("input#nz_driverlicenseversion").val();
-        var nz_vehicleplatenumber = $("input#nz_vehicleplatenumber").val();
-        var nz_birthcertificate = $("input#nz_birthcertificate").val();
-        var nz_citizenshipcertificate = $("input#nz_citizenshipcertificate").val();
-        var nz_citizenshipcountryofbirth = $("input#nz_citizenshipcountryofbirth").val();
+        var nz_passportnumber = jQuery("input#nz_passportnumber").val();
+        var nz_passportexpiry = jQuery("input#nz_passportexpiry").val();
+        var nz_driverlicensenumber = jQuery("input#nz_driverlicensenumber").val();
+        var nz_driverlicenseversion = jQuery("input#nz_driverlicenseversion").val();
+        var nz_vehicleplatenumber = jQuery("input#nz_vehicleplatenumber").val();
+        var nz_birthcertificate = jQuery("input#nz_birthcertificate").val();
+        var nz_citizenshipcertificate = jQuery("input#nz_citizenshipcertificate").val();
+        var nz_citizenshipcountryofbirth = jQuery("input#nz_citizenshipcountryofbirth").val();
 
         //get AU specific fields from FORM
-        var au_passportnumber = $("input#au_passportnumber").val();
-        var au_passportgender = $("select#au_passportgender").val();
-        var au_citizenshipacquisitiondate = $("input#au_citizenshipacquisitiondate").val();
-        var au_citizenshipbydescent = $("input#au_citizenshipbydescent").is(":checked");
-        var au_citizenshipstocknumber = $("input#au_citizenshipstocknumber").val();
-        var au_driverlicensenumber = $("input#au_driverlicensenumber").val();
-        var au_driverlicensestate = $("select#au_driverlicensestate").val();
-        var au_visacountryofissue = $("input#au_visacountryofissue").val();
-        var au_visapassportnumber = $("input#au_visapassportnumber").val();
-        var au_immicardnumber = $("input#au_immicardnumber").val();
-        var au_driverlicensecardnumber = $("input#au_driverlicensecardNumber").val();
+        var au_passportnumber = jQuery("input#au_passportnumber").val();
+        var au_passportgender = jQuery("select#au_passportgender").val();
+        var au_citizenshipacquisitiondate = jQuery("input#au_citizenshipacquisitiondate").val();
+        var au_citizenshipbydescent = jQuery("input#au_citizenshipbydescent").is(":checked");
+        var au_citizenshipstocknumber = jQuery("input#au_citizenshipstocknumber").val();
+        var au_driverlicensenumber = jQuery("input#au_driverlicensenumber").val();
+        var au_driverlicensestate = jQuery("select#au_driverlicensestate").val();
+        var au_visacountryofissue = jQuery("input#au_visacountryofissue").val();
+        var au_visapassportnumber = jQuery("input#au_visapassportnumber").val();
+        var au_immicardnumber = jQuery("input#au_immicardnumber").val();
+        var au_driverlicensecardnumber = jQuery("input#au_driverlicensecardNumber").val();
 
 
         //prepare json data
@@ -134,11 +133,11 @@
         showAlert("success", "<strong>We are verifying your details.</strong>");
 
 
-        let is_agreed = $('input[name="is_agreed"]:checked').val();
+        let is_agreed = jQuery('input[name="is_agreed"]:checked').val();
         // console.log(is_agreed)
         if (is_agreed == 'is_agreed') {
             console.log('Да, отмечено')
-            if ($(this).find("input#file").val() ) {
+            if (jQuery(this).find("input#file").val() ) {
                 mrz(requestJson)
             } else {
                 au_nz_verification(requestJson)
@@ -158,7 +157,7 @@
         fd.append('dob',dob);
         fd.append('action','cloudcheck_dob_verification');
 
-        $.ajax({
+        jQuery.ajax({
             url: "/wp/wp-admin/admin-ajax.php",
             type: "POST",
             dataType: "JSON",
@@ -195,9 +194,9 @@
     // Agreement checkox
     function global_agreement() {
         var fd = new FormData();
-        let is_agreed = $('input[name="is_agreed"]:checked').val();
-        var user_id = $('#user_id').val();
-        // console.log($('#user_id').val())
+        let is_agreed = jQuery('input[name="is_agreed"]:checked').val();
+        var user_id = jQuery('#user_id').val();
+        // console.log(jQuery('#user_id').val())
         var fd = new FormData();
         if(user_id) {
             fd.append('user_id',user_id);
@@ -208,7 +207,7 @@
             fd.append('action','global_agreement');
         }
 
-        $.ajax({
+        jQuery.ajax({
             url: "/wp/wp-admin/admin-ajax.php",
             type: "POST",
             dataType: "JSON",
@@ -220,7 +219,7 @@
                 // console.log(data.type)
                 showAlert(data.type, "<p><strong>"+ data.message +"</strong></p>");
                 if(data.type == 'success') {
-                    $('.checkout-wrapper').addClass('ready')
+                    jQuery('.checkout-wrapper').addClass('ready')
                     // console.log('entry made')
                 }
             },
@@ -243,8 +242,8 @@
 
     // Global verification
     function global_verification() {
-        var user_id = $('#user_id').val();
-        // console.log($('#user_id').val())
+        var user_id = jQuery('#user_id').val();
+        // console.log(jQuery('#user_id').val())
         var fd = new FormData();
         if(user_id) {
             fd.append('user_id',user_id);
@@ -252,7 +251,7 @@
         } else {
             fd.append('action','cloudcheck_global_verification');
         }
-        $.ajax({
+        jQuery.ajax({
             url: "/wp/wp-admin/admin-ajax.php",
             type: "POST",
             dataType: "JSON",
@@ -275,7 +274,7 @@
 
     function au_nz_verification(requestJson){
         console.log('форма ау нз')
-        $.ajax({
+        jQuery.ajax({
             url: "/wp/wp-admin/admin-ajax.php",
             type: "POST",
             dataType: "JSON",
@@ -287,14 +286,14 @@
             cache: false,
             beforeSend: function(){
                 // showAlert("warning", "<strong>Sending a request.</strong>");
-                $('.btnSubmit').addClass('spinwheel');
+                jQuery('.btnSubmit').addClass('spinwheel');
             },
             success: function(data) {
-                $('.btnSubmit').removeClass('spinwheel');
+                jQuery('.btnSubmit').removeClass('spinwheel');
                 // console.log(data)
                 if (data.verification.validated['dateofbirth'] == true && data.verification.validated['name'] == true) {
                     // console.log('all true')
-                    $('.checkout-wrapper').addClass('ready')
+                    jQuery('.checkout-wrapper').addClass('ready')
                     showAlert("success", "<p><strong>Verification completed successfully.</strong></p>");
                     global_verification()
                     global_dob(data.verification.details['dateofbirth'])
@@ -308,16 +307,16 @@
                 var errorCode = data.verification.error;
                 var errorFields = data.verification.fields;
 
-                $("#btnSubmit").attr("disabled", false);
+                jQuery("#btnSubmit").attr("disabled", false);
 
             },
             error: function() {
-                $('.btnSubmit').removeClass('spinwheel');
+                jQuery('.btnSubmit').removeClass('spinwheel');
                 // Fail message
                 showAlert("error", "<strong>It seems that Cloudcheck service is not responding. Please try again later</strong>");
                 // Enable button
                 showModal()
-                $("#btnSubmit").attr("disabled", false);
+                jQuery("#btnSubmit").attr("disabled", false);
             },
         });
     } // main function
@@ -329,7 +328,7 @@
         var image_object = JSON.parse(JSON.stringify(inputElement.files[0]))
 
         var fd = new FormData();
-        var files = $('#file')[0].files;
+        var files = jQuery('#file')[0].files;
 
 
         // console.log(fd)
@@ -337,7 +336,7 @@
         var tt = JSON.parse(JSON.stringify(requestJson))
         // console.log(tt)
         // var fileInput = document.getElementById('file').files[0]
-        // var fileInput = $('#file').val()
+        // var fileInput = jQuery('#file').val()
         var fileInput = document.getElementById("file").files[0].name
         var data_array = {"reference": "MRZ Check 101", "consent": "Yes"}
         var data_detail = JSON.parse(JSON.stringify(data_array))
@@ -351,7 +350,7 @@
         fd.append('data',{"reference": "MRZ Check 101", "consent": "Yes"});
         fd.append('file',fileInput);
 
-        $.ajax({
+        jQuery.ajax({
             url: "/wp/wp-admin/admin-ajax.php",
             type: "POST",
             dataType: "JSON",
@@ -361,10 +360,10 @@
             cache: false,
             beforeSend: function(){
                 // showAlert("warning", "<strong>Sending a request.</strong>");
-                $('.btnSubmit').addClass('spinwheel');
+                jQuery('.btnSubmit').addClass('spinwheel');
             },
             success: function(data) {
-                $('.btnSubmit').removeClass('spinwheel');
+                jQuery('.btnSubmit').removeClass('spinwheel');
                 // console.log("Cloudcheck response: " + JSON.stringify(data));
                 // console.log("Cloudcheck response: " + data);
                 if (JSON.stringify(data.notes)) {
@@ -379,13 +378,13 @@
                     showModal()
                 } else {
                     showAlert("success", "<strong>Verification completed successfully.</strong> ");
-                    $('.checkout-wrapper').addClass('ready')
+                    jQuery('.checkout-wrapper').addClass('ready')
                     showAlert("success", "<p><strong>Verification completed successfully.</strong></p>");
                     global_verification()
                 }
             },
             error: function() {
-                $('.btnSubmit').removeClass('spinwheel');
+                jQuery('.btnSubmit').removeClass('spinwheel');
                 // Fail message
                 showAlert("error", "<strong>It seems that Cloudcheck service is not responding.</strong>");
             },
@@ -399,7 +398,7 @@
 
 
     function getPdf(reference, emailList) {
-        $.ajax({
+        jQuery.ajax({
             // url: "/wp-admin/admin-ajax.php",
             url: "/wp/wp-admin/admin-ajax.php",
             type: "POST",
@@ -429,7 +428,7 @@
     function sendEmail(emailList, filepath) {
         // console.log("Sending email to: " + JSON.stringify(emailList));
         // console.log("Attachment: " + filepath);
-        $.ajax({
+        jQuery.ajax({
             // url: "/wp-admin/admin-ajax.php",
             url: "/wp/wp-admin/admin-ajax.php",
             type: "POST",
@@ -453,37 +452,37 @@
 
     function showAlert(type, text) {
         if (type == 'error') {
-            $('#success').html("<div class='alert alert-danger'>");
-            $('#success > .alert-danger').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>");
-            $('#success > .alert-danger').append(text);
-            $('#success > .alert-danger').append('</div>');
+            jQuery('#success').html("<div class='alert alert-danger'>");
+            jQuery('#success > .alert-danger').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>");
+            jQuery('#success > .alert-danger').append(text);
+            jQuery('#success > .alert-danger').append('</div>');
         } else {
-            $('#success').html("<div class='alert alert-success'>");
-            $('#success > .alert-success').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>");
-            $('#success > .alert-success').append(text);
-            $('#success > .alert-success').append('</div>');
+            jQuery('#success').html("<div class='alert alert-success'>");
+            jQuery('#success > .alert-success').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>");
+            jQuery('#success > .alert-success').append(text);
+            jQuery('#success > .alert-success').append('</div>');
         }
         setTimeout(closeAlert, 100)
     } //showAlert
 
-    $("input#au_citizenshipbydescent").change(function (event) {
-        var au_citizenshipbydescent = $("input#au_citizenshipbydescent").is(":checked");
+    jQuery("input#au_citizenshipbydescent").change(function (event) {
+        var au_citizenshipbydescent = jQuery("input#au_citizenshipbydescent").is(":checked");
         if(this.checked) {
-            $("#div_au_citizenshipstocknumber").hide();
+            jQuery("#div_au_citizenshipstocknumber").hide();
         } else {
-            $("#div_au_citizenshipstocknumber").show();
+            jQuery("#div_au_citizenshipstocknumber").show();
         }
     });
 
     function closeAlert(){
-        $('#success .close').on('click', function(){
-            $('#success .alert').remove();
-            $(".btnSubmit").attr("disabled", false);
+        jQuery('#success .close').on('click', function(){
+            jQuery('#success .alert').remove();
+            jQuery(".btnSubmit").attr("disabled", false);
         })
     }
 
     // get NZ DOB fields from FORM
-    $.dobPicker({
+    jQuery.dobPicker({
         // Selectopr IDs
         daySelector: '#nz_dobday',
         monthSelector: '#nz_dobmonth',
@@ -499,7 +498,7 @@
     });
 
     // get AU DOB fields from FORM
-    $.dobPicker({
+    jQuery.dobPicker({
         // Selectopr IDs
         daySelector: '#au_dobday',
         monthSelector: '#au_dobmonth',
@@ -514,29 +513,76 @@
         maximumAge: 110
     });
 
+    // get PASSPORT DOB fields from FORM
+    jQuery.dobPicker({
+        // Selectopr IDs
+        daySelector: '#passport_dobday',
+        monthSelector: '#passport_dobmonth',
+        yearSelector: '#passport_dobyear',
+        // Default option values
+        dayDefault: 'Day',
+        monthDefault: 'Month',
+        yearDefault: 'Year',
+        // Minimum age
+        // minimumAge: 18,
+        // Maximum age
+        maximumAge: 110
+    });
 
 
 
 
 ///////////////////////////////////// TELEPHONE MASK///////////////////
-//     $(".date-mask").mask("12354");
+//     jQuery(".date-mask").mask("12354");
 
 
 
-    // $( ".dateofbirth" ).focus(function() {
-    //     $(".dateofbirth").prop("type", "date");
-    //     $(".dateofbirth").prop("placeholder", "yyyy-mm-dd");
+    // jQuery( ".dateofbirth" ).focus(function() {
+    //     jQuery(".dateofbirth").prop("type", "date");
+    //     jQuery(".dateofbirth").prop("placeholder", "yyyy-mm-dd");
     // })
-    // $( ".dateofbirth" ).focusout(function() {
-    //     $(".dateofbirth").prop("type", "text");
-    //     $(".dateofbirth").prop("placeholder", "Date of birth");
+    // jQuery( ".dateofbirth" ).focusout(function() {
+    //     jQuery(".dateofbirth").prop("type", "text");
+    //     jQuery(".dateofbirth").prop("placeholder", "Date of birth");
     // })
 
-    // $('.dateofbirth').datepicker({
+    // jQuery('.dateofbirth').datepicker({
     //     format: 'yyyy-mm-dd'
     // });
 
 }) ( jQuery );
+
+function normalizeHeigh_driving_license_number(data) {
+    let data_height = jQuery('[data-height=' +  data + ']');
+    let data_allHeight = [];
+    data_height.each(function(elem){
+        data_allHeight.push(parseInt(jQuery(this).outerHeight()));
+        console.log(jQuery(this).outerHeight())
+    })
+    slider1_maxHeight = Math.max.apply(Math, data_allHeight);
+    jQuery('[data-height=' +  data + ']').css('min-height', slider1_maxHeight + 'px')
+    // console.log(slider1_maxHeight)
+}
+
+jQuery(document).ready(function(){
+
+    jQuery('.driver-license-verification').on('click', function(){
+
+        setTimeout(function(){
+            let data_name_driving_license_number = ['heading', 'vic', 'tas', 'nsw', 'qld', 'sa', 'wa', 'act', 'nt'];
+            for(i=0; i<data_name_driving_license_number.length; i++) {
+                normalizeHeigh_driving_license_number(data_name_driving_license_number[i])
+            }
+        }, 300)
+    })
+
+
+
+
+
+})
+
+
 
 
 

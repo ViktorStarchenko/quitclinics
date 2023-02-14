@@ -418,3 +418,45 @@ jQuery(document).on('click', '#popup_close_button', function () {
     jQuery(".popup-main-wrapper").removeClass('popup_opened');
 
 });
+
+
+// Custom dropdown
+jQuery('.dropdown-item').on('click', function(){
+    let btn_text = jQuery(this).text();
+    // console.log(jQuery(this).closest('.dropdown-content').siblings('.dropbtn'))
+    jQuery(this).closest('.dropdown-content').siblings('.dropbtn').text(btn_text)
+})
+
+
+
+jQuery('select').each(function(){
+    let options = jQuery(this).children('option')
+    // console.log(options)
+})
+
+
+// setTimeout(customizeSelect, 1000)
+
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(event) {
+
+    if (!event.target.matches('.dropbtn')) {
+
+        var dropdowns = document.getElementsByClassName("dropdown-content");
+
+        var i;
+        for (i = 0; i < dropdowns.length; i++) {
+            var openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains('show')) {
+                openDropdown.classList.remove('show');
+            }
+        }
+    }
+}
+jQuery('.dropbtn').on('click', function(){
+    let data_dropdown = jQuery(this).attr('data-dropdown')
+    var dropdowns = document.querySelectorAll('.dropdown-content[data-dropdown="'+data_dropdown+'"]');
+    jQuery('.dropdown-content').removeClass('show')
+    jQuery(dropdowns).toggleClass('show')
+})

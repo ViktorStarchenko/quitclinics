@@ -86,6 +86,9 @@
     width: 20px;
     height: 20px;
 }
+.driver-license-verification {
+    cursor: pointer;
+}
 @media screen and (max-width: 767px) {
     #cloudcheck_section label.label-show {
         font-size: 18px!important;

@@ -20,9 +20,9 @@ jQuery.extend({
 		}
 
 		// find elements
-		var dayElement = $(params.daySelector);
-		var monthElement = $(params.monthSelector);
-		var yearElement = $(params.yearSelector);
+		var dayElement = jQuery(params.daySelector);
+		var monthElement = jQuery(params.monthSelector);
+		var yearElement = jQuery(params.yearSelector);
 
 		// set days
 		dayElement.append("<option value=\"\">" + params.dayDefault + "</option>");
@@ -102,7 +102,7 @@ jQuery.extend({
 			if (day == 29 && month == 2) {
 				yearElement.find("option").each(function (index, value) {
 					if (index > 0) {
-						var option = $(value);
+						var option = jQuery(value);
 						var year = parseInt(option.attr("value"));
 						if (year % 4 == 0) {
 							option.attr("disabled", "disabled");

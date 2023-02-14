@@ -410,6 +410,10 @@ form.checkout {
     display: flex;
 }
 
+.cloudcheck-regions-list-wrapper {
+    margin-bottom: 24px;
+}
+
 .cloudcheck-regions-list {
     display: flex;
     align-items: center;

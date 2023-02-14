@@ -77,13 +77,22 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
     </form>
     <div class="cloudcheck">
         <div class="cloudcheck-form-wrap">
-            <?php if (get_field('cloudcheck', 'option')) : ?>
-                <ul class="cloudcheck-regions-list">
-                    <?php foreach(get_field('cloudcheck', 'option') as $key => $cloudcheck_title) : ?>
-                        <li data-region="<?php echo sanitize_title($cloudcheck_title['country']); ?>" class="<?php  echo ($key == 0 ?  ' show ' :''); ?>"><?php echo $cloudcheck_title['country']; ?></li>
-                    <?php endforeach ?>
-                </ul>
-            <?php endif; ?>
+
+            <h3 class="title-h5">Identify Verification</h3>
+
+            <?php if (get_field('cloudcheck', 'option')) { ?>
+                <div class="dropdown-body cloudcheck-regions-list-wrapper">
+                    <span onclick="" class="dropbtn dropdown-heading" data-dropdown="search-nav"><?php echo get_field('cloudcheck', 'option')[0]['country']; ?></span>
+                    <ul id="myDropdown" class="cloudcheck-regions-list dropdown-content" data-dropdown="search-nav">
+                        <?php foreach ( get_field('cloudcheck', 'option') as $key => $cloudcheck_title )  { ?>
+                            <li class="tabs-nav__item dropdown-item <?php  echo ($key == 0 ?  ' show ' :''); ?>" data-tab-name="tab-board-members" data-region="<?php echo sanitize_title($cloudcheck_title['country']); ?>"><?php echo $cloudcheck_title['country']; ?></li>
+                        <?php } ?>
+                    </ul>
+                </div>
+            <?php } ?>
+
+
+
             <?php if (get_field('cloudcheck', 'option')) : ?>
                 <div class="cloudcheck-region-body">
                     <?php foreach(get_field('cloudcheck', 'option') as $key => $cloudcheck) : ?>
