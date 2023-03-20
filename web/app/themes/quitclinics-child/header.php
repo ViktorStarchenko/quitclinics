@@ -7,6 +7,8 @@
     <link rel="preload" href="/app/themes/quitclinics-child/assets/fonts/DM_Sans/DMSans-Bold.ttf">
     <link rel="preload" href="/app/themes/quitclinics-child/assets/fonts/DM_Sans/DMSans-Regular.ttf">
     <link rel="preload" href="/app/plugins/easy-accordion-free/public/assets/fonts/fontawesome-webfont.woff2">
+    <link rel = "icon" href = "/favicon.ico" type = "image/x-icon" />
+    <link rel = "shortcut icon" href = "/favicon.ico" type = "image/x-icon" />
     <?php wp_head(); ?>
     <?php
     if ( is_front_page() ) : ?>
