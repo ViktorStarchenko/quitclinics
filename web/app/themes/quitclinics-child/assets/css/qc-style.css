@@ -1386,4 +1386,6 @@ ul.heateor_sss_follow_ul li, ul.heateor_sss_sharing_ul li {
     display: none;
 }
 
-
+.blocks-gallery-grid li:before {
+    display: none;
+}
