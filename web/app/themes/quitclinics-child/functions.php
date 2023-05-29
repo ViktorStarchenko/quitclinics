@@ -225,3 +225,26 @@ add_action('init','script_comment_reply');
 //add_action( 'woocommerce_email', 'unhook_those_pesky_emails' );
 //
 //function unhook_those_pesky_emails( $email_class ) { remove_action( 'woocommerce_order_status_completed_notification', array( $email_class->emails['WC_Email_Customer_Completed_Order'], 'trigger' ) ); }
+
+/**
+ * Function for Self referencing Canonicals
+ * @param $canonical
+ * @return string
+ */
+function modify_yoast_canonical_tag( $canonical ) {
+    // Get the current pagination page number
+    $paged = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1;
+
+    // Replacing the value of the canonical tag with our own
+    if ( $paged > 1 ) {
+        // Forming a new URL with the pagination page number
+        $new_canonical = trailingslashit( $canonical ) . 'page/' . $paged;
+
+        // Returning the new value of the canonical tag
+        return $new_canonical;
+    }
+
+    // If not a pagination page, return the original value of the canonical tag
+    return $canonical;
+}
+add_filter( 'wpseo_canonical', 'modify_yoast_canonical_tag' );
