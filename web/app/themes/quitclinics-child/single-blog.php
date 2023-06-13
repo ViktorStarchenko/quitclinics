@@ -35,10 +35,9 @@
             <?php } ?>
         <?php endwhile;
     endif; ?>
-    <?php if (get_field('author_settings')['enable'] == true) { ?>
+    <?php if (!empty(get_field('author_settings')['reviewers'])) { ?>
         <section class="section-breadcrumbs author-breadcrumbs">
             <div class="row wrapper-1240">
-                <?php if (get_field('author_settings')['author']) { ?>
                 <?php
                 $author_breadcumbs_link = '/about-us';
                 if (!empty(get_field('author_settings')['author_breadcumbs_link']['url'])) {
@@ -49,14 +48,15 @@
                 <span>
                     <a href="<?= $author_breadcumbs_link ?>" class="home">
                         <span property="name"><?= get_field('author_settings')['author_breadcumbs_text']; ?>
-                            <?php foreach(get_field('author_settings')['author'] as $author) { ?>
-                                <span><?php echo $author->post_title; ?></span>
-                                <span class="slash">/</span>
+                            <?php foreach(get_field('author_settings')['reviewers'] as $reviewer) { ?>
+                                <span><?php echo $reviewer->post_title; ?></span>
+                                <span class="slash">&</span>
                             <?php } ?></span>
+                        <span property="date"> - <?= get_the_date(); ?></span>
                     </a>
                 </span>
             </div>
-            <?php } ?>
+
 
             </div>
         </section>

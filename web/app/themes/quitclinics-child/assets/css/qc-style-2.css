@@ -302,6 +302,9 @@
 .section-breadcrumbs.author-breadcrumbs .breadcrumbs span a {
     margin-bottom: 0;
 }
+.author-breadcrumbs .breadcrumbs {
+    font-size: 12px;
+}
 .post-slider-wrapper .post-slider-title {
 	min-height: 40px;
     font-size: 20px;
@@ -419,7 +422,7 @@ p.post-slider-excerpt {
 .author-block__item {
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: flex-start;
     padding: 20px 20px;
 }
 .author-block__image {
@@ -445,6 +448,9 @@ p.post-slider-excerpt {
 }
 .author-block__desctiption {
     line-height: 1.2;
+}
+.author-block__desctiption p {
+    margin-bottom: 25px;
 }
 @media screen and (max-width: 1360px) {
 .post-slider-section .post-slider-wrapper .slick-prev.slick-arrow {
