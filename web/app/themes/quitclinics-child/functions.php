@@ -212,9 +212,6 @@ function add_async_attribute($tag, $handle)
     }
 
 }
-add_action('rest_api_init', 'api_init');
-
-
 
 function script_comment_reply(){
     wp_deregister_script( 'comment-reply');
