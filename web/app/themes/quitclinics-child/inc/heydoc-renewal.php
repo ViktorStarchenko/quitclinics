@@ -3,7 +3,7 @@ add_action('wp_ajax_cloudcheck_send_request_heydoc_renewal', 'cloudcheck_send_re
 add_action( 'wp_ajax_nopriv_cloudcheck_send_request_heydoc_renewal', 'cloudcheck_send_request_heydoc_renewal' ); // For anonymous users
 
 function cloudcheck_send_request_heydoc_renewal() {
-    create_questionnaire_renewal($_POST['data']);
+//    create_questionnaire_renewal($_POST['data']);
     save_medical_history_renewal($_POST['data']);
 
     send_admin_about_pregnant_email_renewal($_POST['data']);

@@ -4,7 +4,7 @@ add_action('wp_ajax_cloudcheck_send_request_heydoc', 'cloudcheck_send_request_he
 add_action( 'wp_ajax_nopriv_cloudcheck_send_request_heydoc', 'cloudcheck_send_request_heydoc' ); // For anonymous users
 
 function cloudcheck_send_request_heydoc() {
-    create_questionnaire($_POST['data']);
+//    create_questionnaire($_POST['data']);
     save_medical_history($_POST['data']);
 
     send_admin_about_pregnant_email_initial($_POST['data']);
