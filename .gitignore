@@ -6,6 +6,10 @@ web/app/upgrade
 !web/app/uploads/*
 !web/app/uploads/.gitkeep
 
+#Advanced Custom Fields JSON storage
+web/app/themes/overdose/acf-json/*
+!web/app/themes/overdose/acf-json/.gitkeep
+
 
 # WordPress
 !web/wp
