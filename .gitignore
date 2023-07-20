@@ -1,14 +1,17 @@
 # Application
-!web/app/plugins/*
+web/app/plugins/
 !web/app/plugins/.gitkeep
 !web/app/mu-plugins/*/
 web/app/upgrade
-!web/app/uploads/*
+web/app/uploads/
 !web/app/uploads/.gitkeep
 
+#Advanced Custom Fields JSON storage
+web/app/themes/overdose/acf-json/*
+!web/app/themes/overdose/acf-json/.gitkeep
 
 # WordPress
-!web/wp
+web/wp/
 web/.htaccess
 
 # Logs
@@ -28,6 +31,11 @@ wp-cli.local.yml
 .DS_Store
 .idea/
 
+web/app/ai1wm-backups/
+web/app/cache/
+web/app/w3tc-config/
+web/app/webp-express/
+web/app/wp-rocket-config/
 web/wp-config.php
 web/app/cache
 web/app/advanced-cache.php
