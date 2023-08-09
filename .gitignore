@@ -32,6 +32,7 @@ wp-cli.local.yml
 .idea/
 
 web/app/ai1wm-backups/
+web/app/updraft/
 web/app/cache/
 web/app/w3tc-config/
 web/app/webp-express/
